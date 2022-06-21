@@ -14,8 +14,17 @@ import { CodeSharp } from "@material-ui/icons";
 const SalesTable = (props) => {
 
   const activeUser = useSelector(state => state.activeUser.activeUser)
+  const orderList = useSelector(state => state.orderList.orderList)
   const columns = ["Product Name", "Quantity", "Unit Price", "Total",
     "Actions"]
+
+  const [force, setForce] = useState(1)
+  const forceHandler = () => {
+    setForce(state => state + 1)
+  }
+  useEffect(()=> {
+    console.log("force re rendering")
+  }, [force])
 
   const [p, setP] = useState([])
 
@@ -28,7 +37,7 @@ const SalesTable = (props) => {
   const quantityFun = (number, quantity, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], quantity: quantity, item: item}})
+        setP({...p, [number]: { ...p[number], quantity: parseInt(quantity) , item: item}})
       }
     }
   }
@@ -36,7 +45,7 @@ const SalesTable = (props) => {
   const unitPriceFun = (number, unitPrice, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], unitPrice: unitPrice,
+        setP({...p, [number]: { ...p[number], unitPrice: parseInt(unitPrice) ,
         item: item}})
       }
     }
@@ -54,21 +63,21 @@ const SalesTable = (props) => {
 
   const btnHandler = () => {
 
-    const apiData = {}
     let products = []
     for (let i = 0; i< props.data.length; i++){
       products.push(p[i])
+      console.log(typeof(p[i].quantity))
     }
-    Object.assign(apiData, {products: products,
-      usesr: activeUser._id, customer: props.customer,
-    paymentType: props.paymentType});
+    const apiData = {products: products,
+      user: activeUser._id, customer: props.customer,
+      paymentType: "invoice"};
     console.log(apiData)
     postSales(apiData)
   }
 
   useEffect(()=> {
     // console.log(props.data)
-  }, [props.data])
+  }, [props.data, orderList])
 
     return (
        <div>
@@ -87,11 +96,12 @@ const SalesTable = (props) => {
         display: "flex", justifyContent: "start", padding: "15px",
         borderRadius: "0px 0px 10px 10px", background: "white",
         flexDirection: "column", gap: "30px"}}>
-            {props?.data?.map((data, index) => (
+            {orderList.map((data, index) => (
             <TableRows value = {data} data = {(d) => dataHandler(d)}
              key = {index} number = {index}
              total = {(total)=>props.total(total)}
-             quantityFun = {quantityFun} unitPriceFun = {unitPriceFun}/>
+             quantityFun = {quantityFun} unitPriceFun = {unitPriceFun}
+             change = {forceHandler}/>
             ))}
           </div>
           <Button

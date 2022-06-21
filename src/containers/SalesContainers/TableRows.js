@@ -12,25 +12,16 @@ const TableRows = (props) => {
 
     const dispatch = useDispatch()
 
-    const settingAll = () => {
-       
-    } 
-
     const quantityHandler = (e) => {
-        setQuantity(e?.target?.value)
-        props.quantityFun(props.number, e?.target?.value, props.value.name)
+        setQuantity(parseInt(e?.target?.value))
+        props.quantityFun(props.number, parseInt(e?.target?.value), props.value.name)
     }
     
     const unitPriceHandler = (e) => {
-        setUnitPrice(e?.target?.value)
-        props.unitPriceFun(props.number, e?.target?.value, props.value.name)
+        setUnitPrice(parseInt(e?.target?.value))
+        props.unitPriceFun(props.number, parseInt(e?.target?.value), props.value.name)
     }
     
-    // props.data({
-    //     item: props.value.name,
-    //     quantity: quantity,
-    //     unitPrice: unitPrice
-    // })
 
     useEffect(()=> {
         props.data({item: props.value.name, quantity: quantity,
@@ -39,9 +30,17 @@ const TableRows = (props) => {
     }, [quantity, unitPrice])
 
     const iconHandler = () => {
-        dispatch(setOrderList([{name: "Ali Ahmed", quantity: 3}]))
-        // dispatch(setOrderList(arr => arr.filter(el => el.name !== props.value.name)))
+        let all = orderList
+        all.splice(props.number, 1)
+        dispatch(setOrderList(all))
+        props.change()
     }
+   
+    useEffect(()=> {
+      return () => {
+        console.log(`the comp ${props.number} has unmounted`)
+      }
+    }, [])
 
     return (
   <div style={{display: "flex", gap:"30px", alignItems: "center"}}>

@@ -66,8 +66,8 @@ function Sales() {
 
 
   useEffect(()=> {
-    
-  }, [data])
+    console.warn("re rendering")
+  }, [orderList])
 
   return (
     <div

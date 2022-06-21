@@ -17,6 +17,7 @@
     "electron-is-dev": "^1.2.0",
     "formik": "^2.2.9",
     "material-table": "^1.69.2",
+    "moment": "^2.29.3",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
     "react-icons": "^4.3.1",

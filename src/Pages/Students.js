@@ -11,6 +11,7 @@ import RegisterStudents from "../containers/StudentContainers/RegisterStudents";
 import StudentProfile from "../containers/StudentContainers/StudentProfile";
 import AssignManyToClass from "../containers/StudentContainers/AssingManyToClass";
 import { setCustomers } from "../redux/actions/customersActions";
+import CustomerSales from "../containers/StudentContainers/CustomerSales";
 
 const Students = (props) => {
   const [newStudents, setNewStudents] = useState(false)
@@ -24,6 +25,7 @@ const Students = (props) => {
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [studentIds, setStudentsIds] = useState('')
+  const [customerTransactions, setCustomerTransactions] = useState()
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
     setAnchorEl(event.currentTarget);
@@ -132,9 +134,10 @@ const Students = (props) => {
     setUpdate(false)
   }
 
-  const showProfileHandler = () => {
+  const showProfileHandler = (data) => {
     setShowProfile(true)
     setButtonName("Go To Students")
+    setCustomerTransactions(data)
   }
 
   const hideModal = () =>{
@@ -164,7 +167,7 @@ const Students = (props) => {
         {assignMany && <AssignManyToClass hideModal = {hideModal}
         studentsIds = {studentIds}/>}
         <h2> {newStudents ? "Create New Students" : 
-        showProfile ? "Student Profile" : "Students"}</h2>
+        showProfile ? "Customer Transactions" : "Students"}</h2>
         <Button
           variant="contained"
           style={{
@@ -245,7 +248,7 @@ const Students = (props) => {
       update = {updateHandler} showProfile = {showProfileHandler}/>}
       {newStudents && <RegisterStudents update = {update}
       student = {updatedStudent} reset = {resetFomr}/>}
-      {showProfile && <StudentProfile/>}
+      {showProfile && <CustomerSales customer = {customerTransactions}/>}
 
       <Menu
         id="basic-menu"

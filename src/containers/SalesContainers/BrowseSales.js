@@ -1,55 +1,19 @@
 import MyModal from "../../Modal/Modal"
 import MaterialTable from "material-table"
 import { Divider } from "@material-ui/core"
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setProducts } from "../../redux/actions/productsActions";
+import { setOrderList } from "../../redux/actions/orderListActions";
+import React, {useState, useEffect} from "react";
 
 
 const BrowseSales = (props) => {
 
-  // const UnitPrice = (props) => {
-
-  //   const [value, setValue] = useState({
-  //     quantity: 0,
-  //     unitPrice: 5
-  //   })
-  
-  //   const unitPriceHandler = (e) => {
-      
-  //     setValue(prev => {
-  //       return { 
-  //         ...prev, 
-  //         unitPrice: e?.target?.value
-  //       }
-  //     })
-  
-  //     props.uHandler(e?.target?.value)
-  //   }
-  
-  //   return (
-  //         <input
-  //             id = {props.data._id}
-  //             name= {props.data._id}
-  //             type= "number"
-  //             onChange={(e)=>unitPriceHandler(e)}
-  //             value={value.unitPrice}
-  //             style={{
-  //               width: "150px",
-  //               height: "40px",
-  //               padding: "15px",
-  //               fontSize: "16px",
-  //               border: "1px solid #C7C7C7",
-  //               borderRadius: "6px",
-  //             }}
-  //           /> 
-  //   )
-  // }
-
   const dispatch = useDispatch()
 
   const products = useSelector(state => state.products.products)
+  const orderList = useSelector(state => state.orderList.orderList)
 
   const fetchProducts = async (status) => {
     const response = await axios
@@ -62,8 +26,15 @@ const BrowseSales = (props) => {
 
   const rowClickHandler = (data) => {
     props.hideModal()
-    props.data(data)
+    if (!orderList.includes(data)){
+      console.log(data)
+      props.data(data)
+    }   
   }
+
+  useEffect(()=> {
+
+  }, [orderList])
 
  useEffect(()=> {
   fetchProducts()
