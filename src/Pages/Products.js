@@ -24,6 +24,7 @@ const Products = () => {
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [teacherIds, setTeachersIds] = useState('')
+  const [force, setForce] = useState(1)
 
   
 
@@ -123,7 +124,12 @@ const Products = () => {
 
   const resetFomr = () => {
     setUpdate(false)
+    setForce(state => state + 1)
   }
+
+  useEffect(()=> {
+    fetchProducts()
+  }, [force])
 
   const showProfileHandler = () => {
     setShowProfile(true)

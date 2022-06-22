@@ -62,10 +62,15 @@ const RegisterStudents = (props) => {
       values.sex = sex
       values.status = status
         if (props.update){
-          axios.patch(`/api/v1/customers/${props.student._id}`, values).then((res) => {});
+          axios.patch(`/api/v1/customers/${props.student._id}`, values).then((res) => {
+            alert("successfully update")
+          });
           props.reset()
         } else {
-          axios.post(`/api/v1/customers`, values).then((res) => {});
+          axios.post(`/api/v1/customers`, values).then((res) => {
+            alert("Successfully Created Customer")
+            props.reset()
+          });
           resetForm();
         }
     

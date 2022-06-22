@@ -8,7 +8,7 @@ const SettingsPage = () => {
   const fetchCompanyInfo = async () => {
     const res = await axios.get('api/v1/companyInfo')
     console.log(res.data.data)
-    setImage(res.data.data.imageURl)
+    setImage(res.data.data.imageName)
   }
 
   useEffect(()=>{
@@ -28,7 +28,7 @@ const SettingsPage = () => {
     }}
   >
     <h2> Settings</h2>
-    <p> </p>
+    <p> {image} </p>
     <img src = {image} alt = " loading..."
     style= {{width: "350px", height: "150px"}}/>
     </div>

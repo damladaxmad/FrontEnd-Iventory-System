@@ -54,6 +54,7 @@ function Sales() {
   }
 
   const dataHandler = (data) => {
+    console.log(`this is the json ${data}`)
     setData(arr => [...arr, data] )
   }
   
@@ -66,7 +67,6 @@ function Sales() {
 
 
   useEffect(()=> {
-    console.warn("re rendering")
   }, [orderList])
 
   return (

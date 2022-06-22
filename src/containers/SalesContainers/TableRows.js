@@ -5,8 +5,8 @@ import { setOrderList } from "../../redux/actions/orderListActions";
 
 const TableRows = (props) => {
 
-    const [quantity, setQuantity] = useState(0)
-    const [unitPrice, setUnitPrice] = useState(0)
+    const [quantity, setQuantity] = useState(1)
+    const [unitPrice, setUnitPrice] = useState(props.value.salePrice)
     const [all, setAll] = useState({})
     const orderList = useSelector(state => state.orderList.orderList)
 
@@ -22,6 +22,10 @@ const TableRows = (props) => {
         props.unitPriceFun(props.number, parseInt(e?.target?.value), props.value.name)
     }
     
+    useEffect(()=> {
+      props.quantityFun(props.number, quantity, props.value.name)
+      props.unitPriceFun(props.number, unitPrice, props.value.name)
+    }, [])
 
     useEffect(()=> {
         props.data({item: props.value.name, quantity: quantity,

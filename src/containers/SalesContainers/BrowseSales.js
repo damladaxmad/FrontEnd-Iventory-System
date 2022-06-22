@@ -26,9 +26,8 @@ const BrowseSales = (props) => {
 
   const rowClickHandler = (data) => {
     props.hideModal()
-    if (!orderList.includes(data)){
-      console.log(data)
-      props.data(data)
+    if (!orderList.includes(JSON.stringify(data))){
+      props.data(JSON.stringify(data))
     }   
   }
 
@@ -82,7 +81,7 @@ const BrowseSales = (props) => {
             background: "#EFF0F6",
             border: "none",
           }}
-        //   onChange={(e) => setQuery(e.target.value)}
+        //   onChange={(e) => setQuery(e.target.value)}z
         />
         <Divider style={{marginTop: "10px"}}/>
            <MaterialTable

@@ -47,6 +47,7 @@ const Students = (props) => {
   const statusArr = ["All", "Active", "Inactive"]
   const [status, setStatus] = useState(statusArr[0]);
   const [query, setQuery] = useState("");
+  const [force, setForce] = useState(1)
 
   const statusHandler = (e) => {
     setStatus(e.target.value)
@@ -132,7 +133,12 @@ const Students = (props) => {
 
   const resetFomr = () => {
     setUpdate(false)
+    setForce(state => state + 1)
   }
+
+  useEffect(()=> {
+    fetchCustomers()
+  }, [force])
 
   const showProfileHandler = (data) => {
     setShowProfile(true)

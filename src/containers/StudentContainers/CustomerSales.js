@@ -38,13 +38,15 @@ const CustomerSales = (props) => {
    
         { title: "Transaction ID", field: "transactionId", width: "4%",
         cellStyle: { border: "none"} },
+        { title: "Description", field: "description", width: "4%",
+        render: (data) => <p> {data.sale ? `${data.description}#${data.sale.saleNumber}` : data.description}</p>,
+        cellStyle: { border: "none"} },
         { title: "Transaction Date", field: "date", 
         render: (data)=>{
             const formatted = moment(data.date).format('DD/MM/YYYY')
             return <p>{formatted}</p>
         }
         , cellStyle: { border: "none"} },
-        { title: "Invoice", field: "password", cellStyle: { border: "none"} },
         { title: "User", field: "user", cellStyle: { border: "none"} },
         { title: "Debit", field: "debit", cellStyle: { border: "none"} },
         { title: "Credit", field: "credit", cellStyle: { border: "none"} },
@@ -88,25 +90,25 @@ const CustomerSales = (props) => {
 
             <div style={{display: "flex", flexDirection: "row",
                 justifyContent: "space-between", padding: "20px",
-                fontSize: "23px"}}>
+                fontSize: "20px"}}>
                 <div style={{display: "flex", flexDirection: "column"}}>
                     <div style={{display: "flex", gap: "20px"}}>
                     <p style={{fontWeight: "700"}}> Customer Name:</p>
-                    <p> Damlad Axmad</p>
+                    <p> {props.customer.name}</p>
                     </div>
                     <div style={{display: "flex", gap: "20px"}}>
                     <p style={{fontWeight: "700"}}> Customer Phone:</p>
-                    <p> 0616549198</p>
+                    <p> {props.customer.phone}</p>
                     </div>
                 </div>
                 <div style={{display: "flex", flexDirection: "column"}}>
                     <div style={{display: "flex", gap: "20px"}}>
                     <p style={{fontWeight: "700"}}> Customer Address:</p>
-                    <p> Somali - Mogadishu</p>
+                    <p> {props.customer.nationality}</p>
                     </div>
                     <div style={{display: "flex", gap: "20px"}}>
                     <p style={{fontWeight: "700"}}> Customer Email:</p>
-                    <p> damlad@gmail.com</p>
+                    <p> {props.customer.email}</p>
                     </div>
                 </div>
             </div>

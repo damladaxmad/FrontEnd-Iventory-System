@@ -79,6 +79,7 @@ const RegisterStudents = (props) => {
             alert("Successfully Updated")
           });
           resetForm();
+          props.reset()
         }
     
     },

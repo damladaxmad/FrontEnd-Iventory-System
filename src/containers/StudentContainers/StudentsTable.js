@@ -70,7 +70,7 @@ const StudentsTable = (props) => {
 
   return (
     <div style={{ width: "95%", margin: "auto" }}>
- {show && <PopupForm hideModal = {hideModal} student = {student}
+ {show && <PopupForm hideModal = {hideModal} customer = {student}
  />}
         <Menu
         id="basic-menu"
@@ -82,9 +82,8 @@ const StudentsTable = (props) => {
         }}
         style = {{}}
       >
-        <MenuItem onClick={showModal}>Assign to class</MenuItem>
-        <MenuItem onClick={deleteStudent}>Delete Student</MenuItem>
-        <MenuItem onClick={updateStudent}>Update Student</MenuItem>
+        <MenuItem onClick={showModal}>Payment</MenuItem>
+        <MenuItem onClick={updateStudent}>Update Customer</MenuItem>
         <MenuItem onClick={showProfile}>Customer Transactions</MenuItem>
       </Menu>
       <MaterialTable

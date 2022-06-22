@@ -45,7 +45,7 @@ const SalesTable = (props) => {
   const unitPriceFun = (number, unitPrice, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], unitPrice: parseInt(unitPrice) ,
+        setP({...p, [number]: { ...p[number], price: parseInt(unitPrice) ,
         item: item}})
       }
     }
@@ -55,7 +55,7 @@ const SalesTable = (props) => {
 
   const postSales = async (data) => {
     const res = await axios.post(`api/v1/sales`, data).then(()=>{
-      alert("Successfully Completed Order")
+      alert("Successfully Completed zOrder")
     }).catch(()=> {
       alert("Failed To Complete")
     })
@@ -65,11 +65,11 @@ const SalesTable = (props) => {
 
     let products = []
     for (let i = 0; i< props.data.length; i++){
+      if (!p[i].quantity) p[i].quantity = 1
       products.push(p[i])
-      console.log(typeof(p[i].quantity))
     }
     const apiData = {products: products,
-      user: activeUser._id, customer: props.customer,
+      user: activeUser.name, customer: props.customer,
       paymentType: "invoice"};
     console.log(apiData)
     postSales(apiData)
@@ -97,7 +97,7 @@ const SalesTable = (props) => {
         borderRadius: "0px 0px 10px 10px", background: "white",
         flexDirection: "column", gap: "30px"}}>
             {orderList.map((data, index) => (
-            <TableRows value = {data} data = {(d) => dataHandler(d)}
+            <TableRows value = {JSON.parse(data)} data = {(d) => dataHandler(d)}
              key = {index} number = {index}
              total = {(total)=>props.total(total)}
              quantityFun = {quantityFun} unitPriceFun = {unitPriceFun}
