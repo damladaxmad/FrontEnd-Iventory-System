@@ -7,16 +7,6 @@ import moment from 'moment'
 
 const CustomerSales = (props) => {
 
-    const yeah = props.customer.transactions[0].date
-    const formatted = moment(yeah).format('DD/MM/YYYY')
-    // .date?.toLocaleDateString('en-US', {
-    //     year: 'numeric',
-    //     month: '2-digit',
-    //     day: '2-digit',
-    //   })
-    
-    console.log(formatted)
-
     const materialOptions = {
         showTitle: false,
         exportButton: true,
@@ -66,11 +56,14 @@ const CustomerSales = (props) => {
       ]
 
     return (
+      <>
         <div style={{background: "white", width: "95%",
-        margin: "20px auto", borderRadius: "10px"}}>
+        margin: "20px auto", display: "flex",
+        marginBottom: "0px",
+        flexDirection: "column"}}>
              <div style={{marginTop: "20px", display: "flex",
             flexDirection: "column", alignItems: "center",
-            gap: "15px"}}>
+            gap: "15px",}}>
             <Avatar sx={{ width: 130, height: 130 }}
             style={{ backgroundColor: "white", color: "orange" }}>
               <img
@@ -122,6 +115,14 @@ const CustomerSales = (props) => {
       />
 
         </div>
+        <div style={{ margin: "0px auto", background:"#F7F7F7", width: "95%", borderRadius: "0px 0px 10px 10px",
+        display: "flex", fontSize: "16px", alignSelf: "flex-end",
+        gap: "15px", }}>
+          <p style={{margin: "0px", fontWeight: "700",
+        marginLeft: "850px", padding: "20px 0px"}}> Total:</p>
+          <p style={{padding: "20px 0px"}}> {props.customer.balance}</p> 
+          </div>
+          </>
     )
 }
 

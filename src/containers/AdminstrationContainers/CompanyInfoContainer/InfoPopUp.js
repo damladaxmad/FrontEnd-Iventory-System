@@ -61,11 +61,11 @@ const InfoPopUp = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      phone: "",
-      email: "",
-      imageName: "",
-      address: ""
+      name: props.update ? props.data.name : "",
+      phone: props.update ? props.data.phone : "",
+      email: props.update ? props.data.email : "",
+      imageName: props.update ? props.data.imageName : "",
+      address: props.update ? props.data.address : ""
     },
     validate,
     onSubmit: (values, { resetForm }) => {
@@ -75,11 +75,19 @@ const InfoPopUp = (props) => {
         formData.append('email', values.email)
         formData.append('phone', values.phone)
         formData.append('imageName', values.imageName)
-
-        axios.post(`api/v1/companyInfo`, formData).then((res) => {
-             alert("Successfully  Updated")
-        }).catch(er => console.log(formData));
-        resetForm();
+        if (!props.update) {
+          axios.post(`api/v1/companyInfo`, formData).then((res) => {
+            alert("Successfully  Created")
+       }).catch(er => alert("There is an error"));
+       props.hide()
+       resetForm();
+        } if (props.update) {
+          axios.patch(`api/v1/companyInfo`, formData).then((res) => {
+            alert("Successfully  Updated")
+       }).catch(er => alert("There is an error"));
+       props.hide()
+        }
+       
     },
   });
 
@@ -147,7 +155,7 @@ const InfoPopUp = (props) => {
           type="submit"
           variant="contained"
         >
-          Create
+          {props.update ? "Update" : "Create"}
         </Button>
       </form>
 

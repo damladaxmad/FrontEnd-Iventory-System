@@ -21,9 +21,11 @@ const parentDivStyle = {
 
 const CompanyInfo = () => {
 
-  const [showForm, setShowForm] = useState(false)
-  const [showDisplay, setShowDisplay] = useState(false)
+  const [hideButton, setHideButton] = useState(false)
+  const [showCreate, setShowCreate] = useState(false)
+  const [display, setDisplay] = useState(false)
   const [data, setData] = useState()
+  const [update, setUpdate] = useState(false)
 
   const fetchCompanyInfo = async () => {
     const res = await axios.get('api/v1/companyInfo')
@@ -32,21 +34,36 @@ const CompanyInfo = () => {
   }
 
   const buttonHandler = () => {
-    setShowForm(true)
+    if (data){
+      setUpdate(true)
+    }
+    if (!data) {
+      setShowCreate(true)
+    }
+    setHideButton(true)
+    setDisplay(false)
+  }
+
+  const handleHide = () => {
+    setUpdate(false)
+    setHideButton(false)
+    setShowCreate(false)
+    setDisplay(true)
   }
 
   useEffect(()=>{
     fetchCompanyInfo()
-    if (data) setShowDisplay(true)
-  }, [data])
+  }, [])
   
     return (
         <div style={parentDivStyle}>
-
-         {showForm && <InfoPopUp /> }
-         {showDisplay && <DisplayInfo/>}
+          {showCreate && <InfoPopUp hide = {handleHide}/>}
+         {!data || update || showCreate && <InfoPopUp update = {update} data = {data}
+         hide = {handleHide}/> }
+         {data && !update && <DisplayInfo/>}
+         {display && <DisplayInfo/>}
          
-          {!showForm && <Button
+          {!hideButton && <Button
           style={{
             backgroundColor: "#2F49D1",
             fontSize: "18px",
@@ -54,11 +71,12 @@ const CompanyInfo = () => {
             color: "white",
             width: "150px",
             height: "40px",
+            marginBottom: data ? "20px" : null
           }}
           onClick={buttonHandler}
           variant="contained"
         >
-            {showDisplay ? "Update" : "Create"}
+            {data || display ? "Update" : "Create"}
         </Button>}
         </div>
     )

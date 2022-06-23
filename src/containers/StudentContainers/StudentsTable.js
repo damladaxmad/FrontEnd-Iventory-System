@@ -64,7 +64,6 @@ const StudentsTable = (props) => {
 
   const showProfile = () => {
     props.showProfile(student)
-    console.log(student)
   }
 
 
@@ -84,7 +83,7 @@ const StudentsTable = (props) => {
       >
         <MenuItem onClick={showModal}>Payment</MenuItem>
         <MenuItem onClick={updateStudent}>Update Customer</MenuItem>
-        <MenuItem onClick={showProfile}>Customer Transactions</MenuItem>
+        <MenuItem onClick={showProfile}>View Transactions</MenuItem>
       </Menu>
       <MaterialTable
         columns={columns}

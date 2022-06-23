@@ -9,6 +9,15 @@ const TableRows = (props) => {
     const [unitPrice, setUnitPrice] = useState(props.value.salePrice)
     const [all, setAll] = useState({})
     const orderList = useSelector(state => state.orderList.orderList)
+    const [force, setForce] = useState(1)
+
+    const forceUpdate = () => {
+      setForce(state => state + 1)
+    }
+
+    useEffect(() => {
+      setUnitPrice(props.value.salePrice)
+    }, [force])
 
     const dispatch = useDispatch()
 
@@ -38,11 +47,12 @@ const TableRows = (props) => {
         all.splice(props.number, 1)
         dispatch(setOrderList(all))
         props.change()
+        forceUpdate()
     }
    
     useEffect(()=> {
       return () => {
-        console.log(`the comp ${props.number} has unmounted`)
+
       }
     }, [])
 

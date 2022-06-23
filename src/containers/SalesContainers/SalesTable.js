@@ -9,21 +9,22 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import CloseIcon from '@mui/icons-material/Close';
 import TableRows from "./TableRows";
 import { CodeSharp } from "@material-ui/icons";
+import { setOrderList } from "../../redux/actions/orderListActions";
 
 
 const SalesTable = (props) => {
-
+  const dispatch = useDispatch()
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const orderList = useSelector(state => state.orderList.orderList)
   const columns = ["Product Name", "Quantity", "Unit Price", "Total",
     "Actions"]
 
   const [force, setForce] = useState(1)
+
   const forceHandler = () => {
     setForce(state => state + 1)
   }
   useEffect(()=> {
-    console.log("force re rendering")
   }, [force])
 
   const [p, setP] = useState([])
@@ -55,7 +56,8 @@ const SalesTable = (props) => {
 
   const postSales = async (data) => {
     const res = await axios.post(`api/v1/sales`, data).then(()=>{
-      alert("Successfully Completed zOrder")
+      alert("Successfully Completed Order")
+      dispatch(setOrderList([]))
     }).catch(()=> {
       alert("Failed To Complete")
     })
@@ -66,13 +68,19 @@ const SalesTable = (props) => {
     let products = []
     for (let i = 0; i< props.data.length; i++){
       if (!p[i].quantity) p[i].quantity = 1
+      if (!p[i].price) p[i].price = 0
       products.push(p[i])
     }
     const apiData = {products: products,
       user: activeUser.name, customer: props.customer,
-      paymentType: "invoice"};
-    console.log(apiData)
-    postSales(apiData)
+      paymentType: props.paymentType};
+    if (apiData.products.length > 0 ) {
+      postSales(apiData)
+    }
+    if (apiData.products.length < 1) {
+      alert("please make orders list")
+    }
+
   }
 
   useEffect(()=> {
@@ -96,13 +104,13 @@ const SalesTable = (props) => {
         display: "flex", justifyContent: "start", padding: "15px",
         borderRadius: "0px 0px 10px 10px", background: "white",
         flexDirection: "column", gap: "30px"}}>
-            {orderList.map((data, index) => (
-            <TableRows value = {JSON.parse(data)} data = {(d) => dataHandler(d)}
+            {orderList.map((data, index) => {
+            return <TableRows value = {JSON.parse(data)} data = {(d) => dataHandler(d)}
              key = {index} number = {index}
              total = {(total)=>props.total(total)}
              quantityFun = {quantityFun} unitPriceFun = {unitPriceFun}
              change = {forceHandler}/>
-            ))}
+})}
           </div>
           <Button
           variant="contained"

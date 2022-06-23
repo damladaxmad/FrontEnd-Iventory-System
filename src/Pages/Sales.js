@@ -4,7 +4,7 @@ import { MdAdd } from "react-icons/md";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {useSelector, useDispatch } from "react-redux";
-import { FormControl, Select, MenuItem, Menu } from "@mui/material";
+import { FormControl, Select, MenuItem, Menu, TextField } from "@mui/material";
 import { BiDotsHorizontalRounded } from "react-icons/bi"; 
 import CloseIcon from '@mui/icons-material/Close';
 import SalesTable from "../containers/SalesContainers/SalesTable";
@@ -17,8 +17,11 @@ function Sales() {
   const [show, setShow] = useState(false)
   const [change, setChange] = useState(1)
   const statusArr = ["cash", "invoice"]
-  const [status, setStatus] = useState(statusArr[0]);
+  const [status, setStatus] = useState();
   const [data, setData] = useState([])
+
+  const selectStyle = {   color: "#B9B9B9",
+  width: "270px", }
 
   const fetchCustomers = async () => {
     const response = await axios
@@ -35,7 +38,7 @@ function Sales() {
 
   const customers = useSelector(state => state.customers.customers)
   const orderList = useSelector(state => state.orderList.orderList)
-  const [customer, setCustomer] = useState(customers[0]._id)
+  const [customer, setCustomer] = useState()
   const [total, setTotal] = useState(0)
 
   const statusHandler = (e) => {
@@ -92,12 +95,13 @@ function Sales() {
         padding: "20px", borderRadius: '10px 10px 0px 0px', marginTop: "20px" }}>
         
           <FormControl style={{ padding: "0px", margin: "0px" }}>
-          <Select
-            style={{  height: "45px", color: "#B9B9B9",
-            width: "250px", }}
+          <TextField
+            select
+            style={selectStyle}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={status}
+            label = "Select Type"
             onChange={statusHandler}
           >
             {statusArr.map((status, index) => (
@@ -105,16 +109,17 @@ function Sales() {
                 {status}
               </MenuItem>
             ))}
-          </Select>
+          </TextField>
           </FormControl>
           <FormControl style={{ padding: "0px", margin: "0px" }}
           disabled = {status == "cash" ? true : false}>
-          <Select
-            style={{  height: "45px", color: "#B9B9B9",
-            width: "250px", }}
+        <TextField
+            select
+            style={selectStyle}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={customer}
+            label = "Select Customer"
             onChange={customerHandler}
           >
             {customers.map((customer, index) => (
@@ -122,24 +127,24 @@ function Sales() {
                 {customer.name}
               </MenuItem>
             ))}
-          </Select>
+          </TextField>
           </FormControl>
           <Button
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
             color: "white", width: "200px",
-            height: "45px", fontSize: "18px"
+            height: "50px", fontSize: "18px"
           }}
           onClick = {browseHandler}
           
         >
           browse
         </Button>
-      <p style={{margin: "0px", fontWeight: "bolder",
+      {/* <p style={{margin: "0px", fontWeight: "bolder",
         fontSize: "16px", background: "#F0F2FA", 
         border: "1px solid #C7C7C7", padding: "8px 12px",
-        borderRadius: "6px"}}> ${total}.00</p>
+        borderRadius: "6px"}}> ${total}.00</p> */}
       </div>
 
       <SalesTable data = {orderList} customer = {customer}
