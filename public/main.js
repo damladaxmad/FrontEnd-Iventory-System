@@ -9,8 +9,8 @@ require('@electron/remote/main').initialize()
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 1080,
+    height: 920,
     resizable: false,
     webPreferences: {
       nodeIntegration: true,

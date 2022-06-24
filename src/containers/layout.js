@@ -106,7 +106,8 @@ const Layout = ({ children }) => {
               marginTop: "40px",
             }}
           />
-          <Footer />
+          <Footer /> 
+         
         </div>
       </div>
     </div>

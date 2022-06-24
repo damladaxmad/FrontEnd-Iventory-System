@@ -16,7 +16,7 @@ import {
   import { GiTeacher } from 'react-icons/gi';
   import React, { useEffect } from "react";
   import { useNavigate, useLocation } from "react-router-dom";
-  import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
+  import jaabirLogo from "../../assets/images/inventory.png";
   import BottomProfile from "./BottomProfile"
   import { AiOutlineDollar } from "react-icons/ai";
   import { FaRegNewspaper } from "react-icons/fa";
@@ -105,12 +105,12 @@ import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
         {
           text: "Customers",
           icon: <GroupIcon style={{fontSize: "20px", color: "white" }} />,
-          path: "/students",
+          path: "/customers",
         },
         {
           text: "Products",
           icon: <GiTeacher style={{fontSize: "20px", color: "white" }} />,
-          path: "/teachers",
+          path: "/products",
         },
        
         {
@@ -128,16 +128,6 @@ import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
           icon: <MdAdminPanelSettings style={{fontSize: "20px", color: "white" }} />,
           path: "/adminstration",
         },
-        {
-          text: "Settings",
-          icon: <FiSettings style={{fontSize: "20px", color: "white" }} />,
-          path: "/settings",
-        },
-        {
-          text: "Reports",
-          icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
-          path: "/reports",
-        }
              
       ];
 
@@ -167,7 +157,7 @@ return (
             padding: "10px",
           }}
         >
-          <Avatar style={{ backgroundColor: "white", color: "orange" }}>
+          {/* <Avatar style={{ backgroundColor: "white", color: "orange" }}>
             <img
               src={jaabirLogo}
               style={{
@@ -175,7 +165,7 @@ return (
                 height: "100%",
               }}
             />
-          </Avatar>
+          </Avatar> */}
           <Typography variant="h5" className={classes.title}>
             Racayaam Soft
           </Typography>

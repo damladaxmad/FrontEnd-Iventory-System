@@ -6,11 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import AssignManyToClass from "../containers/EmplooyeeContainers/AssingManyToClass";
 import { setEmployees } from "../redux/actions/employeesActions";
 import EmployeesTable from "../containers/EmplooyeeContainers/EmployeesTable";
 import RegisterEmployees from "../containers/EmplooyeeContainers/RegisterEmployees";
-import EmployeeProfile from "../containers/EmplooyeeContainers/EmployeeProfile";
 
 const Emplooyees = () => {
   const [newEmployees, setNewEmployees] = useState(false)
@@ -24,7 +22,7 @@ const Emplooyees = () => {
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [emplyeeIds, setEmployeesIds] = useState('')
-
+  const activeUser = useSelector(state => state.activeUser.activeUser)
   
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
@@ -49,6 +47,7 @@ const Emplooyees = () => {
   const statusArr = ["All", "Active", "Inactive"]
   const [status, setStatus] = useState(statusArr[0]);
   const [query, setQuery] = useState("");
+  const [force, setForce] = useState(1)
 
   const statusHandler = (e) => {
     setStatus(e.target.value)
@@ -134,7 +133,12 @@ const Emplooyees = () => {
 
   const resetFomr = () => {
     setUpdate(false)
+    setForce(state => state + 1)
   }
+
+  useEffect(()=> {
+    fetchEmpoloyees(status)
+  }, [force])
 
   const showProfileHandler = () => {
     setShowProfile(true)
@@ -165,8 +169,7 @@ const Emplooyees = () => {
           margin: "auto",
         }}
       >
-        {assignMany && <AssignManyToClass hideModal = {hideModal}
-        employeesIds = {emplyeeIds}/>}
+   
         <h2> {newEmployees ? "Create New Employees" : 
         showProfile ? "Employee Profile" : "Employees"}</h2>
         <Button
@@ -175,7 +178,11 @@ const Emplooyees = () => {
             backgroundColor: "#2F49D1",
             color: "white",
           }}
-          onClick = {addEmployeeHandler}
+          onClick = {() => {
+            if (activeUser.privillages.includes('Add New Employees'))
+            addEmployeeHandler()
+            else alert("You have no access!")
+          }}
           startIcon={
             newEmployees || showProfile ? <BiArrowBack
               style={{
@@ -249,7 +256,6 @@ const Emplooyees = () => {
       update = {updateHandler} showProfile = {showProfileHandler}/>}
       {newEmployees && <RegisterEmployees update = {update}
       empoloyee = {updatedEmployee} reset = {resetFomr}/>}
-      {showProfile && <EmployeeProfile/>}
 
       <Menu
         id="basic-menu"

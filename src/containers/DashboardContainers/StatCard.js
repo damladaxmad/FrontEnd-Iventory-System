@@ -43,7 +43,7 @@ const StatCard = (props) => {
             fontWeight: "600",
           }}
         >
-          {props.value.value}
+          {/* {props.value.value} */}
         </p>
         <Typography
           style={{
@@ -53,7 +53,7 @@ const StatCard = (props) => {
             fontWeight: "500",
           }}
         >
-          {props.value.label}
+          {props.value.lable}
         </Typography>
       </div>
     </div>

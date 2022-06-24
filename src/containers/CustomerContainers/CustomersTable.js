@@ -5,25 +5,36 @@ import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
 import PopupForm from "./AssignPopUp";
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
+import { useSelector } from "react-redux";
+import moment from "moment";
 
-const StudentsTable = (props) => {
+const CustomersTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [show, setShow] = useState(false)
-  const [student, setStudent] = useState('')
+  const [customer, setCustomer] = useState('')
+  const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const columns = [
    
     { title: "Customer Name", field: "name" , width: "8%",},
+    {
+      title: "Deadline",
+      field: "date",
+      render: (data) => {
+        const formatted = moment(data.deadline).format("DD/MM/YYYY");
+        return <p>{formatted}</p>;
+      },
+      
+    },
     { title: "Sex", field: "sex" },
     { title: "email", field: "email" },
-    { title: "Nationality", field: "nationality" },
     // { title: "Deadline", field: "deadline" },   
     { title: "Balance", field: "balance" },
     { title: "Stutus", field: "status", render: (row)=> <div style={{
-      backgroundColor: row.status === "Inactive" ? "#FFF7EB" :  "#EEF3FF" ,
+      backgroundColor: row.status === "Late" ? "#FFF7EB" :  "#EEF3FF" ,
       borderRadius: "100px",
-    padding: "1px 8px", color: row.status == "Inactive" ? "#FFAC32"  : "#5887FF"}}>
+    padding: "1px 8px", color: row.status == "Late" ? "#FFAC32"  : "#5887FF"}}>
     <Typography style = {{textAlign: "center", fontSize: "12px"}}> {row.status} </Typography>
   </div> },
     { title: "Phone", field: "phone" },
@@ -40,22 +51,22 @@ const StudentsTable = (props) => {
     props.change()
   }
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, customer) => {
     setAnchorEl(event.currentTarget);
-    setStudent(student)
+    setCustomer(customer)
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const deleteStudent = (id) => {
-    axios.delete(`/api/v1/students/${student._id}`)
+  const deleteCustomer = (id) => {
+    axios.delete(`/api/v1/customers/${customer._id}`)
     handleClose()
     props.change()
   };
 
-  const updateStudent = () => {
-    props.update(student)
+  const updateCustomer = () => {
+    props.update(customer)
   }
 
   const selectionHandler = (data) => {
@@ -63,13 +74,13 @@ const StudentsTable = (props) => {
   }
 
   const showProfile = () => {
-    props.showProfile(student)
+    props.showProfile(customer)
   }
 
 
   return (
     <div style={{ width: "95%", margin: "auto" }}>
- {show && <PopupForm hideModal = {hideModal} customer = {student}
+ {show && <PopupForm hideModal = {hideModal} customer = {customer}
  />}
         <Menu
         id="basic-menu"
@@ -81,9 +92,21 @@ const StudentsTable = (props) => {
         }}
         style = {{}}
       >
-        <MenuItem onClick={showModal}>Payment</MenuItem>
-        <MenuItem onClick={updateStudent}>Update Customer</MenuItem>
-        <MenuItem onClick={showProfile}>View Transactions</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes("Payment"))
+          showModal()
+          else alert("You have no access!")
+          }}>Payment</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes("Update Customer"))
+          updateCustomer()
+          else alert("You have no access!")
+          }}>Update Customer</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes("View Transactions"))
+          showProfile()
+          else alert("You have no access!")
+          }}>View Transactions</MenuItem>
       </Menu>
       <MaterialTable
         columns={columns}
@@ -91,7 +114,6 @@ const StudentsTable = (props) => {
         options={{
           rowStyle: {},
           showTitle: false,
-          selection: true,
           exportButton: true,
           sorting: false,
           showTextRowsSelected: false,
@@ -127,4 +149,4 @@ const StudentsTable = (props) => {
   );
 };
 
-export default StudentsTable;
+export default CustomersTable;

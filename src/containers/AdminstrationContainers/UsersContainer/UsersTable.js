@@ -4,6 +4,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
 import ResetPopUp from "./ResetPopUp";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const UsersTable = (props) => {
 
@@ -24,6 +25,7 @@ const UsersTable = (props) => {
   const open = Boolean(anchorEl);
   const [show, setShow] = useState(false)
   const [user, setUser] = useState('')
+  const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const columns = [
    
@@ -79,9 +81,16 @@ const UsersTable = (props) => {
          }}
         style = {{}}
       >
-        <MenuItem onClick={showModal}>Reset User</MenuItem>
-        <MenuItem onClick={deleteUser}>Delete User</MenuItem>
-        <MenuItem > Give access</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes('Reset User'))
+          showModal()
+          else alert("You have no access")
+          }}>Reset User</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes('Delete User'))
+          deleteUser()
+          else alert("You have no access")
+          }}>Delete User</MenuItem>
 
       </Menu>
 

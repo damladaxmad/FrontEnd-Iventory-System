@@ -2,30 +2,29 @@ import React, { useState, useEffect, useReducer } from "react";
 import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import { FormControl, Select, MenuItem, Menu } from "@mui/material";
-import StudentsTable from "../containers/StudentContainers/StudentsTable";
+import CustomersTable from "../containers/CustomerContainers/CustomersTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import RegisterStudents from "../containers/StudentContainers/RegisterStudents";
-import StudentProfile from "../containers/StudentContainers/StudentProfile";
-import AssignManyToClass from "../containers/StudentContainers/AssingManyToClass";
+import RegisterCustomers from "../containers/CustomerContainers/RegisterCustomers";
 import { setCustomers } from "../redux/actions/customersActions";
-import CustomerSales from "../containers/StudentContainers/CustomerSales";
+import CustomerSales from "../containers/CustomerContainers/CustomerSales";
 
-const Students = (props) => {
-  const [newStudents, setNewStudents] = useState(false)
-  const [buttonName, setButtonName] = useState('Add New Students')
+const Customers = (props) => {
+  const [newCustomers, setNewCustomers] = useState(false)
+  const [buttonName, setButtonName] = useState('Add New Customers')
   const [update, setUpdate] = useState(false)
   const [showCornerIcon, setShowCornerIcon] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [updatedStudent, setUpdatedStudent] = useState(null)
+  const [updatedCustomer, setUpdatedCustomer] = useState(null)
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
-  const [studentIds, setStudentsIds] = useState('')
+  const [CustomerIds, setCustomersIds] = useState('')
   const [customerTransactions, setCustomerTransactions] = useState()
+  const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
     setAnchorEl(event.currentTarget);
@@ -53,17 +52,17 @@ const Students = (props) => {
     setStatus(e.target.value)
   }
 
-  const addStudentHandler = () => {
+  const addCustomerHandler = () => {
     setQuery('')
-    if (buttonName == "Add New Students"){
-      setNewStudents(true)
-      setButtonName("Go To Students")
+    if (buttonName == "Add New Customers"){
+      setNewCustomers(true)
+      setButtonName("Go To Customers")
       setShowProfile(false)
       return
-    } else if (buttonName == "Go To Students") {
+    } else if (buttonName == "Go To Customers") {
       setShowProfile(false)
-      setNewStudents(false)
-      setButtonName("Add New Students") 
+      setNewCustomers(false)
+      setButtonName("Add New Customers") 
       setUpdate(false)
     }
    
@@ -88,14 +87,14 @@ const Students = (props) => {
       const response = await axios
       .get(`/api/v1/customers?status=${status}`)
       .catch((err) => {
-        console.log("Err: ", err);
+        alert(err.message);
       });
     dispatch(setCustomers(response.data.data.customers));
     } else {
       const response = await axios
       .get("/api/v1/customers")
       .catch((err) => {
-        console.log("Err: ", err);
+        alert(err.message);
       });
     dispatch(setCustomers(response.data.data.customers));
     }
@@ -108,15 +107,14 @@ const Students = (props) => {
   }, [ignored, status]);
 
 
-  let studentsIds = '';
+  let customersIds = '';
   const selectHandler = (data) => {
     data.map((d)=> {
-      studentsIds += d._id
-      studentsIds += ','
+      customersIds += d._id
+      customersIds += ','
     })
-    const slicedStudentsIds = studentsIds.slice(0, -1)
-    setStudentsIds(slicedStudentsIds)
-    // assingManyStudentsToClass(slicedStudentsIds, )
+    const slicedCustomersIds = customersIds.slice(0, -1)
+    setCustomersIds(slicedCustomersIds)
 
     setShowCornerIcon(true)
     if (data.length < 1) {
@@ -124,11 +122,11 @@ const Students = (props) => {
     }
   }
 
-  const updateHandler = (student) => {
-    setNewStudents(true)
-    setButtonName("Go To Students")
+  const updateHandler = (customer) => {
+    setNewCustomers(true)
+    setButtonName("Go To Customers")
     setUpdate(true)
-    setUpdatedStudent(student)
+    setUpdatedCustomer(customer)
   }
 
   const resetFomr = () => {
@@ -137,12 +135,12 @@ const Students = (props) => {
   }
 
   useEffect(()=> {
-    fetchCustomers()
+    fetchCustomers(status)
   }, [force])
 
   const showProfileHandler = (data) => {
     setShowProfile(true)
-    setButtonName("Go To Students")
+    setButtonName("Go To Customers")
     setCustomerTransactions(data)
   }
 
@@ -170,19 +168,25 @@ const Students = (props) => {
           margin: "auto",
         }}
       >
-        {assignMany && <AssignManyToClass hideModal = {hideModal}
-        studentsIds = {studentIds}/>}
-        <h2> {newStudents ? "Create New Students" : 
-        showProfile ? "Customer Transactions" : "Students"}</h2>
+        {/* {assignMany && <AssignManyToClass hideModal = {hideModal}
+        studentsIds = {studentIds}/>} */}
+        <h2> {newCustomers ? "Create New Customers" : 
+        showProfile ? "Customer Transactions" : "Customers"}</h2>
         <Button
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
             color: "white",
           }}
-          onClick = {addStudentHandler}
+          onClick = {() => {
+            if (activeUser.privillages.includes("Add New Customers")){
+              addCustomerHandler()
+            } else {
+              alert("You have no access")
+            }
+          }}
           startIcon={
-            newStudents || showProfile ? <BiArrowBack
+            newCustomers || showProfile ? <BiArrowBack
               style={{
                 color: "white",
               }}
@@ -196,7 +200,7 @@ const Students = (props) => {
           {buttonName}
         </Button>
       </div>}
-      {!newStudents && !showProfile &&
+      {!newCustomers && !showProfile &&
       <div
         style={{
           display: "flex",
@@ -249,11 +253,11 @@ const Students = (props) => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!newStudents && !showProfile && <StudentsTable data={handler(customers)} 
-      change = {changeHandler} selectStudents = {selectHandler}
+      {!newCustomers && !showProfile && <CustomersTable data={handler(customers)} 
+      change = {changeHandler} selectCustomers = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}/>}
-      {newStudents && <RegisterStudents update = {update}
-      student = {updatedStudent} reset = {resetFomr}/>}
+      {newCustomers && <RegisterCustomers update = {update}
+      customer = {updatedCustomer} reset = {resetFomr}/>}
       {showProfile && <CustomerSales customer = {customerTransactions}/>}
 
       <Menu
@@ -266,10 +270,10 @@ const Students = (props) => {
         }}
       >
         <MenuItem onClick={assignMannyToClass}>Assign to class</MenuItem>
-        <MenuItem >Delete Student</MenuItem>
+        <MenuItem >Delete Customer</MenuItem>
       </Menu>
     </div>
   );
 };
 
-export default Students;
+export default Customers;

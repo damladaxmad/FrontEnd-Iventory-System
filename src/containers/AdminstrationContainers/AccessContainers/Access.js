@@ -30,21 +30,21 @@ const Access = () => {
   const dispatch = useDispatch()
 
   const tabs = [
-    { name: "Dashboard", access: ["Dashboard", "Quick Actions"] },
+    { name: "Dashboard", access: ["Dashboard"] },
     {
       name: "Customers",
       access: [
-        "Customers"
+        "Customers", "Add New Customers", "View Transactions",
+        "Update Customer", "Payment"
       ],
     },
     {
       name: "Products",
       access: [
-        "Products"
+        "Products", "Add New Products", "Delete Product", "Update Product"
       ],
     },
-    { name: "Classes", access: ["Classes", "Add New Class", "Edit", "Delete"] },
-    {
+   {
       name: "Sales",
       access: [
         "Sales"
@@ -55,29 +55,17 @@ const Access = () => {
       access: [
         "Employees",
         "Add New Employees",
-        "Make User",
+        "Give User",
         "Delete Employee",
         "Update Employee",
-        "Employee Profile",
       ],
     },
-    { name: "Examination", access: ["Examination", "Students", "Add Exam"] },
-    {
+     {
       name: "Adminstration",
       access: ["Adminstration", "Users", "Access", "Reset User", 
       "Delete User", "Company Info"],
     },
-    { name: "Settings", access: ["Settings"] },
-    {
-      name: "Admission",
-      access: ["Admission", "New Student", "New Teacher", "New Employee"],
-    },
-    {
-      name: "Schedules",
-      access: ["Schedules", "New Schedule", "Edit Schedule"],
-    },
-    { name: "Reports", access: ["Reports", "Print", "Export"] },
-  ];
+   ];
 
   const [currentUserPrivillages, setCurrentUserPrivillages] = useState();
   const [userAccess, setUserAccess] = useState([]);

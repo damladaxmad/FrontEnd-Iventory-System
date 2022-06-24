@@ -1,16 +1,14 @@
 import React, {useState,useEffect} from "react";
 import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
-import Customers from "./Pages/Students";
+import Customers from "./Pages/Customers";
 import Layout from "./containers/layout";
 import Adminstration from "./Pages/Adminstration";
-import SettingsPage from "./Pages/SettingsPage";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import SignupAndLogin from "./SignupAndLogin/SignupAndLogin";
 import "./App.css"
 import Employees from "./Pages/Employees";
-import Reports from "./Pages/Reports";
 import { useSelector } from "react-redux";
 import Sales from "./Pages/Sales";
 import { setCustomers } from "./redux/actions/customersActions";
@@ -18,12 +16,11 @@ import Products from "./Pages/Products";
 
 const pages = [
 <Route path= "/dashboard" element = {<Dashboard/>} />,
-<Route path= "/students" element = {<Customers/>} />,
-<Route path= "/teachers" element = {<Products/>} />,
+<Route path= "/customers" element = {<Customers/>} />,
+<Route path= "/products" element = {<Products/>} />,
      <Route path= "/classes" element = {<Sales/>} />,
      <Route path= "/emplooyees" element = {<Employees/>} />,
      <Route path= "/adminstration" element = {<Adminstration/>} />,
-     <Route path= "/settings" element = {<SettingsPage/>} />,
      
 ]
 
@@ -67,7 +64,6 @@ function App() {
     {!showLayout && 
     <Route path= "/signup" element = {<SignupAndLogin
     showHandler = {showHandler}/>} />}
-   {showReports && <Route path= "/reports" element = {<Reports />} />}
       {showLayout && !showReports && <Layout>
           <Routes>
             {pages.map(page => (

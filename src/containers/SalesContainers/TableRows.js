@@ -94,8 +94,8 @@ const TableRows = (props) => {
               /> 
               <div style={{background: "#F0F2FA",
               border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",
-              fontSize:"16px", width: "120px", marginLeft: "5px" }}> 
-              <p> ${quantity * unitPrice}</p></div>
+              fontSize:"16px", width: "120px", marginLeft: "5px" }}>
+              <p> {!Number.isNaN(unitPrice*quantity) ? unitPrice*quantity : 0}  </p></div>
               <CloseIcon style = {{fontSize: "24px", marginLeft: "40px",
                 cursor: "pointer"}} 
                 onClick = {iconHandler}/>

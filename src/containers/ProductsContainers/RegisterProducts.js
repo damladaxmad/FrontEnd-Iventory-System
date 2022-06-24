@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 const RegisterStudents = (props) => {
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
-    { label: "Enter Email", type: "gmail", name: "email" },
-    { label: "Enter Phone", type: "text", name: "phone" },
-    { label: "", type: "date", name: "deadline" },
+    { label: "Enter Category", type: "text", name: "category" },
+    { label: "Enter Measurment", type: "text", name: "unitMeasurment" },
+    { label: "Enter Unit Price", type: "number", name: "unitPrice" },
+    { label: "Enter Sales Price", type: "number", name: "salePrice" },
+    { label: "Enter Quantity", type: "number", name: "quantity" },
   ];
 
   const sexes = ["male", "female"]
@@ -31,17 +33,26 @@ const RegisterStudents = (props) => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.email) {
-      errors.email = "Field is Required";
-    } else if (values.email.length < 4) {
-      errors.email = "Must be 5 characters or more";
-    }
+    if (!values.category) {
+      errors.category = "Field is Required";
+    } 
     if (!values.name) {
       errors.name = "Field is Required";
     }
   
-    if (!values.phone) {
-      errors.phone = "Field is Required";
+    if (!values.quantity && values.quantity!=0) {
+      errors.quantity = "Field is Required";
+    }
+
+    if (!values.unitMeasurment) {
+      errors.unitMeateacher = "Field is Required";
+    } 
+    if (!values.unitPrice) {
+      errors.unitPrice = "Field is Required";
+    }
+  
+    if (!values.salePrice) {
+      errors.salePrice = "Field is Required";
     }
 
     return errors;
@@ -49,29 +60,26 @@ const RegisterStudents = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: props.update ? props.student.email : "",
-      name: props.update ? props.student.name : "",
-      sex: props.update ? props.student.sex : "",
-      city: props.update ? props.student.city : "",
-      parent: props.update ? props.student.parent : "",
-      phone: props.update ? props.student.phone : "",
-      deadline: props.update ? props.student.deadline : "",
+      name: props.update ? props.product.name : "",
+      unitMeasurment: props.update ? props.product.unitMeasurment : "",
+      salePrice: props.update ? props.product.salePrice : "",
+      quantity: props.update ? props.product.quantity : "",
+      unitPrice: props.update ? props.product.unitPrice : "",
+      category: props.update ? props.product.category : "",
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-      values.sex = sex
-      values.status = status
         if (props.update){
-          axios.patch(`/api/v1/customers/${props.student._id}`, values).then((res) => {
-            alert("successfully update")
-          });
+          axios.patch(`/api/v1/products/${props.product._id}`, values).then((res) => {
+            alert("Successfully Updated")
+          }).catch((err)=> alert(err.message));
           props.reset()
         } else {
-          axios.post(`/api/v1/customers`, values).then((res) => {
-            alert("Successfully Created Customer")
-            props.reset()
-          });
+          axios.post(`/api/v1/products`, values).then((res) => {
+            alert("Successfully Created")
+          }).catch((err) => alert(err.message));
           resetForm();
+          props.reset()
         }
     
     },
@@ -119,44 +127,7 @@ const RegisterStudents = (props) => {
             
           </div>
         ))}
-         <FormControl >
-          <TextField
-          select
-            style={selectStyle}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sex}
-            label = "Enter Sex"
-            onChange={sexHandler}
-          >
-            {sexes.map((sex, index) => (
-              <MenuItem value={sex} key={index}>
-                {sex}
-              </MenuItem>
-            ))}
-          </TextField>
-        </FormControl>
-        {formik.touched.sex && formik.errors.sex ? (
-              <div style={{ color: "red" }}>{formik.errors.sex}</div>
-            ) : null}
-      
-        <FormControl >
-          <TextField
-          select
-            style={selectStyle}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={status}
-            label = "Enter Sex"
-            onChange={statusHandler}
-          >
-            {statuses.map((status, index) => (
-              <MenuItem value={status} key={index}>
-                {status}
-              </MenuItem>
-            ))}
-          </TextField>
-        </FormControl>
+    
         <Button
           style={{
             width: "150px",

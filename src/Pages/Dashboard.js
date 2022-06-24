@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import Chart from "../containers/DashboardContainers/Chart";
 import QuickActions from "../containers/DashboardContainers/QuickActions";
 import StatCard from "../containers/DashboardContainers/StatCard";
 import UpdateStudents from "../containers/DashboardContainers/UpdateStudents";
@@ -14,11 +13,12 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
   const stats = [
-    { value: "$10.89k", lable: "salary", id: 1 },
-    { value: "$5.77k", lable: "income", id: 2 },
-    { value: "$67.98k", lable: "salary", id: 1 },
-    { value: "$89.90k", lable: "income", id: 2 },
-    { value: "$89.90k", lable: "income", id: 2 },
+    { value: "$10.89k", lable: "Customers", id: 1 },
+    { value: "$5.77k", lable: "Products", id: 2 },
+    { value: "$67.98k", lable: "Vendors", id: 3 },
+    { value: "$67.98k", lable: "Sales", id: 4 },
+    { value: "$67.98k", lable: "Receivable", id: 5 },
+    { value: "$67.98k", lable: "Payable", id: 6 },
   ];
 
   const fetchDashboard = async () => {
@@ -52,11 +52,11 @@ const Dashboard = () => {
           <StatCard value={d} key={index} />
         ))}
       </div>
-      <Chart />
+      {/* <Chart />
       <div style={{ display: "flex", gap: "30px"}}>
       <QuickActions />
      <UpdateStudents/>
-      </div>  
+      </div>   */}
       
     </div>
   );

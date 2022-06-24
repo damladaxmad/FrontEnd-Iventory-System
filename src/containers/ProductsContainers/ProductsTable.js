@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
-import PopupForm from "./AssignPopUp";
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
+import { useSelector } from "react-redux";
 
-const StudentsTable = (props) => {
+const ProductsTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [show, setShow] = useState(false)
-  const [student, setStudent] = useState('')
+  const [product, setProduct] = useState('')
+  const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const columns = [
    
@@ -33,26 +34,32 @@ const StudentsTable = (props) => {
     props.change()
   }
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, product) => {
     setAnchorEl(event.currentTarget);
-    setStudent(student)
+    setProduct(product)
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const deleteStudent = (id) => {
-    axios.delete(`/api/v1/students/${student._id}`)
+  const deleteProduct = async () => {
+   
+    
+    axios.delete(`/api/v1/products/${product._id}`).then((res)=>{
+      console.log(res)
+      alert("Successfuly Deleted")
+    }).catch((err)=>
+    alert(err.message))
     handleClose()
     props.change()
   };
 
-  const updateStudent = () => {
-    props.update(student)
+  const updateProduct = () => {
+    props.update(product)
   }
 
   const selectionHandler = (data) => {
-    props.selectStudents(data)
+    props.selectProducts(data)
   }
 
   const showProfile = () => {
@@ -62,8 +69,7 @@ const StudentsTable = (props) => {
 
   return (
     <div style={{ width: "95%", margin: "auto" }}>
- {show && <PopupForm hideModal = {hideModal} student = {student}
- />}
+
         <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -74,10 +80,17 @@ const StudentsTable = (props) => {
         }}
         style = {{}}
       >
-        <MenuItem onClick={showModal}>Assign to class</MenuItem>
-        <MenuItem onClick={deleteStudent}>Delete Student</MenuItem>
-        <MenuItem onClick={updateStudent}>Update Student</MenuItem>
-        <MenuItem onClick={showProfile}>Student Profile</MenuItem>
+        {/* <MenuItem onClick={showModal}>Assign to class</MenuItem> */}
+        <MenuItem onClick={()=> {
+          if (activeUser.privillages.includes('Delete Product'))
+          deleteProduct()
+          else alert("You have no access!")
+          }}>Delete Product</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes('Update Product'))
+          updateProduct()
+          else alert("You have no access")
+          }}>Update Product</MenuItem>
       </Menu>
       <MaterialTable
         columns={columns}
@@ -85,7 +98,6 @@ const StudentsTable = (props) => {
         options={{
           rowStyle: {},
           showTitle: false,
-          selection: true,
           exportButton: true,
           sorting: false,
           showTextRowsSelected: false,
@@ -108,7 +120,7 @@ const StudentsTable = (props) => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
            />,
-            tooltip: "Save User",
+            tooltip: "Product Actions",
             onClick: (event, rowData) => {
               handleClick(event, rowData)
             },
@@ -121,4 +133,4 @@ const StudentsTable = (props) => {
   );
 };
 
-export default StudentsTable;
+export default ProductsTable;

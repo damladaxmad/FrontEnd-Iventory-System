@@ -38,7 +38,7 @@ const AssignPopUp = (props) => {
     validate,
     onSubmit: (values, { resetForm }) => {
         axios.post(`/api/v1/users`, values).then((res) => {
-        alert(`${props.employee.first_name} ${props.employee.middle_name} is made a user`)
+        alert(`${props.name} is made a user`)
         });
         resetForm();
         props.hideModal();  

@@ -114,6 +114,7 @@ function Sales() {
           <FormControl style={{ padding: "0px", margin: "0px" }}
           disabled = {status == "cash" ? true : false}>
         <TextField
+            disabled = {status == "invoice" ? false : true}
             select
             style={selectStyle}
             labelId="demo-simple-select-label"

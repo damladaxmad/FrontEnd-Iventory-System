@@ -58,10 +58,10 @@ const CompanyInfo = () => {
     return (
         <div style={parentDivStyle}>
           {showCreate && <InfoPopUp hide = {handleHide}/>}
-         {!data || update || showCreate && <InfoPopUp update = {update} data = {data}
+         {update && <InfoPopUp update = {update} data = {data}
          hide = {handleHide}/> }
          {data && !update && <DisplayInfo/>}
-         {display && <DisplayInfo/>}
+         {/* {display && <DisplayInfo/>} */}
          
           {!hideButton && <Button
           style={{

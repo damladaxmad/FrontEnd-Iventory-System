@@ -5,12 +5,14 @@ import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
 import PopupForm from "./AssignPopUp";
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
+import { useSelector } from "react-redux";
 
 const EmployeesTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [show, setShow] = useState(false)
   const [employee, setEmployee] = useState('')
+  const activeUser = useSelector(state => state.activeUser.activeUser)
 
   console.log(props.data)
 
@@ -83,10 +85,21 @@ const EmployeesTable = (props) => {
         }}
         style = {{}}
       >
-        <MenuItem onClick={showModal}>Make User</MenuItem>
-        <MenuItem onClick={deleteEmployee}>Delete Emplooyee</MenuItem>
-        <MenuItem onClick={updateEmployee}>Update Emplooyee</MenuItem>
-        <MenuItem onClick={showProfile}>Teacher Profile</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes('Give User'))
+          showModal()
+          else alert("You have no access")
+          }}>Give User</MenuItem>
+        <MenuItem onClick={()=> {
+          if (activeUser.privillages.includes('Delete Employee'))
+          deleteEmployee()
+          else alert("You have no access!")
+          }}>Delete Emplooyee</MenuItem>
+        <MenuItem onClick={()=> {
+          if (activeUser.privillages.includes('Update Employee'))
+          updateEmployee()
+          else alert("You have no access!")
+          }}>Update Emplooyee</MenuItem>
       </Menu>
       <MaterialTable
         columns={columns}
@@ -94,7 +107,6 @@ const EmployeesTable = (props) => {
         options={{
           rowStyle: {},
           showTitle: false,
-          selection: true,
           exportButton: true,
           sorting: false,
           showTextRowsSelected: false,

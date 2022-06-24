@@ -2,33 +2,31 @@ import React, { useState, useEffect, useReducer } from "react";
 import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import { FormControl, Select, MenuItem, Menu } from "@mui/material";
-import TeachersTable from "../containers/ProductsContainers/StudentsTable";
+import ProductsTable from "../containers/ProductsContainers/ProductsTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import RegisterTeachers from "../containers/ProductsContainers/RegisterStudents";
-import TeacherProfile from "../containers/ProductsContainers/StudentProfile";
-import AssignManyToClass from "../containers/ProductsContainers/AssingManyToClass";
+import RegisterProducts from "../containers/ProductsContainers/RegisterProducts";
 import { setProducts } from "../redux/actions/productsActions";
 
 const Products = () => {
-  const [newTeachers, setNewTeachers] = useState(false)
-  const [buttonName, setButtonName] = useState('Add New Teachers')
+  const [newProducts, setNewProducts] = useState(false)
+  
+  const [buttonName, setButtonName] = useState('Add New Products')
   const [update, setUpdate] = useState(false)
   const [showCornerIcon, setShowCornerIcon] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [updatedTeacher, setUpdatedTeacher] = useState(null)
+  const [updatedProduct, setUpdatedProduct] = useState(null)
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
-  const [teacherIds, setTeachersIds] = useState('')
+  const [productIds, setProductsIds] = useState('')
   const [force, setForce] = useState(1)
+  const activeUser = useSelector(state => state.activeUser.activeUser)
 
-  
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, product) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -42,7 +40,7 @@ const Products = () => {
   }
 
   const changeHandler = () => {
-    forceUpdate()
+    setForce(state => state + 1)
   }
 
   const dispatch = useDispatch()
@@ -56,17 +54,17 @@ const Products = () => {
     setStatus(e.target.value)
   }
 
-  const addStudentHandler = () => {
+  const addProductHandler = () => {
     setQuery('')
-    if (buttonName == "Add New Teachers"){
-      setNewTeachers(true)
-      setButtonName("Go To Teachers")
+    if (buttonName == "Add New Products"){
+      setNewProducts(true)
+      setButtonName("Go To Products")
       setShowProfile(false)
       return
-    } else if (buttonName == "Go To Teachers") {
+    } else if (buttonName == "Go To Products") {
       setShowProfile(false)
-      setNewTeachers(false)
-      setButtonName("Add New Teachers") 
+      setNewProducts(false)
+      setButtonName("Add New Products") 
       setUpdate(false)
     }
    
@@ -90,7 +88,7 @@ const Products = () => {
       const response = await axios
       .get("/api/v1/products")
       .catch((err) => {
-        console.log("Err: ", err);
+        alert(err.message);
       });
     dispatch(setProducts(response.data.data.products));   
   };
@@ -100,14 +98,14 @@ const Products = () => {
     fetchProducts();
   }, [ignored]);
 
-  let teachersIds = '';
+  let productsIds = '';
   const selectHandler = (data) => {
     data.map((d)=> {
-        teachersIds += d._id
-        teachersIds += ','
+      productsIds += d._id
+      productsIds += ','
     })
-    const slicedTeachersIds = teachersIds.slice(0, -1)
-    setTeachersIds(slicedTeachersIds)
+    const slicedProductsIds = productsIds.slice(0, -1)
+    setProductsIds(slicedProductsIds)
 
     setShowCornerIcon(true)
     if (data.length < 1) {
@@ -115,11 +113,11 @@ const Products = () => {
     }
   }
 
-  const updateHandler = (teacher) => {
-    setNewTeachers(true)
-    setButtonName("Go To Teachers")
+  const updateHandler = (product) => {
+    setNewProducts(true)
+    setButtonName("Go To Products")
     setUpdate(true)
-    setUpdatedTeacher(teacher)
+    setUpdatedProduct(product)
   }
 
   const resetFomr = () => {
@@ -128,12 +126,12 @@ const Products = () => {
   }
 
   useEffect(()=> {
-    fetchProducts()
+    fetchProducts(status)
   }, [force])
 
   const showProfileHandler = () => {
     setShowProfile(true)
-    setButtonName("Go To Teachers")
+    setButtonName("Go To Products")
   }
 
   const hideModal = () =>{
@@ -160,19 +158,22 @@ const Products = () => {
           margin: "auto",
         }}
       >
-        {assignMany && <AssignManyToClass hideModal = {hideModal}
-        teachersIds = {teacherIds}/>}
-        <h2> {newTeachers ? "Create New Teachers" : 
-        showProfile ? "Student Profile" : "Teachers"}</h2>
+       
+        <h2> {newProducts ? "Create New Products" : 
+        showProfile ? "Product Profile" : "Products"}</h2>
         <Button
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
             color: "white",
           }}
-          onClick = {addStudentHandler}
+          onClick = {() => {
+            if (activeUser.privillages.includes('Add New Products'))
+            addProductHandler()
+            else alert("You have no access!")
+          }}
           startIcon={
-            newTeachers || showProfile ? <BiArrowBack
+            newProducts || showProfile ? <BiArrowBack
               style={{
                 color: "white",
               }}
@@ -186,7 +187,7 @@ const Products = () => {
           {buttonName}
         </Button>
       </div>
-      {!newTeachers && !showProfile &&
+      {!newProducts && !showProfile &&
       <div
         style={{
           display: "flex",
@@ -233,18 +234,17 @@ const Products = () => {
             ))}
           </Select>
           </FormControl>
-          {showCornerIcon && <BiDotsVerticalRounded style = {{
+          {/* {showCornerIcon && <BiDotsVerticalRounded style = {{
             fontSize: "24px", margin: "auto 0px",
             cursor: "pointer"
-          }} onClick = {handleClick} />}
+          }} onClick = {handleClick} />} */}
         </div>
       </div>}
-      {!newTeachers && !showProfile && <TeachersTable data={handler(products)} 
-      change = {changeHandler} selectTeachers = {selectHandler}
+      {!newProducts && !showProfile && <ProductsTable data={handler(products)} 
+      change = {changeHandler} selectProducts = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}/>}
-      {newTeachers && <RegisterTeachers update = {update}
-      teacher = {updatedTeacher} reset = {resetFomr}/>}
-      {showProfile && <TeacherProfile/>}
+      {newProducts && <RegisterProducts update = {update}
+      product = {updatedProduct} reset = {resetFomr}/>}
 
       <Menu
         id="basic-menu"
@@ -256,7 +256,7 @@ const Products = () => {
         }}
       >
         <MenuItem onClick={assignMannyToClass}>Assign to class</MenuItem>
-        <MenuItem >Delete Teachers</MenuItem>
+        <MenuItem >Delete Product</MenuItem>
       </Menu>
     </div>
   );

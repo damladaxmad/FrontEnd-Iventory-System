@@ -15,13 +15,10 @@ const SignupAndLogin = (props) => {
     const showHandler = () => {
       props.showHandler()
         // const win = remote.getCurrentWindow();
-        // win.setSize(900, 900);
+        // win.maximize();
     }
 
-    
-  return (
-    <div
-      style={{
+    const parentDivStyle = {
         display: "flex",
         flexDirection: "column",
         justifyContent:"center",
@@ -34,7 +31,12 @@ const SignupAndLogin = (props) => {
         padding: '16px',
         borderRadius: "10px",
         marginTop: "13%"
-      }}
+      }
+
+    
+  return (
+    <div
+      style={parentDivStyle}
     >
 
         <p style={{margin: "0px",
