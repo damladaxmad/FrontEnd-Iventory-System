@@ -77,8 +77,8 @@ const RegisterStudents = (props) => {
           axios.post(`/api/v1/products`, values).then((res) => {
             alert("Successfully Created")
           }).catch((err) => alert(err.message));
-          resetForm();
           props.reset()
+          resetForm();
         }
     
     },

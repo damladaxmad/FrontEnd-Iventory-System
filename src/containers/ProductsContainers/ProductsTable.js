@@ -11,6 +11,7 @@ const ProductsTable = (props) => {
   const open = Boolean(anchorEl);
   const [show, setShow] = useState(false)
   const [product, setProduct] = useState('')
+  const [force, setForce] = useState(1)
   const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const columns = [
@@ -52,6 +53,7 @@ const ProductsTable = (props) => {
     alert(err.message))
     handleClose()
     props.change()
+    setForce(state => state + 1)
   };
 
   const updateProduct = () => {
@@ -65,6 +67,10 @@ const ProductsTable = (props) => {
   const showProfile = () => {
     props.showProfile()
   }
+
+  useEffect(()=> {
+
+  }, [props, force])
 
 
   return (

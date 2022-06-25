@@ -74,8 +74,9 @@ const Customers = (props) => {
     if (data.length > 0) {
       return data.filter(
         (std) =>
-        std.name.toLowerCase().includes(query) ||
-        std.email.toLowerCase().includes(query)
+        (std.name.toLowerCase().includes(query) ||
+        std.email.toLowerCase().includes(query)) && std.status == status ||
+        status == "All"
       );
     } else {
       return

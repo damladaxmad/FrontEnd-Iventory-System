@@ -85,7 +85,7 @@ const Products = () => {
     }  
   };
 
-  const fetchProducts = async (status) => {
+  const fetchProducts = async () => {
       const response = await axios
       .get("/api/v1/products")
       .catch((err) => {
@@ -127,7 +127,7 @@ const Products = () => {
   }
 
   useEffect(()=> {
-    fetchProducts(status)
+    fetchProducts()
   }, [force])
 
   const showProfileHandler = () => {
