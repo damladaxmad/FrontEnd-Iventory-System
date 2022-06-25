@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FormControl, Select, MenuItem, Menu, Divider } from "@mui/material";
+import { FormControl, MenuItem, Menu, Divider } from "@material-ui/core";
+import {Select} from "@mui/material"
 import {
   FormGroup,
   FormControlLabel,

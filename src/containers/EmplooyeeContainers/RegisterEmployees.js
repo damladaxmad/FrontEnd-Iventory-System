@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { TextField, Button } from "@mui/material";
-import SelectBox from "../../ReUsables/CustomSelect";
+
 
 const RegisterEmployees = (props) => {
   const arr = [
@@ -46,17 +46,19 @@ const RegisterEmployees = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: props.update ? props.employee.email : "",
-      name: props.update ? props.employee.name : "",
-      sex: props.update ? props.employee.sex : "",
-      salary: props.update ? props.employee.salary : "",
-      role: props.update ? props.employee.role : "",
+      email: props.update ? props.empoloyee.email : "",
+      name: props.update ? props.empoloyee.name : "",
+      sex: props.update ? props.empoloyee.sex : "",
+      salary: props.update ? props.empoloyee.salary : "",
+      role: props.update ? props.empoloyee.role : "",
     },
     validate,
     onSubmit: (values, { resetForm }) => {
       if (props.update){
-        axios.patch(`/api/v1/employees/${props.employee._id}`, values).then((res) => {
+        axios.patch(`/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
           alert("Successfully  Updated")
+        }).catch((err) => {
+          alert("Couldn't update Employee")
         });
         props.reset()
       } else {
@@ -64,6 +66,7 @@ const RegisterEmployees = (props) => {
           alert("Successfully Created")
         });
         resetForm();
+        props.reset()
       }    
     
     },
@@ -115,7 +118,7 @@ const RegisterEmployees = (props) => {
 
         <Button
           style={{
-            width: "150px",
+            width: "290px",
             fontSize: "16px",
             backgroundColor: "#2F49D1",
           }}

@@ -1,11 +1,15 @@
 import React from "react";
 import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
-import { Avatar } from "@mui/material";
-import { Divider } from "@material-ui/core";
+import { Divider,  } from "@material-ui/core";
+// import {Avatar} from "@mui/material"
+
 import MaterialTable from "material-table";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const CustomerSales = (props) => {
+
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
   const materialOptions = {
     showTitle: false,
     exportButton: true,
@@ -62,57 +66,7 @@ const CustomerSales = (props) => {
     { title: "Balance", field: "balance", cellStyle: { border: "none" } },
   ];
 
-  const data = [
-    {
-      name: "Caaqil Ali Ahmed",
-      username: "caaqil323",
-      password: "caaqil2022",
-      city: "Mogadishu",
-      phone: 30,
-    },
-    {
-      name: "Caaqil Ali Ahmed",
-      city: "Mogadishu",
-      phone: 30,
-      username: "caaqil323",
-      password: "caaqil2022",
-    },
-    {
-      name: "Caaqil Ali Ahmed",
-      city: "Mogadishu",
-      phone: 30,
-      username: "caaqil323",
-      password: "caaqil2022",
-    },
-    {
-      name: "Caaqil Ali Ahmed",
-      city: "Mogadishu",
-      phone: 30,
-      username: "caaqil323",
-      password: "caaqil2022",
-    },
-    {
-      name: "Caaqil Ali Ahmed",
-      city: "Mogadishu",
-      phone: 30,
-      username: "caaqil323",
-      password: "caaqil2022",
-    },
-    {
-      name: "Caaqil Ali Ahmed",
-      city: "Mogadishu",
-      phone: 30,
-      username: "caaqil323",
-      password: "caaqil2022",
-    },
-    {
-      name: "Caaqil Ali Ahmed",
-      city: "Mogadishu",
-      phone: 30,
-      username: "caaqil323",
-      password: "caaqil2022",
-    },
-  ];
+
 
   return (
     <>
@@ -136,18 +90,14 @@ const CustomerSales = (props) => {
             gap: "15px",
           }}
         >
-          <Avatar
-            sx={{ width: 130, height: 130 }}
-            style={{ backgroundColor: "white", color: "orange" }}
-          >
+         
             <img
-              src={jaabirLogo}
+              src={companyInfo.imageURl}
               style={{
-                width: "100%",
-                height: "100%",
+                width: "150px",
+                height: "150px",
               }}
             />
-          </Avatar>
           <p style={{ margin: "0px", fontWeight: "700", fontSize: "25px" }}>
             {" "}
             Customer Transactions

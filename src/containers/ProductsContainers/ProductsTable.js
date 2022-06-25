@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
+import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";

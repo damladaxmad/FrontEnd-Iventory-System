@@ -1,8 +1,9 @@
-import { Button } from "@mui/material";
+import { Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import DisplayInfo from "./DiplayInfo";
 import InfoPopUp from "./InfoPopUp";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const parentDivStyle = {
     display: "flex",
@@ -26,12 +27,7 @@ const CompanyInfo = () => {
   const [display, setDisplay] = useState(false)
   const [data, setData] = useState()
   const [update, setUpdate] = useState(false)
-
-  const fetchCompanyInfo = async () => {
-    const res = await axios.get('api/v1/companyInfo')
-    console.log(res.data.data)
-    setData(res.data.data)
-  }
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
 
   const buttonHandler = () => {
     if (data){
@@ -52,8 +48,8 @@ const CompanyInfo = () => {
   }
 
   useEffect(()=>{
-    fetchCompanyInfo()
-  }, [])
+    setData(companyInfo)
+  }, [CompanyInfo])
   
     return (
         <div style={parentDivStyle}>

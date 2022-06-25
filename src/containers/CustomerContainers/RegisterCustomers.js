@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { TextField, Button, selectClasses } from "@mui/material";
+import { selectClasses } from "@material-ui/core";
 import axios from "axios";
-import SelectBox from "../../ReUsables/CustomSelect";
-import { FormControl, Select, MenuItem, Menu } from "@mui/material";
+import { FormControl, MenuItem, Menu } from "@material-ui/core";
+import {Select, TextField, Button} from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 
 const RegisterStudents = (props) => {
@@ -140,26 +140,10 @@ const RegisterStudents = (props) => {
               <div style={{ color: "red" }}>{formik.errors.sex}</div>
             ) : null}
       
-        <FormControl >
-          <TextField
-          select
-            style={selectStyle}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={status}
-            label = "Enter Sex"
-            onChange={statusHandler}
-          >
-            {statuses.map((status, index) => (
-              <MenuItem value={status} key={index}>
-                {status}
-              </MenuItem>
-            ))}
-          </TextField>
-        </FormControl>
         <Button
           style={{
-            width: "150px",
+            width: "290px",
+            height: "50px",
             fontSize: "16px",
             backgroundColor: "#2F49D1",
           }}

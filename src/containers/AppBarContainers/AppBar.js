@@ -5,12 +5,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import femaleProfile from "../../assets/images/profileDrawer.jpg";
 import maleProfile from "../../assets/images/blueProfile.webp"
-import { Button, MenuItem, Menu} from "@mui/material"
+import { Button, MenuItem, Menu, ListItemIcon, IconButton, Tooltip} from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";
-import Box from '@mui/material/Box';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import { FiLogOut } from "react-icons/fi";  
 import { AiOutlineEdit } from "react-icons/ai";  
 import { setIsLogin } from "../../redux/actions/isLoginActions";

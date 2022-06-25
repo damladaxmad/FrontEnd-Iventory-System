@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { TextField, Button, selectClasses } from "@mui/material";
+import { selectClasses } from "@material-ui/core";
 import axios from "axios";
-import SelectBox from "../../ReUsables/CustomSelect";
-import { FormControl, Select, MenuItem, Menu } from "@mui/material";
+import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+import { TextField, Select, Button } from "@mui/material";
 
 const RegisterStudents = (props) => {
   const arr = [
@@ -13,7 +13,6 @@ const RegisterStudents = (props) => {
     { label: "Enter Measurment", type: "text", name: "unitMeasurment" },
     { label: "Enter Unit Price", type: "number", name: "unitPrice" },
     { label: "Enter Sales Price", type: "number", name: "salePrice" },
-    { label: "Enter Quantity", type: "number", name: "quantity" },
   ];
 
   const sexes = ["male", "female"]
@@ -40,9 +39,9 @@ const RegisterStudents = (props) => {
       errors.name = "Field is Required";
     }
   
-    if (!values.quantity && values.quantity!=0) {
-      errors.quantity = "Field is Required";
-    }
+    // if (!values.quantity && values.quantity!=0) {
+    //   errors.quantity = "Field is Required";
+    // }
 
     if (!values.unitMeasurment) {
       errors.unitMeateacher = "Field is Required";
@@ -130,7 +129,7 @@ const RegisterStudents = (props) => {
     
         <Button
           style={{
-            width: "150px",
+            width: "290px",
             fontSize: "16px",
             backgroundColor: "#2F49D1",
           }}

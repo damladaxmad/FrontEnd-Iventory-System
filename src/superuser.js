@@ -33,3 +33,13 @@ module.exports = {
 // "@testing-library/jest-dom": "^5.11.4",
 // "@testing-library/react": "^11.1.0",
 // "@testing-library/user-event": "^12.1.10",
+
+
+// "@electron/remote": "^1.0.2",
+    // "@emotion/react": "^11.7.1",
+    // "@emotion/styled": "^11.6.0",
+
+// "@mui/icons-material": "^5.8.4",
+// "web-vitals": "^1.0.1"
+
+// "react-scripts": "4.0.2",

@@ -4,9 +4,10 @@ import { MdAdd } from "react-icons/md";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {useSelector, useDispatch } from "react-redux";
-import { FormControl, Select, MenuItem, Menu, TextField } from "@mui/material";
+import { FormControl, MenuItem, Menu } from "@material-ui/core";
+import {Select, TextField} from "@mui/material"
 import { BiDotsHorizontalRounded } from "react-icons/bi"; 
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import SalesTable from "../containers/SalesContainers/SalesTable";
 import BrowseSales from "../containers/SalesContainers/BrowseSales";
 import { setCustomers } from "../redux/actions/customersActions";

@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react"
-import { FormControl, Select, MenuItem, Menu } from "@mui/material";
+import { FormControl, MenuItem, Menu} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import { Select } from "@mui/material";
 import UsersTable from "./UsersTable";
 import axios from "axios";
 import { setUsers } from "../../../redux/actions/usersActions";
@@ -29,8 +27,11 @@ const Users = () => {
     const [status, setStatus] = useState(statusArr[0]);
     const [query, setQuery] = useState("");
     const users = useSelector((state) => state.users.users);
+    const [force, setForce] = useState(1)
 
-
+    const change = () => {
+      setForce(state => state + 1)
+    }
   const statusHandler = (e) => {
     setStatus(e.target.value)
   }
@@ -59,7 +60,7 @@ const Users = () => {
 
   useEffect(()=> {
     fetchUsers()
-  }, [])
+  }, [force])
 
    
   return (
@@ -108,7 +109,8 @@ const Users = () => {
     </div>
 
   </div>
-      <UsersTable data = {handler(users)}/>
+      <UsersTable data = {handler(users)}
+      change = {change}/>
       </>
 
   )

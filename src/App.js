@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import Sales from "./Pages/Sales";
 import { setCustomers } from "./redux/actions/customersActions";
 import Products from "./Pages/Products";
+import { setCompanyInfo } from "./redux/actions/companyInfoActions";
 
 const pages = [
 <Route path= "/dashboard" element = {<Dashboard/>} />,
@@ -41,13 +42,20 @@ function App() {
     dispatch(setCustomers(response.data.data.customers));
   };
 
+  const fetchCompanyInfo = async () => {
+    const res = await axios.get('api/v1/companyInfo')
+    dispatch(setCompanyInfo(res.data.data))
+  }
+
   const showHandler = () => {
     setShowLayout(true)
   }
 
+  
 
   useEffect(() => {
     fetchCustomers()
+    fetchCompanyInfo()
   }, []);
 
   useEffect(()=> {

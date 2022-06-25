@@ -1,5 +1,4 @@
 import {
-    Avatar,
     Divider,
     Drawer,
     Typography,
@@ -9,8 +8,10 @@ import {
     ListItemIcon,
     ListItemText,
   } from "@material-ui/core";
+  import {Avatar} from "@mui/material"
   import { MdMenuOpen } from "react-icons/md";
   import { SiGoogleclassroom } from "react-icons/si";
+  // import TrendingDownOutlinedIcon from "@material-ui/icons/TrendingDownOutlinedIcon"
   import DashboardIcon from "@material-ui/icons/Dashboard";
   import GroupIcon from "@material-ui/icons/Group";
   import { GiTeacher } from 'react-icons/gi';
@@ -23,11 +24,12 @@ import {
   import { MdAdminPanelSettings } from "react-icons/md"; 
   import { FiSettings } from "react-icons/fi";
   import { HiPencilAlt } from "react-icons/hi"; 
-  import { VscPerson } from "react-icons/vsc"; 
+  import { FaShopify } from "react-icons/fa"; 
+  import { VscPerson } from "react-icons/vsc";
+  import { MdPointOfSale } from "react-icons/md"; 
   import { FaHouseUser } from "react-icons/fa"; 
-  import TrendingDownOutlinedIcon from '@mui/icons-material/TrendingDownOutlined';
   import { HiOutlineDocumentReport } from "react-icons/hi";
-  import { Schedule } from "@material-ui/icons";
+ 
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
   
@@ -93,6 +95,7 @@ import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch()
+    const companyInfo = useSelector(state => state.companyInfo.companyInfo)
     
     const activeUser = useSelector(state => state.activeUser.activeUser)
 
@@ -109,13 +112,13 @@ import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
         },
         {
           text: "Products",
-          icon: <GiTeacher style={{fontSize: "20px", color: "white" }} />,
+          icon: <FaShopify style={{fontSize: "20px", color: "white" }} />,
           path: "/products",
         },
        
         {
           text: "Sales",
-          icon: <TrendingDownOutlinedIcon style={{ fontSize: "20px", color: "white" }} />,
+          icon: <MdPointOfSale style={{ fontSize: "20px", color: "white" }} />,
           path: "/classes",
         },
         {
@@ -157,17 +160,17 @@ return (
             padding: "10px",
           }}
         >
-          {/* <Avatar style={{ backgroundColor: "white", color: "orange" }}>
+          <Avatar style={{ backgroundColor: "white", color: "orange" }}>
             <img
-              src={jaabirLogo}
+              src={companyInfo?.imageURl}
               style={{
                 width: "100%",
                 height: "100%",
               }}
             />
-          </Avatar> */}
+          </Avatar>
           <Typography variant="h5" className={classes.title}>
-            Racayaam Soft
+            {companyInfo.name.substring(0, 13)}...
           </Typography>
           <MdMenuOpen
             style={{

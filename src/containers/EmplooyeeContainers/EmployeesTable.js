@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
+import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
 import PopupForm from "./AssignPopUp";
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
@@ -14,8 +14,6 @@ const EmployeesTable = (props) => {
   const [employee, setEmployee] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
 
-  console.log(props.data)
-
   const columns = [
     { title: "ID", field: "employeeId",},
     { title: "Full Name", field: "name", width: "4%"},
@@ -24,13 +22,7 @@ const EmployeesTable = (props) => {
     { title: "Employee Role", field: "role" },
     { title: "Salary", field: "salary", render: (row)=> <p>
       ${row.salary}
-    </p> },   
-    { title: "Stutus", field: "status", render: (row)=> <div style={{
-      backgroundColor: row.status === "Inactive" ? "#FFF7EB" :  "#EEF3FF" ,
-      borderRadius: "100px",
-    padding: "1px 8px", color: row.status == "Inactive" ? "#FFAC32"  : "#5887FF"}}>
-    <Typography style = {{textAlign: "center", fontSize: "12px"}}> {row.status} </Typography>
-  </div> },
+    </p> }
     
   ];
 

@@ -1,7 +1,8 @@
 import Modal from "../../../Modal/Modal";
-import { Button, Divider, TextField } from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 import React, { useState } from "react";
-import { FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl, MenuItem } from "@material-ui/core";
+import {TextField, Select} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -41,8 +42,8 @@ const ResetPopUp = (props) => {
              alert("Successfully Updated")
         });
         resetForm();
-        props.hideModal();  
-        alert(`${props.employee.first_name} ${props.employee.middle_name} is made a user`)
+        props.hideModal();
+        props.change()
     
     },
   });

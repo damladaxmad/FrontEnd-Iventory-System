@@ -1,36 +1,31 @@
 import React, {useEffect, useState} from "react"
 import jaabirLogo from "../../../assets/images/jaabirLogo.jpg";
-import { Avatar } from "@mui/material";
+import { Avatar } from "@material-ui/core";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const DisplayInfo = () => {
 
     const [data, setData] = useState()
-
-    const fetchCompanyInfo = async () => {
-      const res = await axios.get('api/v1/companyInfo')
-      setData(res.data.data)
-    }
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
   
     useEffect(()=>{
-      fetchCompanyInfo()
-    }, [])
+      setData(companyInfo)
+    }, [companyInfo])
 
     return (
         <div style={{display: "flex", flexDirection: "column",
         justfiyContent: "center", alignItems: "center",
         gap: "20px", margin: "20px 0px", marginBottom: "30px"}}>
-            <Avatar sx={{ width: 130, height: 130 }}
-            style={{ backgroundColor: "white", color: "orange" }}>
-              <img
-                src={data?.imageURl}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-                alt = "Loading..."
-              />
-              </Avatar>
+            
+               <img
+              src={companyInfo.imageURl}
+              style={{
+                width: "150px",
+                height: "150px",
+              }}
+            />
+            
               <p style={{margin: "0px", fontWeight: "700",
                 fontSize:"25px"}}>{data?.name}</p>
               <p style={{margin: "0px", fontWeight: "500",

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
-import { FormControl, Select, MenuItem, Menu } from "@mui/material";
+import { FormControl, MenuItem, Menu } from "@material-ui/core";
+import {Select} from "@mui/material"
 import CustomersTable from "../containers/CustomerContainers/CustomersTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -43,7 +44,7 @@ const Customers = (props) => {
 
   const dispatch = useDispatch()
   const customers = useSelector((state) => state.customers.customers);
-  const statusArr = ["All", "Active", "Inactive"]
+  const statusArr = ["All", "Pending", "Late"]
   const [status, setStatus] = useState(statusArr[0]);
   const [query, setQuery] = useState("");
   const [force, setForce] = useState(1)
@@ -65,7 +66,6 @@ const Customers = (props) => {
       setButtonName("Add New Customers") 
       setUpdate(false)
     }
-   
     
   }
 

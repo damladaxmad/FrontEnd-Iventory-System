@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
-import { FormControl, Select, MenuItem, Menu } from "@mui/material";
+import { FormControl, MenuItem, Menu } from "@material-ui/core";
+import {Select} from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
@@ -84,29 +85,20 @@ const Emplooyees = () => {
   };
 
   const fetchEmpoloyees = async (status) => {
-    if (status !== "All"){
-      const response = await axios
-      .get(`/api/v1/employees?status=${status}`)
-      .catch((err) => {
-        console.log("Err: ", err);
-      });
-      
-    dispatch(setEmployees(response.data.data.employees));
-    } else {
+
       const response = await axios
       .get("/api/v1/employees")
       .catch((err) => {
         console.log("Err: ", err);
       });
 
-    dispatch(setEmployees(response.data.data.employees));
-    }
+    dispatch(setEmployees(response.data.data.employees)); 
 
   };
 
   useEffect(() => {
     // if (students.length > 0) return
-    fetchEmpoloyees(status);
+    fetchEmpoloyees();
   }, [ignored, status]);
 
   let employeesIds = '';
@@ -137,7 +129,7 @@ const Emplooyees = () => {
   }
 
   useEffect(()=> {
-    fetchEmpoloyees(status)
+    fetchEmpoloyees()
   }, [force])
 
   const showProfileHandler = () => {
@@ -229,22 +221,6 @@ const Emplooyees = () => {
         />
         <div style={{ display: "flex", gap: "20px" }}>
  
-          <FormControl style={{ padding: "0px", margin: "0px" }}>
-          <Select
-            style={{  height: "40px", color: "#B9B9B9",
-            width: "150px", }}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={status}
-            onChange={statusHandler}
-          >
-            {statusArr.map((status, index) => (
-              <MenuItem value={status} key={index}>
-                {status}
-              </MenuItem>
-            ))}
-          </Select>
-          </FormControl>
           {showCornerIcon && <BiDotsVerticalRounded style = {{
             fontSize: "24px", margin: "auto 0px",
             cursor: "pointer"

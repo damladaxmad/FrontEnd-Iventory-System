@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import {Typography, Button, MenuItem, Menu, Avatar} from "@mui/material"
+import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
 import ResetPopUp from "./ResetPopUp";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -65,6 +65,7 @@ const UsersTable = (props) => {
   return (
     <div style={{ width: "98%", margin: "auto" }}>
  {show && <ResetPopUp hideModal = {hideModal} user = {user}
+ change = {()=> props.change()}
  />}
         <Menu
         id="basic-menu"

@@ -1,7 +1,8 @@
 import Modal from "../../Modal/Modal";
 import { Button, Divider, TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import { FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl, MenuItem } from "@material-ui/core";
+import {Select} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -38,7 +39,7 @@ const AssignPopUp = (props) => {
     validate,
     onSubmit: (values, { resetForm }) => {
         axios.post(`/api/v1/users`, values).then((res) => {
-        alert(`${props.name} is made a user`)
+        alert(`${props.employee.name} is made a user`)
         });
         resetForm();
         props.hideModal();  
