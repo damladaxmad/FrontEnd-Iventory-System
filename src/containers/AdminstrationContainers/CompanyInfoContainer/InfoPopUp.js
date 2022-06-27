@@ -77,14 +77,14 @@ const InfoPopUp = (props) => {
         formData.append('phone', values.phone)
         formData.append('imageName', values.imageName)
         if (!props.update) {
-          axios.post(`api/v1/companyInfo`, formData).then((res) => {
-            alert("Successfully  Created")
+          axios.post(`http://127.0.0.1:80/api/v1/companyInfo`, formData).then((res) => {
+            alert("Successfully  Created, please re-run the app.")
        }).catch(er => alert("There is an error"));
        props.hide()
        resetForm();
         } if (props.update) {
-          axios.patch(`api/v1/companyInfo`, formData).then((res) => {
-            alert("Successfully  Updated")
+          axios.patch(`http://127.0.0.1:80/api/v1/companyInfo`, formData).then((res) => {
+            alert("Successfully  Updated, please re-run the app.")
        }).catch(er => alert("There is an error"));
        props.hide()
         }

@@ -32,9 +32,11 @@ const CustomersTable = (props) => {
     // { title: "Deadline", field: "deadline" },   
     { title: "Balance", field: "balance" },
     { title: "Stutus", field: "status", render: (row)=> <div style={{
-      backgroundColor: row.status === "Late" ? "#FFF7EB" :  "#EEF3FF" ,
+      backgroundColor: row.status === "Late" ? "#FFF7EB" :
+      row.status == "Clear" ? "#65a765" :  "#EEF3FF" ,
       borderRadius: "100px",
-    padding: "1px 8px", color: row.status == "Late" ? "#FFAC32"  : "#5887FF"}}>
+    padding: "1px 8px", color: row.status == "Late" ? "#FFAC32" 
+    : row.status == "Clear" ? "white" : "#5887FF"}}>
     <Typography style = {{textAlign: "center", fontSize: "12px"}}> {row.status} </Typography>
   </div> },
     { title: "Phone", field: "phone" },
@@ -60,7 +62,11 @@ const CustomersTable = (props) => {
   };
 
   const deleteCustomer = (id) => {
-    axios.delete(`/api/v1/customers/${customer._id}`)
+    axios.delete(`http://127.0.0.1:80/api/v1/customers/${customer._id}`).then(()=>{
+      alert("Succefully Deleted").catch((err)=> {
+        alert("Could not delete")
+      })
+    })
     handleClose()
     props.change()
   };

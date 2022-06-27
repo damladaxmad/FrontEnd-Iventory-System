@@ -53,7 +53,7 @@ const UsersTable = (props) => {
 
 
   const deleteUser = () => {
-    axios.delete(`/api/v1/users/${user._id}`).then((res)=>
+    axios.delete(`http://127.0.0.1:80/api/v1/users/${user._id}`).then((res)=>
       alert("Deleted successfully")
     )
     handleClose()

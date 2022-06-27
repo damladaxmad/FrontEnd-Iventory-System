@@ -17,7 +17,7 @@ const BrowseSales = (props) => {
 
   const fetchProducts = async (status) => {
     const response = await axios
-    .get("/api/v1/products")
+    .get("http://127.0.0.1:80/api/v1/products")
     .catch((err) => {
       console.log("Err: ", err);
     });

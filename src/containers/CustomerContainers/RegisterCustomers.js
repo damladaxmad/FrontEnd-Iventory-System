@@ -62,12 +62,12 @@ const RegisterStudents = (props) => {
       values.sex = sex
       values.status = status
         if (props.update){
-          axios.patch(`/api/v1/customers/${props.customer._id}`, values).then((res) => {
+          axios.patch(`http://127.0.0.1:80/api/v1/customers/${props.customer._id}`, values).then((res) => {
             alert("successfully update")
           });
           props.reset()
         } else {
-          axios.post(`/api/v1/customers`, values).then((res) => {
+          axios.post(`http://127.0.0.1:80/api/v1/customers`, values).then((res) => {
             alert("Successfully Created Customer")
             props.reset()
           });

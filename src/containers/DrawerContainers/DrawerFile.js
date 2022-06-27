@@ -170,7 +170,7 @@ return (
             />
           </Avatar>
           <Typography variant="h5" className={classes.title}>
-            {companyInfo.name.substring(0, 13)}...
+            {companyInfo?.name.substring(0, 13)}{companyInfo?.name.length <= 12 ? null : "..."}
           </Typography>
           <MdMenuOpen
             style={{

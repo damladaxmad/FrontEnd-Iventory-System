@@ -50,7 +50,7 @@ const EditProfile = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.patch(`/api/v1/users/${props.user._id}`, values).then((res) => {
+        axios.patch(`http://127.0.0.1:80/api/v1/users/${props.user._id}`, values).then((res) => {
              alert("Successfully Updated")
         });
         resetForm();
@@ -62,7 +62,7 @@ const EditProfile = (props) => {
 
  
   return (
-    <Modal onClose = {()=> props.hideModal()}>
+    <Modal onClose = {()=> props.hideModal() } pwidth = "400px">
       <div
         style={{
           display: "flex",

@@ -48,7 +48,7 @@ const Login = (props) => {
       //   props.showHandler()
       // }
 
-      const res = await axios.post(`api/v1/transactions`, values).then(()=> {
+      const res = await axios.post(`http://127.0.0.1:80/api/v1/transactions`, values).then(()=> {
         props.hideModal()
         alert("Succesfully Paid")
       }

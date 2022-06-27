@@ -38,7 +38,7 @@ const AssignPopUp = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.post(`/api/v1/users`, values).then((res) => {
+        axios.post(`http://127.0.0.1:80/api/v1/users`, values).then((res) => {
         alert(`${props.employee.name} is made a user`)
         });
         resetForm();

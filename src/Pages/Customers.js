@@ -44,7 +44,7 @@ const Customers = (props) => {
 
   const dispatch = useDispatch()
   const customers = useSelector((state) => state.customers.customers);
-  const statusArr = ["All", "Pending", "Late"]
+  const statusArr = ["All", "Pending", "Late", "Clear"]
   const [status, setStatus] = useState(statusArr[0]);
   const [query, setQuery] = useState("");
   const [force, setForce] = useState(1)
@@ -70,30 +70,36 @@ const Customers = (props) => {
   }
 
   const handler = (data) => { 
- 
     if (data.length > 0) {
-      return data.filter(
-        (std) =>
-        (std.name.toLowerCase().includes(query) ||
-        std.email.toLowerCase().includes(query)) && std.status == status ||
-        status == "All"
-      );
+      if (query == ""){
+        return data.filter(
+          (std) =>
+          std.status == status || status == "All"
+        );
+      }
+      else {
+        return data.filter(
+          (std) =>
+          (std.status == status || status == "All") && (
+        std.name.toLowerCase().includes(query) ||
+        std.email.toLowerCase().includes(query)))
+      }
     } else {
       return
-    }  
+    }
   };
 
   const fetchCustomers = async (status) => {
     if (status !== "All"){
       const response = await axios
-      .get(`/api/v1/customers?status=${status}`)
+      .get(`http://127.0.0.1:80/api/v1/customers?status=${status}`)
       .catch((err) => {
         alert(err.message);
       });
     dispatch(setCustomers(response.data.data.customers));
     } else {
       const response = await axios
-      .get("/api/v1/customers")
+      .get("http://127.0.0.1:80/api/v1/customers")
       .catch((err) => {
         alert(err.message);
       });

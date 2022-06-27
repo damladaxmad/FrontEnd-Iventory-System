@@ -39,7 +39,7 @@ const Users = () => {
   
   const fetchUsers = async () => {
     const response = await axios
-      .get("/api/v1/users")
+      .get("http://127.0.0.1:80/api/v1/users")
       .catch((err) => {
         console.log("Err: ", err);
       });

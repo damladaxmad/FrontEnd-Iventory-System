@@ -55,14 +55,14 @@ const RegisterEmployees = (props) => {
     validate,
     onSubmit: (values, { resetForm }) => {
       if (props.update){
-        axios.patch(`/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
+        axios.patch(`http://127.0.0.1:80/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
           alert("Successfully  Updated")
         }).catch((err) => {
           alert("Couldn't update Employee")
         });
         props.reset()
       } else {
-        axios.post(`/api/v1/employees`, values).then((res) => {
+        axios.post(`http://127.0.0.1:80/api/v1/employees`, values).then((res) => {
           alert("Successfully Created")
         });
         resetForm();

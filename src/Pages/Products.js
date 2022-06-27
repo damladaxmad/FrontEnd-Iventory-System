@@ -77,8 +77,7 @@ const Products = () => {
     if (data.length > 0) {
       return data.filter(
         (std) =>
-        std.name.toLowerCase().includes(query) ||
-        std.contact.toLowerCase().includes(query)
+        std.name.toLowerCase().includes(query)
       );
     } else {
       return
@@ -87,7 +86,7 @@ const Products = () => {
 
   const fetchProducts = async () => {
       const response = await axios
-      .get("/api/v1/products")
+      .get("http://127.0.0.1:80/api/v1/products")
       .catch((err) => {
         alert(err.message);
       });

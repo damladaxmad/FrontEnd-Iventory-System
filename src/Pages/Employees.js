@@ -87,7 +87,7 @@ const Emplooyees = () => {
   const fetchEmpoloyees = async (status) => {
 
       const response = await axios
-      .get("/api/v1/employees")
+      .get("http://127.0.0.1:80/api/v1/employees")
       .catch((err) => {
         console.log("Err: ", err);
       });

@@ -13,7 +13,7 @@ const Footer = () => {
     >
       <Divider />
       <Typography style={{ color: "#B9B9B9" }}>
-        2022 &copy; Jaabir-School - jaabir.com
+        2022 &copy; Inventory System - System
       </Typography>
 
       <div style={{ display: "flex", gap: "20px", marginLeft: "590px" }}>

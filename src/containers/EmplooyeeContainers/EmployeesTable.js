@@ -45,7 +45,9 @@ const EmployeesTable = (props) => {
   };
 
   const deleteEmployee = () => {
-    axios.delete(`/api/v1/employees/${employee._id}`)
+    axios.delete(`http://127.0.0.1:80/api/v1/employees/${employee._id}`).then(()=> {
+      alert("Successfully deleted")
+    })
     handleClose()
     props.change()
   };

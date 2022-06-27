@@ -40,9 +40,10 @@ const Login = (props) => {
         props.showHandler()
         dispatch(setActiveUser(superuser))
         dispatch(setIsLogin(true))
+        return
       }
       const response = await axios
-      .get(`/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
+      .get(`http://127.0.0.1:80/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
       .catch((err) => {
         setUsernameOrPasswordError("error")
       });

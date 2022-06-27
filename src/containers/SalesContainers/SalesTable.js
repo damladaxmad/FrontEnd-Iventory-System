@@ -21,6 +21,7 @@ const SalesTable = (props) => {
     "Actions"]
 
   const [force, setForce] = useState(1)
+  const [disabled, setDisabled] = useState(false)
 
   const forceHandler = () => {
     setForce(state => state + 1)
@@ -56,16 +57,18 @@ const SalesTable = (props) => {
   // console.log(p)
 
   const postSales = async (data) => {
-    const res = await axios.post(`api/v1/sales`, data).then(()=>{
+    const res = await axios.post(`http://127.0.0.1:80/api/v1/sales`, data).then(()=>{
       alert("Successfully Completed Order")
+      setDisabled(false)
       dispatch(setOrderList([]))
     }).catch(()=> {
       alert("Failed To Complete")
+      setDisabled(false)
     })
   }
 
   const btnHandler = () => {
-
+    setDisabled(true)
     let products = []
     for (let i = 0; i< props.data.length; i++){
       if (!p[i].quantity) p[i].quantity = 1
@@ -79,7 +82,8 @@ const SalesTable = (props) => {
       postSales(apiData)
     }
     if (apiData.products.length < 1) {
-      alert("please make orders list")
+      setDisabled(false)
+      alert("please make orders")
     }
 
   }
@@ -115,8 +119,9 @@ const SalesTable = (props) => {
           </div>
           <Button
           variant="contained"
+          disabled = {disabled}
           style={{
-            backgroundColor: "#2F49D1",
+            backgroundColor: disabled ? "lightGrey" : "#2F49D1",
             color: "white", width: "200px",
             height: "45px", fontSize: "18px",
             marginTop: "40px",

@@ -26,7 +26,7 @@ function Sales() {
 
   const fetchCustomers = async () => {
     const response = await axios
-      .get("/api/v1/customers")
+      .get("http://127.0.0.1:80/api/v1/customers")
       .catch((err) => {
         console.log("Err: ", err);
       });

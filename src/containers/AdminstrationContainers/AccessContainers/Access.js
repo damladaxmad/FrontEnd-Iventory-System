@@ -85,7 +85,7 @@ const Access = () => {
 
   const fetchUsers = async () => {
     const response = await axios
-      .get("/api/v1/users")
+      .get("http://127.0.0.1:80/api/v1/users")
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -158,7 +158,7 @@ const Access = () => {
 
   const UpdateUserPrivillages = async (data) => {
     const response = await axios
-      .patch(`api/v1/users/${user}`, {
+      .patch(`http://127.0.0.1:80/api/v1/users/${user}`, {
         privillages: [...currentUserPrivillages, ...userAccess],
       })
       .then(() => {

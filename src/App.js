@@ -17,7 +17,7 @@ import { setCompanyInfo } from "./redux/actions/companyInfoActions";
 
 const pages = [
 <Route path= "/dashboard" element = {<Dashboard/>} />,
-<Route path= "/customers" element = {<Customers/>} />,
+ <Route path= "/customers" element = {<Customers/>} />,
 <Route path= "/products" element = {<Products/>} />,
      <Route path= "/classes" element = {<Sales/>} />,
      <Route path= "/emplooyees" element = {<Employees/>} />,
@@ -32,10 +32,11 @@ function App() {
   const [showLayout, setShowLayout] = useState(isLogin)
   const [showReports, setShowReports] = useState(isReports)
   const dispatch = useDispatch();
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
 
   const fetchCustomers = async () => {
     const response = await axios
-      .get("/api/v1/customers")
+      .get("http://127.0.0.1:80/api/v1/customers")
       .catch((err) => {
         console.log("Err: ", err);
       });
@@ -43,7 +44,7 @@ function App() {
   };
 
   const fetchCompanyInfo = async () => {
-    const res = await axios.get('api/v1/companyInfo')
+    const res = await axios.get('http://127.0.0.1:80/api/v1/companyInfo')
     dispatch(setCompanyInfo(res.data.data))
   }
 
@@ -54,7 +55,7 @@ function App() {
   
 
   useEffect(() => {
-    fetchCustomers()
+    // fetchCustomers()
     fetchCompanyInfo()
   }, []);
 
