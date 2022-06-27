@@ -168,7 +168,7 @@ const CustomerSales = (props) => {
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "850px",
+            marginLeft: "840px",
             padding: "20px 0px",
           }}
         >

@@ -14,6 +14,7 @@ const BrowseSales = (props) => {
 
   const products = useSelector(state => state.products.products)
   const orderList = useSelector(state => state.orderList.orderList)
+  const [query, setQuery] = useState("");
 
   const fetchProducts = async (status) => {
     const response = await axios
@@ -25,6 +26,7 @@ const BrowseSales = (props) => {
 };
 
   const rowClickHandler = (data) => {
+    setQuery('')
     props.hideModal()
     if (!orderList.includes(JSON.stringify(data))){
       props.data(JSON.stringify(data))
@@ -38,6 +40,21 @@ const BrowseSales = (props) => {
  useEffect(()=> {
   fetchProducts()
  }, [])
+
+  const handler = (data) => { 
+    if (query !== ""){
+      if (data.length > 0) {
+        return data.filter(
+          (std) =>
+          std.name.toLowerCase().includes(query)
+        );
+      } else {
+        return
+      } 
+    }
+    else return data
+     
+  };
 
     const materialOptions = {
         showTitle: false,
@@ -64,7 +81,7 @@ const BrowseSales = (props) => {
         <p> ${data.unitPrice}</p>}
       ]
 
-      const data = products
+      // const data = products
 
     return (
         <MyModal onClose = {props.hideModal}>
@@ -81,12 +98,12 @@ const BrowseSales = (props) => {
             background: "#EFF0F6",
             border: "none",
           }}
-        //   onChange={(e) => setQuery(e.target.value)}z
+          onChange={(e) => setQuery(e.target.value)}
         />
         <Divider style={{marginTop: "10px"}}/>
            <MaterialTable
         columns={columns}
-        data={data}
+        data={handler(products)}
         options={materialOptions}
         onRowClick={(event, rowData) => {
           rowClickHandler(rowData)

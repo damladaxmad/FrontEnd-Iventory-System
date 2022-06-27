@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
-const server = require("../Inventory-Management-System/server.js")
+// const server = require("../Inventory-Management-System/server.js")
 
 require('@electron/remote/main').initialize()
 // require('electron-debug')();
@@ -26,7 +26,7 @@ function createWindow() {
       ? 'http://localhost:3000'
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
-  // win.removeMenu(true)
+  win.removeMenu(true)
 }
 
 app.on('ready', createWindow)
