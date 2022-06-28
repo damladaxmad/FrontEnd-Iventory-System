@@ -25,6 +25,7 @@ const Customers = (props) => {
   const [assignMany, setAssignMany] = useState(false)
   const [CustomerIds, setCustomersIds] = useState('')
   const [customerTransactions, setCustomerTransactions] = useState()
+  const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
@@ -97,6 +98,8 @@ const Customers = (props) => {
         alert(err.message);
       });
     dispatch(setCustomers(response.data.data.customers));
+    if (response.data.data.products.length < 1)
+    setState("No customers to display!")
     } else {
       const response = await axios
       .get("http://127.0.0.1:80/api/v1/customers")
@@ -104,14 +107,17 @@ const Customers = (props) => {
         alert(err.message);
       });
     dispatch(setCustomers(response.data.data.customers));
-    }
+    if (response.data.data.customers?.length < 1)
+    setState("No customers to display!")
+  }
+  
 
   };
 
-  useEffect(() => {
-    // if (students.length > 0) return
-    fetchCustomers(status);
-  }, [ignored, status]);
+  // useEffect(() => {
+  //   // if (students.length > 0) return
+  //   fetchCustomers(status);
+  // }, [ignored]);
 
 
   let customersIds = '';
@@ -140,10 +146,12 @@ const Customers = (props) => {
     setUpdate(false)
     setForce(state => state + 1)
   }
+  
 
   useEffect(()=> {
+    setState("Loading...")
     fetchCustomers(status)
-  }, [force])
+  }, [force, ignored])
 
   const showProfileHandler = (data) => {
     setShowProfile(true)
@@ -262,7 +270,8 @@ const Customers = (props) => {
       </div>}
       {!newCustomers && !showProfile && <CustomersTable data={handler(customers)} 
       change = {changeHandler} selectCustomers = {selectHandler}
-      update = {updateHandler} showProfile = {showProfileHandler}/>}
+      update = {updateHandler} showProfile = {showProfileHandler}
+      state = {state} />}
       {newCustomers && <RegisterCustomers update = {update}
       customer = {updatedCustomer} reset = {resetFomr}/>}
       {showProfile && <CustomerSales customer = {customerTransactions}/>}

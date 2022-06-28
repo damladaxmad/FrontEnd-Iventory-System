@@ -23,6 +23,7 @@ const Emplooyees = () => {
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [emplyeeIds, setEmployeesIds] = useState('')
+  const [state, setState] = useState("")
   const activeUser = useSelector(state => state.activeUser.activeUser)
   
 
@@ -93,13 +94,15 @@ const Emplooyees = () => {
       });
 
     dispatch(setEmployees(response.data.data.employees)); 
+    if (response.data.data.employees?.length < 1)
+    setState("No employees to display!")
 
   };
 
-  useEffect(() => {
-    // if (students.length > 0) return
-    fetchEmpoloyees();
-  }, [ignored, status]);
+  // useEffect(() => {
+  //   // if (students.length > 0) return
+  //   fetchEmpoloyees();
+  // }, [ignored, status]);
 
   let employeesIds = '';
   const selectHandler = (data) => {
@@ -129,8 +132,9 @@ const Emplooyees = () => {
   }
 
   useEffect(()=> {
+    setState("Loading...")
     fetchEmpoloyees()
-  }, [force])
+  }, [force, ignored])
 
   const showProfileHandler = () => {
     setShowProfile(true)
@@ -229,7 +233,8 @@ const Emplooyees = () => {
       </div>}
       {!newEmployees && !showProfile && <EmployeesTable data={handler(employees)} 
       change = {changeHandler} selectEmpoloyees = {selectHandler}
-      update = {updateHandler} showProfile = {showProfileHandler}/>}
+      update = {updateHandler} showProfile = {showProfileHandler}
+      state = {state}/>}
       {newEmployees && <RegisterEmployees update = {update}
       empoloyee = {updatedEmployee} reset = {resetFomr}/>}
 

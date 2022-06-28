@@ -64,6 +64,8 @@ const EmployeesTable = (props) => {
     props.showProfile()
   }
 
+  let state = props.state
+
 
   return (
     <div style={{ width: "95%", margin: "auto" }}>
@@ -98,6 +100,13 @@ const EmployeesTable = (props) => {
       <MaterialTable
         columns={columns}
         data={props.data}
+        localization={{
+          body: {
+              emptyDataSourceMessage: (
+                  state
+              ),
+          },
+      }}
         options={{
           rowStyle: {},
           showTitle: false,

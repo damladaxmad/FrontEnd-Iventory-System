@@ -92,7 +92,7 @@ const RegisterStudents = (props) => {
   const parentDivStyle = { height: "100%", width: "95%",
     margin: "0px auto", marginTop: "20px", display: "flex",
     gap: "14px", background: "white", flexDirection: "column",
-    borderRadius: "10px", padding: "16px",
+    borderRadius: "10px", padding: "28px",
   }
   
   const selectStyle = {  height: "50px", color: "#B9B9B9",

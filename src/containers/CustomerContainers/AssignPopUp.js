@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Login = (props) => {
 
   const activeUser = useSelector(state => state.activeUser.activeUser)
-
+  const [disabled, setDisabled] = useState(false)
   const [usernameOrPasswordError, setUsernameOrPasswordError] = useState('')
   const loginArr = [
     { label: "Enter Amount", type: "number", name: "credit" },
@@ -21,10 +21,6 @@ const Login = (props) => {
 
     if (!values.credit) {
       errors.credit = "Field is Required";
-    }
-
-    if (!values.description) {
-      errors.description = "Field is Required";
     }
     return errors;
   };
@@ -47,14 +43,17 @@ const Login = (props) => {
       // if (response.data.authenticated == true) {
       //   props.showHandler()
       // }
+      setDisabled(true)
 
       const res = await axios.post(`http://127.0.0.1:80/api/v1/transactions`, values).then(()=> {
         props.hideModal()
         alert("Succesfully Paid")
+        setDisabled(false)
       }
       ).catch(()=> {
         props.hideModal()
         alert("Failed")
+        setDisabled(false)
       }
       )
     },
@@ -97,10 +96,11 @@ const Login = (props) => {
       ))}
 
       <button
+        disabled = {disabled}
         style={{
           width: "290px",
           fontSize: "20px",
-          backgroundColor: "#2F49D1",
+          backgroundColor: disabled ? "lightgrey" : "#2F49D1",
           fontWeight: "600",
           color: "white",
           height: "40px",

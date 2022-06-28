@@ -21,7 +21,6 @@ const ProductsTable = (props) => {
     { title: "Unit Measurment", field: "unitMeasurment" ,},
     { title: "Unit Price", field: "unitPrice"},
     { title: "Sale Price", field: "salePrice"},
-    // { title: "Quantity", field: "quantity"},
     
   ];
 
@@ -67,6 +66,9 @@ const ProductsTable = (props) => {
     props.showProfile()
   }
 
+  let state = props.state
+
+
   useEffect(()=> {
 
   }, [props, force])
@@ -100,6 +102,13 @@ const ProductsTable = (props) => {
       <MaterialTable
         columns={columns}
         data={props.data}
+        localization={{
+          body: {
+              emptyDataSourceMessage: (
+                  state
+              ),
+          },
+      }}
         options={{
           rowStyle: {},
           showTitle: false,

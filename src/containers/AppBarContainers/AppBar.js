@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import femaleProfile from "../../assets/images/profileDrawer.jpg";
+import femaleProfile from "../../assets/images/sampleProfile.png";
 import maleProfile from "../../assets/images/blueProfile.webp"
 import { Button, MenuItem, Menu, ListItemIcon, IconButton, Tooltip} from "@material-ui/core"
 import { useSelector, useDispatch } from "react-redux";

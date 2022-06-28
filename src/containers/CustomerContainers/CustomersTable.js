@@ -83,6 +83,8 @@ const CustomersTable = (props) => {
     props.showProfile(customer)
   }
 
+  let state = props.state
+
 
   return (
     <div style={{ width: "95%", margin: "auto" }}>
@@ -117,6 +119,15 @@ const CustomersTable = (props) => {
       <MaterialTable
         columns={columns}
         data={props.data}
+
+        localization={{
+          body: {
+              emptyDataSourceMessage: (
+                  state
+              ),
+          },
+      }}
+
         options={{
           rowStyle: {},
           showTitle: false,

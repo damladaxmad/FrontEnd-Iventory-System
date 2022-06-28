@@ -25,6 +25,7 @@ const Products = () => {
   const [assignMany, setAssignMany] = useState(false)
   const [productIds, setProductsIds] = useState('')
   const [force, setForce] = useState(1)
+  const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, product) => {
@@ -90,13 +91,10 @@ const Products = () => {
       .catch((err) => {
         alert(err.message);
       });
-    dispatch(setProducts(response.data.data.products));   
+      if (response.data.data.products.length < 1)
+    setState("No products to display!") 
+    dispatch(setProducts(response.data.data.products));
   };
-
-  useEffect(() => {
-    // if (students.length > 0) return
-    fetchProducts();
-  }, [ignored]);
 
   let productsIds = '';
   const selectHandler = (data) => {
@@ -126,6 +124,7 @@ const Products = () => {
   }
 
   useEffect(()=> {
+    setState("Loading")
     fetchProducts()
   }, [force])
 
@@ -227,7 +226,8 @@ const Products = () => {
       </div>}
       {!newProducts && !showProfile && <ProductsTable data={handler(products)} 
       change = {changeHandler} selectProducts = {selectHandler}
-      update = {updateHandler} showProfile = {showProfileHandler}/>}
+      update = {updateHandler} showProfile = {showProfileHandler}
+      state = {state}/>}
       {newProducts && <RegisterProducts update = {update}
       product = {updatedProduct} reset = {resetFomr}/>}
 

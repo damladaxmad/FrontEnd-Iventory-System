@@ -88,7 +88,7 @@ const RegisterEmployees = (props) => {
         background: "white",
         flexDirection: "column",
         borderRadius: "10px",
-        padding: "16px",
+        padding: "28px",
       }}
     >
       <h2>Register Employee </h2>

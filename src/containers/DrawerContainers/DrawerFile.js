@@ -29,7 +29,7 @@ import {
   import { MdPointOfSale } from "react-icons/md"; 
   import { FaHouseUser } from "react-icons/fa"; 
   import { HiOutlineDocumentReport } from "react-icons/hi";
- 
+  import femaleProfile from "../../assets/images/sampleProfile.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
   
@@ -162,7 +162,7 @@ return (
         >
           <Avatar style={{ backgroundColor: "white", color: "orange" }}>
             <img
-              src={companyInfo?.imageURl}
+              src={companyInfo ? companyInfo?.imageURl : femaleProfile}
               style={{
                 width: "100%",
                 height: "100%",
@@ -170,7 +170,7 @@ return (
             />
           </Avatar>
           <Typography variant="h5" className={classes.title}>
-            {companyInfo?.name.substring(0, 13)}{companyInfo?.name.length <= 12 ? null : "..."}
+            {companyInfo ? companyInfo?.name.substring(0, 13) : "Company Name"}{companyInfo ? companyInfo?.name.length <= 12 ? null : "..." : null}
           </Typography>
           <MdMenuOpen
             style={{

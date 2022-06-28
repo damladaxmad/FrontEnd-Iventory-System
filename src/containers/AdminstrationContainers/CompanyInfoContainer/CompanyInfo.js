@@ -49,7 +49,7 @@ const CompanyInfo = () => {
 
   useEffect(()=>{
     setData(companyInfo)
-  }, [CompanyInfo])
+  }, [companyInfo])
   
     return (
         <div style={parentDivStyle}>
