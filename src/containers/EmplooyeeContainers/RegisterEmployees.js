@@ -37,7 +37,7 @@ const RegisterEmployees = (props) => {
     ) {
       errors.sex = "No qaniis allowed";
     }
-    if (!values.salary) {
+    if (!values.salary && values.salary != 0) {
       errors.monthlyFee = "Field is Required";
     }
 
@@ -54,9 +54,10 @@ const RegisterEmployees = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
+      console.log(props.empoloyee._id)
       if (props.update){
         axios.patch(`http://127.0.0.1:80/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
-          alert("Successfully  Updated")
+          alert("Successfully Updated")
         }).catch((err) => {
           alert("Couldn't update Employee")
         });

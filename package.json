@@ -44,6 +44,12 @@
       "node_modules/**/*",
       "package.json"
     ],
+    "extraResources": [
+      {
+          "from": "Inventory-Management-System",
+          "to": "Inventory-Management-System"
+      }
+  ],
    
     "directories": {
       "buildResources": "assets"

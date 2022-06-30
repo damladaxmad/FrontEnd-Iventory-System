@@ -8,6 +8,7 @@ import { setUsers } from "../../../redux/actions/usersActions";
 
 const Users = () => {
   const dispatch = useDispatch();
+  const [state, setState] = useState('')
 
   const parentDivStyle = { display: "flex", alignItems: "center",
     justifyContent: "space-between",  gap: "0px", padding: "20px",
@@ -44,6 +45,8 @@ const Users = () => {
         console.log("Err: ", err);
       });
     dispatch(setUsers(response.data.data.users));
+    if (response.data.data.users?.length < 1)
+    setState("No users to display!")
   };
 
   const handler = (data) => { 
@@ -59,6 +62,7 @@ const Users = () => {
   };
 
   useEffect(()=> {
+    setState('Loading...')
     fetchUsers()
   }, [force])
 
@@ -110,7 +114,7 @@ const Users = () => {
 
   </div>
       <UsersTable data = {handler(users)}
-      change = {change}/>
+      change = {change}state =  {state}/>
       </>
 
   )

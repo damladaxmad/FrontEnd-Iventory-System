@@ -11,7 +11,6 @@ const Login = (props) => {
   const [usernameOrPasswordError, setUsernameOrPasswordError] = useState('')
   const loginArr = [
     { label: "Enter Amount", type: "number", name: "credit" },
-    { label: "Enter Description", type: "text", name: "description" },
   ];
 
   const errorStyle = { color: "red", marginLeft: "27px", fontSize: "16px"}
@@ -28,7 +27,6 @@ const Login = (props) => {
   const formik = useFormik({
     initialValues: {
       credit: "",
-      description: "",
     },
     validate,
     onSubmit: async (values, { resetForm }) =>  {

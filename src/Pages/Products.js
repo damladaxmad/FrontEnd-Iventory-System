@@ -124,7 +124,7 @@ const Products = () => {
   }
 
   useEffect(()=> {
-    setState("Loading")
+    setState("Loading...")
     fetchProducts()
   }, [force])
 

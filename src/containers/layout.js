@@ -20,22 +20,25 @@ const useStyles = makeStyles((theme) => {
   return {
     page: {
       background: "#F0F2FA",
-      width: "100%",
-      marginTop: "90px"
+      width: "90%",
+      marginTop: "90px",
+      marginBottom: "50px"
     },
     toolbar: {
-      
+      display: "flex",
+      flexDirection: "column"
     },
     root: {
       display: "flex",
+      width: "100%"
     },
     drawer: {
-      width: drawerWidth,
+      width: "50%",
       marginTop: "10px",
     },
 
     drawerPaper: {
-      width: drawerWidth,
+      width: "50%",
       color: "#FFFFFF",
       fontSize: "5px",
       background: "#0061F7",
@@ -100,13 +103,13 @@ const Layout = ({ children }) => {
           {children}  
           {show && <h2 style={{margin:"-5px 30px",}}>
             Hello {activeUser.name},  Welcome Back!!</h2>}
-          <Divider
+          {/* <Divider
             style={{
               backgroundColor: "#E0E1EA",
               marginTop: "40px",
             }}
-          />
-          <Footer /> 
+          /> */}
+          {/* <Footer />  */}
          
         </div>
       </div>

@@ -18,6 +18,7 @@ const CustomersTable = (props) => {
   const columns = [
    
     { title: "Customer Name", field: "name" , width: "8%",},
+    { title: "Phone", field: "phone" },
     {
       title: "Deadline",
       field: "date",
@@ -27,8 +28,6 @@ const CustomersTable = (props) => {
       },
       
     },
-    { title: "Sex", field: "sex" },
-    { title: "email", field: "email" },
     // { title: "Deadline", field: "deadline" },   
     { title: "Balance", field: "balance" },
     { title: "Stutus", field: "status", render: (row)=> <div style={{
@@ -39,7 +38,7 @@ const CustomersTable = (props) => {
     : row.status == "Clear" ? "white" : "#5887FF"}}>
     <Typography style = {{textAlign: "center", fontSize: "12px"}}> {row.status} </Typography>
   </div> },
-    { title: "Phone", field: "phone" },
+
     
   ];
 

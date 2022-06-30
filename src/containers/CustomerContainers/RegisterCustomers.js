@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 const RegisterStudents = (props) => {
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
-    { label: "Enter Email", type: "gmail", name: "email" },
     { label: "Enter Phone", type: "text", name: "phone" },
     { label: "", type: "date", name: "deadline" },
   ];
@@ -31,17 +30,8 @@ const RegisterStudents = (props) => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.email) {
-      errors.email = "Field is Required";
-    } else if (values.email.length < 4) {
-      errors.email = "Must be 5 characters or more";
-    }
     if (!values.name) {
       errors.name = "Field is Required";
-    }
-  
-    if (!values.phone) {
-      errors.phone = "Field is Required";
     }
 
     return errors;
@@ -49,11 +39,7 @@ const RegisterStudents = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      email: props.update ? props.customer.email : "",
       name: props.update ? props.customer.name : "",
-      sex: props.update ? props.customer.sex : "",
-      city: props.update ? props.customer.city : "",
-      parent: props.update ? props.customer.parent : "",
       phone: props.update ? props.customer.phone : "",
       deadline: props.update ? props.customer.deadline : "",
     },

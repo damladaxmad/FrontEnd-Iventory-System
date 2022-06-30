@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
-// const server = require("../Inventory-Management-System/server.js")
+// const server = require(path.join(process.resourcesPath, "Inventory-Management-System/server.js"))
 
 require('@electron/remote/main').initialize()
 // require('electron-debug')();
@@ -13,11 +13,14 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1920,
     height: 920,
-    resizable: false,
+    // width: "100%",
+    // height: "100%",
+    show: false,
+    // resizable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      preload: null,
+      preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
     }
   })
 
@@ -26,7 +29,9 @@ function createWindow() {
       ? 'http://localhost:3000'
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
+  win.maximize()
   win.removeMenu(true)
+
 }
 
 app.on('ready', createWindow)

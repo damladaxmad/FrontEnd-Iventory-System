@@ -17,8 +17,6 @@ const ProductsTable = (props) => {
   const columns = [
    
     { title: "Product Name", field: "name" , width: "8%",},
-    { title: "Category", field: "category" ,},
-    { title: "Unit Measurment", field: "unitMeasurment" ,},
     { title: "Unit Price", field: "unitPrice"},
     { title: "Sale Price", field: "salePrice"},
     

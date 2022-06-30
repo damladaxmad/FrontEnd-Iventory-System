@@ -90,7 +90,7 @@ const Emplooyees = () => {
       const response = await axios
       .get("http://127.0.0.1:80/api/v1/employees")
       .catch((err) => {
-        console.log("Err: ", err);
+        alert(err.message);
       });
 
     dispatch(setEmployees(response.data.data.employees)); 
@@ -98,11 +98,6 @@ const Emplooyees = () => {
     setState("No employees to display!")
 
   };
-
-  // useEffect(() => {
-  //   // if (students.length > 0) return
-  //   fetchEmpoloyees();
-  // }, [ignored, status]);
 
   let employeesIds = '';
   const selectHandler = (data) => {

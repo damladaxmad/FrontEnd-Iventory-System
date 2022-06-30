@@ -9,8 +9,6 @@ import { TextField, Select, Button } from "@mui/material";
 const RegisterStudents = (props) => {
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
-    { label: "Enter Category", type: "text", name: "category" },
-    { label: "Enter Measurment", type: "text", name: "unitMeasurment" },
     { label: "Enter Unit Price", type: "number", name: "unitPrice" },
     { label: "Enter Sales Price", type: "number", name: "salePrice" },
   ];
@@ -32,9 +30,6 @@ const RegisterStudents = (props) => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.category) {
-      errors.category = "Field is Required";
-    } 
     if (!values.name) {
       errors.name = "Field is Required";
     }
@@ -43,9 +38,6 @@ const RegisterStudents = (props) => {
     //   errors.quantity = "Field is Required";
     // }
 
-    if (!values.unitMeasurment) {
-      errors.unitMeateacher = "Field is Required";
-    } 
     if (!values.unitPrice) {
       errors.unitPrice = "Field is Required";
     }
@@ -60,11 +52,9 @@ const RegisterStudents = (props) => {
   const formik = useFormik({
     initialValues: {
       name: props.update ? props.product.name : "",
-      unitMeasurment: props.update ? props.product.unitMeasurment : "",
       salePrice: props.update ? props.product.salePrice : "",
       quantity: props.update ? props.product.quantity : "",
       unitPrice: props.update ? props.product.unitPrice : "",
-      category: props.update ? props.product.category : "",
     },
     validate,
     onSubmit: (values, { resetForm }) => {

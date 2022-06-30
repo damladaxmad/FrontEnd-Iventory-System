@@ -1,8 +1,7 @@
 import React from "react";
 import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
 import { Divider,  } from "@material-ui/core";
-// import {Avatar} from "@mui/material"
-
+import femaleProfile from "../../assets/images/sampleProfile.png";
 import MaterialTable from "material-table";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -92,7 +91,7 @@ const CustomerSales = (props) => {
         >
          
             <img
-              src={companyInfo.imageURl}
+              src={companyInfo ? companyInfo.imageURl : femaleProfile}
               style={{
                 width: "150px",
                 height: "150px",
@@ -127,16 +126,7 @@ const CustomerSales = (props) => {
               <p> {props.customer.phone}</p>
             </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <p style={{ fontWeight: "700" }}> Customer Address:</p>
-              <p> {props.customer.nationality}</p>
-            </div>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <p style={{ fontWeight: "700" }}> Customer Email:</p>
-              <p> {props.customer.email}</p>
-            </div>
-          </div>
+        
         </div>
 
         <MaterialTable

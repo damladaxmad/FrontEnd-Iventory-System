@@ -114,12 +114,6 @@ const Customers = (props) => {
 
   };
 
-  // useEffect(() => {
-  //   // if (students.length > 0) return
-  //   fetchCustomers(status);
-  // }, [ignored]);
-
-
   let customersIds = '';
   const selectHandler = (data) => {
     data.map((d)=> {

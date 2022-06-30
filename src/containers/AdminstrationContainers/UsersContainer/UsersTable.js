@@ -60,7 +60,7 @@ const UsersTable = (props) => {
     // props.change()
   };
 
-
+  let state = props.state
 
   return (
     <div style={{ width: "98%", margin: "auto" }}>
@@ -101,6 +101,13 @@ const UsersTable = (props) => {
         data={props.data}
         options={materialOptions}
         // onSelectionChange={(rows) => selectionHandler(rows)}
+        localization={{
+          body: {
+              emptyDataSourceMessage: (
+                  state
+              ),
+          },
+      }}
         actions={[
           {
             icon: () => <BiDotsHorizontalRounded 
