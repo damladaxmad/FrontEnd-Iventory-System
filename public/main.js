@@ -6,8 +6,7 @@ const isDev = require('electron-is-dev')
 // const server = require(path.join(process.resourcesPath, "Inventory-Management-System/server.js"))
 
 require('@electron/remote/main').initialize()
-// require('electron-debug')();
-// console.log(`cwd : ${process.cwd()} , dir : ${__dirname} resourcePath: ${process.resourcesPath}`)
+
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -30,7 +29,7 @@ function createWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
   win.maximize()
-  win.removeMenu(true)
+  // win.removeMenu(true)
 
 }
 

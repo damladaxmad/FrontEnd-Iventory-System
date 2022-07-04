@@ -2,16 +2,20 @@ import MaterialTable from "material-table";
 import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import axios from "axios";
+import {Tabs, Tab, Box} from "@mui/material"
 import React, { useEffect, useState } from "react";
 import {useSelector, useDispatch } from "react-redux";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select, TextField} from "@mui/material"
 import { BiDotsHorizontalRounded } from "react-icons/bi"; 
+import { VscDiffAdded } from "react-icons/vsc"; 
 import CloseIcon from "@material-ui/icons/Close";
 import SalesTable from "../containers/SalesContainers/SalesTable";
 import BrowseSales from "../containers/SalesContainers/BrowseSales";
 import { setCustomers } from "../redux/actions/customersActions";
 import { setOrderList } from "../redux/actions/orderListActions";
+import CreateCustomer from "../containers/SalesContainers/CreateCustomer";
+import SalesReport from "../containers/SalesContainers/SalesReport";
 
 function Sales() {
   const dispatch = useDispatch()
@@ -20,9 +24,11 @@ function Sales() {
   const statusArr = ["cash", "invoice"]
   const [status, setStatus] = useState();
   const [data, setData] = useState([])
+  const [createCustomer, setCreateCustomer] = useState(false)
+  const [force, setForce] = useState(1)
 
   const selectStyle = {   color: "#B9B9B9",
-  width: "270px", }
+  width: "100%", }
 
   const fetchCustomers = async () => {
     const response = await axios
@@ -33,14 +39,16 @@ function Sales() {
     dispatch(setCustomers(response.data.data.customers));
   }
 
-  useEffect(()=> {
-    fetchCustomers()
-  },[])
-
   const customers = useSelector(state => state.customers.customers)
   const orderList = useSelector(state => state.orderList.orderList)
   const [customer, setCustomer] = useState()
+  const activeUser = useSelector(state => state.activeUser.activeUser)
   const [total, setTotal] = useState(0)
+  const [value, setValue] = React.useState("New Order");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   const statusHandler = (e) => {
     setStatus(e.target.value)
@@ -55,10 +63,11 @@ function Sales() {
 
   const hideModal = () => {
     setShow(false)
+    setCreateCustomer(false)
+    setForce(state => state + 1)
   }
 
   const dataHandler = (data) => {
-    console.log(`this is the json ${data}`)
     setData(arr => [...arr, data] )
   }
   
@@ -69,9 +78,17 @@ function Sales() {
     setTotal(t)
   }
 
+  const addHandler = () => {
+    setCreateCustomer(true)
+  }
+
 
   useEffect(()=> {
   }, [orderList])
+
+  useEffect(()=> {
+    fetchCustomers()
+  },[force])
 
   return (
     <div
@@ -85,17 +102,75 @@ function Sales() {
         flexDirection: "column",
       }}
     >
-        <h2 style={{fontWeight: "700"}}> New Order</h2>
+             <Box sx={{ width: "80%" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="black"
+            indicatorColor="primary"
+            aria-label="secondary tabs example"
+            disableFocusRipple = {true}
+          >
+
+          {activeUser.privillages.includes("New Order") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value="New Order" label="New Order"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
+
+          {activeUser.privillages?.includes("Sales Report") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value="Sales" label="Sales"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
+          </Tabs>
+        </Box>
 
         {show && <BrowseSales hideModal = {hideModal}
         data = {dataHandler}/>}
+        {createCustomer && <CreateCustomer hideModal = {hideModal}/>}
+        {value == "Sales" && <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          gap: "20px",
+          padding: "15px 20px",
+          background: "white",
+          width: "85%",
+          margin: "auto",
+          marginTop: "20px",
+          borderRadius: "8px 8px 0px 0px",
+        }}
+      >
+        <TextField
+          size="small"
+          type="date"
+          placeholder="Search"
+          style={{
+            width: "300px",
+          }}
+          // onChange={(e) => setQuery(e.target.value)}
+        />
+         <TextField
+          size="small"
+          type="date"
+          placeholder="Search"
+          style={{
+            width: "300px",
+          }}
+          // onChange={(e) => setQuery(e.target.value)}
+        />
+
+      </div>} 
+     {value == "Sales" && <SalesReport/>}
      
-        <div style={{ display: "flex", gap: "0px",
+       {value == "New Order" && <div style={{ display: "flex", gap: "0px",
         justifyContent: "space-around", background: "white",
-        alignItems: "center",
+        alignItems: "center", width: "100%",
         padding: "20px", borderRadius: '10px 10px 0px 0px', marginTop: "20px" }}>
         
-          <FormControl style={{ padding: "0px", margin: "0px" }}>
+          <FormControl style={{ padding: "0px", margin: "0px", width:"25%" }}>
           <TextField
             select
             style={selectStyle}
@@ -112,7 +187,7 @@ function Sales() {
             ))}
           </TextField>
           </FormControl>
-          <FormControl style={{ padding: "0px", margin: "0px" }}
+          <FormControl style={{ padding: "0px", margin: "0px", width:"25%" }}
           disabled = {status == "cash" ? true : false}>
         <TextField
             disabled = {status == "invoice" ? false : true}
@@ -131,11 +206,14 @@ function Sales() {
             ))}
           </TextField>
           </FormControl>
+          <VscDiffAdded style={{fontSize: "32px", color: "#EFF0F6",
+          cursor: "pointer", fontWeight: "700"}} 
+          onClick = {addHandler}/>
           <Button
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
-            color: "white", width: "200px",
+            color: "white", width: "25%",
             height: "50px", fontSize: "18px"
           }}
           onClick = {browseHandler}
@@ -143,14 +221,11 @@ function Sales() {
         >
           browse
         </Button>
-      {/* <p style={{margin: "0px", fontWeight: "bolder",
-        fontSize: "16px", background: "#F0F2FA", 
-        border: "1px solid #C7C7C7", padding: "8px 12px",
-        borderRadius: "6px"}}> ${total}.00</p> */}
-      </div>
 
-      <SalesTable data = {orderList} customer = {customer}
-      paymentType = {status} total = {totalHandler}/>
+      </div>}
+
+      { value == "New Order" && <SalesTable data = {orderList} customer = {customer}
+      paymentType = {status} total = {totalHandler}/>}
      
     
     </div>

@@ -14,6 +14,7 @@ import Sales from "./Pages/Sales";
 import { setCustomers } from "./redux/actions/customersActions";
 import Products from "./Pages/Products";
 import { setCompanyInfo } from "./redux/actions/companyInfoActions";
+import NewLayout from "./containers/NewLayout";
 
 const pages = [
 <Route path= "/dashboard" element = {<Dashboard/>} />,

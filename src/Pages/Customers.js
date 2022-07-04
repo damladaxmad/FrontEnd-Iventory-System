@@ -11,6 +11,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import RegisterCustomers from "../containers/CustomerContainers/RegisterCustomers";
 import { setCustomers } from "../redux/actions/customersActions";
 import CustomerSales from "../containers/CustomerContainers/CustomerSales";
+import CustomerDetails from "../containers/CustomerContainers/CustomerDetails";
 
 const Customers = (props) => {
   const [newCustomers, setNewCustomers] = useState(false)
@@ -27,6 +28,7 @@ const Customers = (props) => {
   const [customerTransactions, setCustomerTransactions] = useState()
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
+  const [sale, setSale] = useState(false)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
     setAnchorEl(event.currentTarget);
@@ -60,9 +62,11 @@ const Customers = (props) => {
       setNewCustomers(true)
       setButtonName("Go To Customers")
       setShowProfile(false)
+      setSale(false)
       return
     } else if (buttonName == "Go To Customers") {
       setShowProfile(false)
+      setSale(false)
       setNewCustomers(false)
       setButtonName("Add New Customers") 
       setUpdate(false)
@@ -82,8 +86,7 @@ const Customers = (props) => {
         return data.filter(
           (std) =>
           (std.status == status || status == "All") && (
-        std.name.toLowerCase().includes(query) ||
-        std.email.toLowerCase().includes(query)))
+        std.name.toLowerCase().includes(query) ))
       }
     } else {
       return
@@ -147,10 +150,25 @@ const Customers = (props) => {
     fetchCustomers(status)
   }, [force, ignored])
 
-  const showProfileHandler = (data) => {
-    setShowProfile(true)
-    setButtonName("Go To Customers")
-    setCustomerTransactions(data)
+  useEffect(()=> {
+    if (query != '') {
+      setState("No matching customers!")
+    }
+  }, [query])
+
+  const showProfileHandler = (data, type) => {
+    if (type == "Sale") {
+      setSale(true)
+      setShowProfile(false)
+      setButtonName("Go To Customers")
+      setCustomerTransactions(data)
+    }
+    if (type == "Transaction") {
+      setSale(false)
+      setShowProfile(true)
+      setButtonName("Go To Customers")
+      setCustomerTransactions(data)
+    }
   }
 
   const hideModal = () =>{
@@ -195,7 +213,7 @@ const Customers = (props) => {
             }
           }}
           startIcon={
-            newCustomers || showProfile ? <BiArrowBack
+            newCustomers || showProfile || sale ? <BiArrowBack
               style={{
                 color: "white",
               }}
@@ -209,7 +227,7 @@ const Customers = (props) => {
           {buttonName}
         </Button>
       </div>}
-      {!newCustomers && !showProfile &&
+      {!newCustomers && !showProfile && !sale &&
       <div
         style={{
           display: "flex",
@@ -262,13 +280,14 @@ const Customers = (props) => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!newCustomers && !showProfile && <CustomersTable data={handler(customers)} 
+      {!newCustomers && !showProfile && !sale && <CustomersTable data={handler(customers)} 
       change = {changeHandler} selectCustomers = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state} />}
       {newCustomers && <RegisterCustomers update = {update}
       customer = {updatedCustomer} reset = {resetFomr}/>}
       {showProfile && <CustomerSales customer = {customerTransactions}/>}
+      {sale && <CustomerDetails customer = {customerTransactions}/>}
 
       <Menu
         id="basic-menu"

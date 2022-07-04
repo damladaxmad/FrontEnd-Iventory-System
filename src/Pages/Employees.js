@@ -131,6 +131,12 @@ const Emplooyees = () => {
     fetchEmpoloyees()
   }, [force, ignored])
 
+    useEffect(()=> {
+    if (query != '') {
+      setState("No matching employees!")
+    }
+  }, [query])
+
   const showProfileHandler = () => {
     setShowProfile(true)
     setButtonName("Go To Empoloyees")

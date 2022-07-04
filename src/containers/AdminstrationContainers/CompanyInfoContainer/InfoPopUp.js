@@ -112,7 +112,7 @@ const InfoPopUp = (props) => {
         onSubmit={formik.handleSubmit}
         style={{ display: "flex", gap: "16px",
       flexDirection: "row", justifyContent: "center",
-    width: "80%", flexWrap: "wrap" }}
+    width: "100%", flexWrap: "wrap" }}
       >
         {arr.map((a, index) => (
           <div>

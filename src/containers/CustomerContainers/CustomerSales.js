@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
 import { Divider,  } from "@material-ui/core";
 import femaleProfile from "../../assets/images/sampleProfile.png";
 import MaterialTable from "material-table";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import InvoicePopUp from "./InvoicePopUp";
 
 const CustomerSales = (props) => {
 
   const companyInfo = useSelector(state => state.companyInfo.companyInfo)
+  const [show, setShow] = useState(false)
+  const [data, setData] = useState()
+
   const materialOptions = {
     showTitle: false,
     exportButton: true,
@@ -50,6 +54,13 @@ const CustomerSales = (props) => {
       ),
       cellStyle: { border: "none" },
     },
+    { title: "Invoice", field: "invoice", 
+    render: (data) => <p style={{cursor: "pointer",
+  color: "blue"}} onClick = {()=> {
+    setData(data?.sale?.products)
+    setShow(true)
+  }}> {data?.sale?.saleNumber}</p>,
+    cellStyle: { border: "none" } },
     {
       title: "Transaction Date",
       field: "date",
@@ -62,13 +73,19 @@ const CustomerSales = (props) => {
     { title: "User", field: "user", cellStyle: { border: "none" } },
     { title: "Debit", field: "debit", cellStyle: { border: "none" } },
     { title: "Credit", field: "credit", cellStyle: { border: "none" } },
-    { title: "Balance", field: "balance", cellStyle: { border: "none" } },
+    { title: "Balance", field: "balance", render: (data) => <p> R{data.balance}</p>
+    ,cellStyle: { border: "none" } },
   ];
 
+  const hideModal = () => {
+    setShow(false)
+  }
 
 
   return (
     <>
+    {show && <InvoicePopUp hideModal = {hideModal}
+    data = {data}/>}
       <div
         style={{
           background: "#F7F7F7",

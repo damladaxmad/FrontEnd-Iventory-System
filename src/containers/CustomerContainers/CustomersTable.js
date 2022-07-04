@@ -29,15 +29,12 @@ const CustomersTable = (props) => {
       
     },
     // { title: "Deadline", field: "deadline" },   
-    { title: "Balance", field: "balance" },
-    { title: "Stutus", field: "status", render: (row)=> <div style={{
-      backgroundColor: row.status === "Late" ? "#FFF7EB" :
-      row.status == "Clear" ? "#65a765" :  "#EEF3FF" ,
-      borderRadius: "100px",
-    padding: "1px 8px", color: row.status == "Late" ? "#FFAC32" 
-    : row.status == "Clear" ? "white" : "#5887FF"}}>
-    <Typography style = {{textAlign: "center", fontSize: "12px"}}> {row.status} </Typography>
-  </div> },
+    { title: "Balance", field: "balance", render: (data)=> <p>R{data.balance}</p> },
+    { title: "Stutus", field: "status", render: (row)=> <span
+    style={{color: row.status == "Late" ? "#FFAC32" 
+    : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
+      {row.status}
+    </span>},
 
     
   ];
@@ -78,8 +75,8 @@ const CustomersTable = (props) => {
     props.selectStudents(data)
   }
 
-  const showProfile = () => {
-    props.showProfile(customer)
+  const showProfile = (type) => {
+    props.showProfile(customer, type)
   }
 
   let state = props.state
@@ -111,9 +108,14 @@ const CustomersTable = (props) => {
           }}>Update Customer</MenuItem>
         <MenuItem onClick={() => {
           if (activeUser.privillages.includes("View Transactions"))
-          showProfile()
+          showProfile('Transaction')
           else alert("You have no access!")
           }}>View Transactions</MenuItem>
+        <MenuItem onClick={() => {
+          if (activeUser.privillages.includes("View Sales"))
+          showProfile("Sale")
+          else alert("You have no access!")
+          }}>View Sales</MenuItem>
       </Menu>
       <MaterialTable
         columns={columns}

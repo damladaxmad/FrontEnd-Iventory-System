@@ -128,6 +128,12 @@ const Products = () => {
     fetchProducts()
   }, [force])
 
+  useEffect(()=> {
+    if (query != '') {
+      setState("No matching products!")
+    }
+  }, [query])
+
   const showProfileHandler = () => {
     setShowProfile(true)
     setButtonName("Go To Products")

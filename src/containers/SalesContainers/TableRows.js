@@ -57,10 +57,10 @@ const TableRows = (props) => {
     }, [])
 
     return (
-  <div style={{display: "flex", gap:"30px", alignItems: "center"}}>
+  <div style={{display: "flex", gap:"30px", alignItems: "center", width: "100%"}}>
                 <div style={{
                 border: "1px solid #C7C7C7", padding: "8px",  borderRadius:"4px",
-                fontSize:"16px", width: "300px"}}> 
+                fontSize:"16px", width: "32.5%"}}> 
                 <p> {props.value.name}</p></div>
                 <input
                 name= "quantity"
@@ -68,7 +68,7 @@ const TableRows = (props) => {
                 onChange={(e)=>quantityHandler(e)}
                 value= {quantity}
                 style={{
-                  width: "140px",
+                  width: "15%",
                   height: "40px",
                   marginLeft: "30px",
                   padding: "15px",
@@ -83,7 +83,7 @@ const TableRows = (props) => {
                 onChange={(e)=>unitPriceHandler(e)}
                 value= {unitPrice}
                 style={{
-                  width: "140px",
+                  width: "15%",
                   height: "40px",
                   padding: "15px",
                   fontSize: "16px",
@@ -94,7 +94,7 @@ const TableRows = (props) => {
               /> 
               <div style={{background: "#F0F2FA",
               border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",
-              fontSize:"16px", width: "120px", marginLeft: "5px" }}>
+              fontSize:"16px", width: "15%", marginLeft: "5px" }}>
               <p> {!Number.isNaN(unitPrice*quantity) ? `R${unitPrice*quantity}` : 0}  </p></div>
               <CloseIcon style = {{fontSize: "24px", marginLeft: "40px",
                 cursor: "pointer"}} 

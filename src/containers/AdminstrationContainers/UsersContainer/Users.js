@@ -78,46 +78,13 @@ const Users = () => {
       style={searchStyle}
       onChange={(e) => setQuery(e.target.value)}
     />
-    <div style={{ display: "flex", gap: "20px", }}>
-    <FormControl style={{ padding: "0px", margin: "0px" }}>
-      <Select
-        style={selectStyle}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={status}
-        onChange={statusHandler}
-      >
-        {statusArr.map((status, index) => (
-          <MenuItem value={status} key={index}>
-            {status}
-          </MenuItem>
-        ))}
-      </Select>
-      </FormControl>
-      <FormControl style={{ padding: "0px", margin: "0px" }}>
-      <Select
-        style={selectStyle}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={status}
-        onChange={statusHandler}
-      >
-        {statusArr.map((status, index) => (
-          <MenuItem value={status} key={index}>
-            {status}
-          </MenuItem>
-        ))}
-      </Select>
-      </FormControl>
-
-    </div>
+   
 
   </div>
       <UsersTable data = {handler(users)}
       change = {change}state =  {state}/>
       </>
-
   )
-        }
+}
 
   export default Users

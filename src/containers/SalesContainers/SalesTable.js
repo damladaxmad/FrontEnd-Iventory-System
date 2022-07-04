@@ -93,7 +93,7 @@ const SalesTable = (props) => {
   }, [props.data, orderList])
 
     return (
-       <div>
+       <div style = {{width: "100%"}}>
 
           <div style={{display: "flex", width: "100%", height: "50px",
         display: "flex", justifyContent: "space-between", padding: "20px",

@@ -21,7 +21,7 @@ const EmployeesTable = (props) => {
     { title: "Email Address", field: "email" },
     { title: "Employee Role", field: "role" },
     { title: "Salary", field: "salary", render: (row)=> <p>
-      ${row.salary}
+      R{row.salary}
     </p> }
     
   ];

@@ -151,6 +151,7 @@ return (
         variant="permanent"
         classes={{ paper: classes.drawerPaper }}
         anchor="left"
+        open = {false}
       >
         <div
           style={{

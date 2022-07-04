@@ -48,7 +48,7 @@ const Access = () => {
    {
       name: "Sales",
       access: [
-        "Sales"
+        "Sales", "New Order", "Sales Report"
       ],
     },
     {

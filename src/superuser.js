@@ -26,6 +26,9 @@ module.exports = {
     "Delete User",
     "Company Info",
     "Setting",
+    "New Order",
+    "Sales Report",
+    "View Sales"
   ],
 };
 
