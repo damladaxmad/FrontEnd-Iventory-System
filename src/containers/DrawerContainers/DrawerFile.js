@@ -119,7 +119,7 @@ import { setIsLogin, setIsReports } from "../../redux/actions/isLoginActions";
         {
           text: "Sales",
           icon: <MdPointOfSale style={{ fontSize: "20px", color: "white" }} />,
-          path: "/classes",
+          path: "/sales",
         },
         {
           text: "Employees",

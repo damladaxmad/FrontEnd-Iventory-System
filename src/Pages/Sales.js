@@ -8,7 +8,7 @@ import {useSelector, useDispatch } from "react-redux";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select, TextField} from "@mui/material"
 import { BiDotsHorizontalRounded } from "react-icons/bi"; 
-import { VscDiffAdded } from "react-icons/vsc"; 
+import { AiOutlinePlus } from "react-icons/ai"; 
 import CloseIcon from "@material-ui/icons/Close";
 import SalesTable from "../containers/SalesContainers/SalesTable";
 import BrowseSales from "../containers/SalesContainers/BrowseSales";
@@ -187,9 +187,12 @@ function Sales() {
             ))}
           </TextField>
           </FormControl>
-          <FormControl style={{ padding: "0px", margin: "0px", width:"25%" }}
+          <FormControl style={{ padding: "0px", margin: "0px", width:"28%",
+          display: "flex", flexDirection: "row", alignItems: "center",
+        gap: "8px" }}
           disabled = {status == "cash" ? true : false}>
         <TextField
+            
             disabled = {status == "invoice" ? false : true}
             select
             style={selectStyle}
@@ -205,10 +208,17 @@ function Sales() {
               </MenuItem>
             ))}
           </TextField>
-          </FormControl>
-          <VscDiffAdded style={{fontSize: "32px", color: "#EFF0F6",
-          cursor: "pointer", fontWeight: "700"}} 
+          <div style={{height: "52px", width: "55px",
+          alignItems: "center", display: "flex", justifyContent: "center",
+          border: "2px solid #BDBDBD", borderRadius: "5px"}}>
+          <AiOutlinePlus style={{ color: "black",
+          cursor: "pointer", fontWeight: "700", fontSize: "25px",
+        fontWeight: "bolder"}} 
           onClick = {addHandler}/>
+          </div>
+          
+          </FormControl>
+        
           <Button
           variant="contained"
           style={{

@@ -23,6 +23,10 @@ import ListItemText from '@mui/material/ListItemText';
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdMenuOpen } from "react-icons/md"; 
 import { FiMenu } from "react-icons/fi"; 
+import AppBarFile from './AppBarContainers/AppBar';
+import femaleProfile from "../assets/images/sampleProfile.png";
+import { useSelector } from 'react-redux';
+import { Avatar } from '@mui/material';
 // import InboxIcon from '@mui/icons-material/MoveToInbox';
 
 const drawerWidth = 240;
@@ -43,6 +47,7 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
+  background: "#0061F7",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
@@ -61,6 +66,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  background: "white",
+  color: "black",
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -137,7 +144,7 @@ const menuItems = [
     {
       text: "Sales",
       icon: <MdPointOfSale style={{ fontSize: "20px", color: "white" }} />,
-      path: "/classes",
+      path: "/sales",
     },
     {
       text: "Employees",
@@ -158,6 +165,7 @@ export default function NewLayout({children}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -168,10 +176,13 @@ export default function NewLayout({children}) {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
+    <div style={{   display: "flex",
+    width: "100%" }}>
+      {/* <CssBaseline /> */}
+      <AppBar position="fixed" open={open}
+      >
+        <Toolbar 
+      style = {{display: "flex"}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -182,21 +193,49 @@ export default function NewLayout({children}) {
               ...(open && { display: 'none' }),
             }}
           >
-            <FiMenu />
+            <FiMenu style={{}}/>
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
+          <div style = {{marginLeft: "80%"}}>
+          <AppBarFile />
+          </div>
+          {/* <Typography variant="h6" noWrap component="div">
+            Racayaam Inventory System
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}
        classes={{ paper: classes.drawerPaper }}>
         <DrawerHeader>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingLeft: "10px",
+            gap: "12px"
+          }}
+        >
+          <Avatar style={{ backgroundColor: "white", color: "orange" }}>
+            <img
+              src={companyInfo ? companyInfo?.imageURl : femaleProfile}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </Avatar>
+          <Typography variant="h5" style = {{fontSize:"17px",
+        color: "white", fontWeight: "700"}}>
+            {companyInfo ? companyInfo?.name.substring(0, 13) : "Company Name"}{companyInfo ? companyInfo?.name.length <= 12 ? null : "..." : null}
+          </Typography>
+         
+       
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <MdMenuOpen 
             style={{color: "#80B0FB"}}/> : <MdMenuOpen 
             style={{color: "#80B0FB"}}/>}
           </IconButton>
+          </div>
         </DrawerHeader>
         <Divider />
         <List>
@@ -230,12 +269,10 @@ export default function NewLayout({children}) {
         </List>
       
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <div style = {{width: "1000px"}}>
+      <div style={{width: "90%", margin: "100px auto",
+       marginTop: "100px"}}>
         {children}
-        </div>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

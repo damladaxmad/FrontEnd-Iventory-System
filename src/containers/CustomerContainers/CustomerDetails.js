@@ -4,6 +4,7 @@ import { Typography } from "@mui/material"
 import MaterialTable from "material-table"
 
 const CustomerDetails = (props) => {
+
     return (
     <div>
         <div
@@ -53,8 +54,10 @@ const CustomerDetails = (props) => {
             <p style={{margin: "0px"}}> To July 7, 2022</p>
             </div>
 
-            <SaleComp/>
-            <SaleComp/>
+            {props.customer.transactions?.map(transaction => {
+              if (!transaction.sale) return
+              else return <SaleComp sale = {transaction.sale} />
+            })}
     </div>
       
     </div>
@@ -63,88 +66,87 @@ const CustomerDetails = (props) => {
 
 const SaleComp = (props) => {
 
-    const columns = [
-   
-        { title: "Product Name", field: "item", width: "4%",
-    cellStyle: {padding: "0px 30px"}},
-        { title: "Price", field: "price"},
-        { title: "Quantity", field: "quantity"},
-        { title: "Subtotal", field: "subtotal"},
-        
-      ];
+  const columns = [
+ 
+      { title: "Product Name", field: "item", width: "4%",
+  cellStyle: {padding: "0px 30px"}},
+      { title: "Quantity", field: "quantity"},
+      { title: "Price", field: "price", render: (data)=> <p>
+        R{data.price}
+      </p>},
+      { title: "Subtotal", field: "subtotal", render: (data)=> <p>
+      R{data.subtotal}
+    </p>},
+      
+    ];
 
-      const data = [
-        {item: "Samsung Galaxy J3", price: 20, quantity: 5, subtotal: "$50"},
-        {item: "Samsung Galaxy J3", price: 20, quantity: 5, subtotal: "$50"},
-        {item: "Samsung Galaxy J3", price: 20, quantity: 5, subtotal: "$50"},
-    ]
-    return <div style = {{width:"100%", marginTop: "0px"}}>
-        <div style={{background: '#F0F2FA', padding: "5px 5px",
-         border: "1.5px solid black", display:"flex", borderRadius:"5px",
-         justifyContent: "space-around"}}> 
-            <Typography> SaleNumber: 12</Typography>
-            <Typography> Date: 2022/7/3</Typography>
-            <Typography> Type: Cash</Typography>
-            <Typography> Total: R200.0</Typography>
-        </div>
-        <MaterialTable
-        columns={columns}
-        data={data}
-    //     localization={{
-    //       body: {
-    //           emptyDataSourceMessage: (
-    //               state
-    //           ),
-    //       },
-    //   }}
-        options={{
-          rowStyle: {height: "2px"},
-          showTitle: false,
-          exportButton: true,
-          sorting: false,
-          paging: false,
-          hideHeader: true,
-          showTextRowsSelected: false,
-          toolbar: false,
-          pageSizeOptions: [2, 5, 8, 10, 20, 25, 50, 100],
-          pageSize: 8,
-          draggable: false,
-          rowStyle: {
-            height: "30px",
-            padding: "0px"
-          },
-          actionsColumnIndex: -1,
-          headerStyle: { display: "none"},
-        }}
-     
-        style={{boxShadow: "none", background: "white",
-    width: "70%" }}
-      />
-       <div
+  return <div style = {{width:"100%", marginTop: "0px"}}>
+      <div style={{background: '#F0F2FA', padding: "5px 5px",
+       border: "1.5px solid black", display:"flex", borderRadius:"5px",
+       justifyContent: "space-around"}}> 
+          <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
+          <Typography> Date: 2022/7/3</Typography>
+          <Typography> Type: {props.sale.paymentType}</Typography>
+          <Typography> Total: R{props.sale.total}</Typography>
+      </div>
+      <MaterialTable
+      columns={columns}
+      data={props.sale.products}
+  //     localization={{
+  //       body: {
+  //           emptyDataSourceMessage: (
+  //               state
+  //           ),
+  //       },
+  //   }}
+      options={{
+        rowStyle: {height: "2px"},
+        showTitle: false,
+        exportButton: true,
+        sorting: false,
+        paging: false,
+        hideHeader: true,
+        showTextRowsSelected: false,
+        toolbar: false,
+        pageSizeOptions: [2, 5, 8, 10, 20, 25, 50, 100],
+        pageSize: 8,
+        draggable: false,
+        rowStyle: {
+          height: "30px",
+          padding: "0px"
+        },
+        actionsColumnIndex: -1,
+        headerStyle: { display: "none"},
+      }}
+   
+      style={{boxShadow: "none", background: "white",
+  width: "70%" }}
+    />
+     <div
+      style={{
+        margin: "0px auto",
+        background: "white",
+        borderRadius: "0px 0px 10px 10px",
+        display: "flex",
+        fontSize: "16px",
+      //   alignSelf: "flex-end",
+        gap: "15px",
+      //   width: "95%"
+      }}
+    >
+      <p
         style={{
-          margin: "0px auto",
-          background: "white",
-          borderRadius: "0px 0px 10px 10px",
-          display: "flex",
-          fontSize: "16px",
-        //   alignSelf: "flex-end",
-          gap: "15px",
-        //   width: "95%"
+          margin: "0px",
+          fontWeight: "700",
+          marginLeft: "345px",
+          padding: "10px 0px",
         }}
       >
-        <p
-          style={{
-            margin: "0px",
-            fontWeight: "700",
-            marginLeft: "368px",
-            padding: "10px 0px",
-          }}
-        >
-          Total:
-        </p>
-        <p style={{ padding: "10px 0px" }}> R200.0</p>
-      </div>
+        Total:
+      </p>
+      <p style={{ padding: "10px 0px" }}> R{props.sale.total}</p>
     </div>
+  </div>
 }
 
 

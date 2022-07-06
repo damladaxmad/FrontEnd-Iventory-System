@@ -67,12 +67,13 @@ const AppBarFile = () => {
   }
 
   return (
-    <AppBar
-      position="fixed"
-      className={classes.appBar}
-      elevation={1}
-      color="primary"
-    >
+    // <AppBar
+    //   position="fixed"
+    //   className={classes.appBar}
+    //   elevation={1}
+    //   color="primary"
+    // >
+    <>
       {show && <EditProfile user = {activeUser} hideModal = {hideModal}/>}
       <Toolbar>
         <Typography className={classes.appBarTitle}></Typography>
@@ -145,7 +146,7 @@ const AppBarFile = () => {
           Logout
         </MenuItem>
       </Menu>
-    </AppBar>
+      </>
   );
 };
 

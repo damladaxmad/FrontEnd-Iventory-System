@@ -2,6 +2,7 @@ import { Typography } from "@mui/material"
 import MaterialTable from "material-table"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { Divider } from "@material-ui/core"
 
 const SalesReport = (props) => {
 
@@ -19,7 +20,7 @@ const SalesReport = (props) => {
   useEffect(()=> {
     fetchSales()
   }, [])
-    return <div style = {{alignSelf: "center", marginTop:"30px",
+    return <div style = {{alignSelf: "center", marginTop:"10px",
     display: "flex", alignItems: "center", flexDirection:"column",
     width: "85%", marginBottom: "30px", background: "white",
     padding: "30px 65px", gap: "10px"}}>
@@ -33,6 +34,8 @@ const SalesReport = (props) => {
             {sales?.map(sale => (
               <SaleComp sale = {sale} />
             ))}
+            <Divider orientation="horizantal" color = "white"/>
+            <h2> Hello world</h2>
            
     </div>
 
@@ -43,7 +46,7 @@ const SaleComp = (props) => {
     const columns = [
    
         { title: "Product Name", field: "item", width: "4%",
-    cellStyle: {padding: "0px 30px"}},
+    cellStyle: {padding: "0px 30px", height: "0px"}},
         { title: "Quantity", field: "quantity"},
         { title: "Price", field: "price", render: (data)=> <p>
           R{data.price}
@@ -55,7 +58,7 @@ const SaleComp = (props) => {
       ];
 
     return <div style = {{width:"100%", marginTop: "0px"}}>
-        <div style={{background: '#F0F2FA', padding: "5px 5px",
+        <div style={{background: '#F0F2FA', padding: "2px 5px",
          border: "1.5px solid black", display:"flex", borderRadius:"5px",
          justifyContent: "space-around"}}> 
             <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
@@ -92,6 +95,18 @@ const SaleComp = (props) => {
           actionsColumnIndex: -1,
           headerStyle: { display: "none"},
         }}
+
+        components={{
+          Row: props => {
+        return <div style={{display: "flex", justifyContent: "space-around", margin: "5px 0px",
+        borderBottom: "1px solid black", padding: "2px 20px"}}>
+          <p style={{margin: "0px", flex: 2}}> {props.data.item}</p>
+          <p style={{margin: "0px", flex: 1}}> {props.data.quantity}</p>
+          <p style={{margin: "0px", flex: 1}}> R{props.data.price}</p>
+          <p style={{margin: "0px", flex: 1}}> R{props.data.subtotal}</p>
+          </div>
+          },
+        }}
      
         style={{boxShadow: "none", background: "white",
     width: "70%" }}
@@ -113,12 +128,12 @@ const SaleComp = (props) => {
             margin: "0px",
             fontWeight: "700",
             marginLeft: "345px",
-            padding: "10px 0px",
+            padding: "5px 0px",
           }}
         >
           Total:
         </p>
-        <p style={{ padding: "10px 0px" }}> R{props.sale.total}</p>
+        <p style={{ padding: "5px 0px" }}> R{props.sale.total}</p>
       </div>
     </div>
 }

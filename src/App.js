@@ -17,13 +17,12 @@ import { setCompanyInfo } from "./redux/actions/companyInfoActions";
 import NewLayout from "./containers/NewLayout";
 
 const pages = [
-<Route path= "/dashboard" element = {<Dashboard/>} />,
- <Route path= "/customers" element = {<Customers/>} />,
-<Route path= "/products" element = {<Products/>} />,
-     <Route path= "/classes" element = {<Sales/>} />,
+     <Route path= "/dashboard" element = {<Dashboard/>} />,
+     <Route path= "/customers" element = {<Customers/>} />,
+     <Route path= "/products" element = {<Products/>} />,
+     <Route path= "/sales" element = {<Sales/>} />,
      <Route path= "/emplooyees" element = {<Employees/>} />,
-     <Route path= "/adminstration" element = {<Adminstration/>} />,
-     
+     <Route path= "/adminstration" element = {<Adminstration/>} />,    
 ]
 
 function App() {
@@ -74,13 +73,13 @@ function App() {
     {!showLayout && 
     <Route path= "/signup" element = {<SignupAndLogin
     showHandler = {showHandler}/>} />}
-      {showLayout && !showReports && <Layout>
+      {showLayout && !showReports && <NewLayout>
           <Routes>
             {pages.map(page => (
               page
             ))}
           </Routes>
-        </Layout>}
+        </NewLayout>}
       </Router>
     </div>
          
