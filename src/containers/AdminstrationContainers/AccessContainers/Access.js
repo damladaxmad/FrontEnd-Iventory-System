@@ -24,7 +24,7 @@ const parentDivStyle = {
   flexDirection: "column",
 };
 
-const selectStyle = { height: "40px", color: "#B9B9B9", width: "250px" };
+const selectStyle = { height: "40px", color: "#B9B9B9", width: "100%" };
 
 const Access = () => {
   const users = useSelector((state) => state.users.users);
@@ -49,6 +49,19 @@ const Access = () => {
       name: "Sales",
       access: [
         "Sales", "New Order", "Sales Report"
+      ],
+    },
+   {
+      name: "Purchases",
+      access: [
+        "Purchases", "New Purchase", "Purchase Report"
+      ],
+    },
+   {
+      name: "Vendors",
+      access: [
+        "Vendors", "Add New Vendors", "View Transactions",
+        "Update Vendor", "Payment"
       ],
     },
     {
@@ -188,7 +201,7 @@ const Access = () => {
           padding: "20px",
         }}
       >
-        <FormControl>
+        <FormControl style = {{width: "25%"}}>
           {/* <InputLabel>Gender</InputLabel> */}
 
           <Select
@@ -206,7 +219,7 @@ const Access = () => {
           </Select>
         </FormControl>
 
-        <FormControl>
+        <FormControl style = {{width: "25%"}}>
           {/* <InputLabel>Gender</InputLabel> */}
 
           <Select
@@ -242,7 +255,7 @@ const Access = () => {
             fontSize: "18px",
             fontWeight: "550",
             color: "white",
-            width: "150px",
+            width: "25%",
             height: "40px",
           }}
           onClick={saveHandler}

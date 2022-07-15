@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveUser } from "../redux/actions/activeUseActions";
-import { setIsLogin } from "../redux/actions/isLoginActions";
-import superuser from '../superuser'
-import { Button } from "@mui/material";
+import MyModal from "../../Modal/Modal"
+import { useSelector } from "react-redux";
 
 const Login = (props) => {
-  const dispatch = useDispatch()
-  const isConnected = useSelector(state => state.isLogin.isConnected)
+
+  const activeUser = useSelector(state => state.activeUser.activeUser)
+  const [disabled, setDisabled] = useState(false)
   const [usernameOrPasswordError, setUsernameOrPasswordError] = useState('')
   const loginArr = [
-    { label: "Enter Username", type: "text", name: "userName" },
-    { label: "Enter Password", type: "password", name: "password" },
+    { label: "Enter Amount", type: "number", name: "credit" },
   ];
 
   const errorStyle = { color: "red", marginLeft: "27px", fontSize: "16px"}
@@ -21,47 +18,54 @@ const Login = (props) => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values.userName) {
-      errors.userName = "Field is Required";
-    }
-
-    if (!values.password) {
-      errors.password = "Field is Required";
+    if (!values.credit) {
+      errors.credit = "Field is Required";
     }
     return errors;
   };
 
   const formik = useFormik({
     initialValues: {
-      userName: "",
-      password: "",
+      credit: "",
     },
     validate,
     onSubmit: async (values, { resetForm }) =>  {
-      if(values.userName=="superuser" && values.password == "234"){
-        props.showHandler()
-        dispatch(setActiveUser(superuser))
-        dispatch(setIsLogin(true))
-        return
+      values.type = "Payment"
+      values.vendor = props.vendor._id
+      values.user = activeUser.name
+      // const response = await axios
+      // .get(`/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
+      // .catch((err) => {
+      //   setUsernameOrPasswordError("error")
+      // });
+      // if (response.data.authenticated == true) {
+      //   props.showHandler()
+      // }
+      setDisabled(true)
+
+      const res = await axios.post(`http://127.0.0.1:80/api/v1/transactions`, values).then(()=> {
+        props.hideModal()
+        alert("Succesfully Paid")
+        setDisabled(false)
       }
-      const response = await axios
-      .get(`http://127.0.0.1:80/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
-      .catch((err) => {
-        setUsernameOrPasswordError("error")
-      });
-      if (response.data.authenticated == true) {
-        props.showHandler()
-        dispatch(setActiveUser(response.data.user))
-        dispatch(setIsLogin(true))
+      ).catch(()=> {
+        props.hideModal()
+        console.log(values)
+        alert("Failed")
+        setDisabled(false)
       }
+      )
     },
   });
 
   return (
+    <MyModal onClose = {props.hideModal} width = "300px">
     <form
       onSubmit={formik.handleSubmit}
       style={{ display: "flex", gap: "16px", flexWrap: "wrap",
-      justifyContent: "center"
+      justifyContent: "center", flexDirection: "column", width: "380px",
+      padding:"20px 0px",
+      alignItems: "center"
      }}
     >
       {loginArr.map((a, index) => (
@@ -90,28 +94,28 @@ const Login = (props) => {
         </div>
       ))}
 
-      <Button
-        disabled = {!props.status || isConnected == "no connection"}
+      <button
+        disabled = {disabled}
         style={{
           width: "290px",
           fontSize: "20px",
-          backgroundColor: props.status && isConnected !== "no connection" ? "#2F49D1" : "lightgray",
+          backgroundColor: disabled ? "lightgrey" : "#2F49D1",
           fontWeight: "600",
           color: "white",
           height: "40px",
           border: "none",
           borderRadius: "6px",
           cursor: "pointer",
-          // pointerEvents: "none"
         }}
         type="submit"
       >
         {" "}
-        Login
-      </Button>
+        Pay
+      </button>
       { usernameOrPasswordError != '' ? <div style={errorStyle}> 
       Username or password is incorrect</div> : null}
     </form>
+    </MyModal>
   );
 };
 

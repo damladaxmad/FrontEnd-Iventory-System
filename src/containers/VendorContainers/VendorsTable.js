@@ -8,16 +8,16 @@ import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-const CustomersTable = (props) => {
+const VendorsTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [show, setShow] = useState(false)
-  const [customer, setCustomer] = useState('')
+  const [vendor, setVendor] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
 
   const columns = [
    
-    { title: "Customer Name", field: "name" , width: "8%",},
+    { title: "Vendor Name", field: "name" , width: "8%",},
     { title: "Phone", field: "phone" },
     {
       title: "Deadline",
@@ -28,12 +28,8 @@ const CustomersTable = (props) => {
       },
       
     },
-
-    { title: "Balance", field: "balance", render: (data) =>
-    <p>{data.balance < 0 ? `-R${data.balance*-1}` : `R${data.balance}`}</p>
-  },
-
-
+    // { title: "Deadline", field: "deadline" },   
+    { title: "Balance", field: "balance", render: (data)=> <p>R{data.balance}</p> },
     { title: "Stutus", field: "status", render: (row)=> <span
     style={{color: row.status == "Late" ? "#FFAC32" 
     : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
@@ -53,16 +49,16 @@ const CustomersTable = (props) => {
     props.change()
   }
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, customer) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, vendor) => {
     setAnchorEl(event.currentTarget);
-    setCustomer(customer)
+    setVendor(vendor)
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const deleteCustomer = (id) => {
-    axios.delete(`http://127.0.0.1:80/api/v1/customers/${customer._id}`).then(()=>{
+  const deleteVendor = (id) => {
+    axios.delete(`http://127.0.0.1:80/api/v1/vendors/${vendor._id}`).then(()=>{
       alert("Succefully Deleted").catch((err)=> {
         alert("Could not delete")
       })
@@ -71,8 +67,8 @@ const CustomersTable = (props) => {
     props.change()
   };
 
-  const updateCustomer = () => {
-    props.update(customer)
+  const updateVendor = () => {
+    props.update(vendor)
   }
 
   const selectionHandler = (data) => {
@@ -80,7 +76,7 @@ const CustomersTable = (props) => {
   }
 
   const showProfile = (type) => {
-    props.showProfile(customer, type)
+    props.showProfile(vendor, type)
   }
 
   let state = props.state
@@ -88,7 +84,7 @@ const CustomersTable = (props) => {
 
   return (
     <div style={{ width: "95%", margin: "auto" }}>
- {show && <PopupForm hideModal = {hideModal} customer = {customer}
+ {show && <PopupForm hideModal = {hideModal} vendor = {vendor}
  />}
         <Menu
         id="basic-menu"
@@ -106,10 +102,10 @@ const CustomersTable = (props) => {
           else alert("You have no access!")
           }}>Payment</MenuItem>
         <MenuItem onClick={() => {
-          if (activeUser.privillages.includes("Update Customer"))
-          updateCustomer()
+          if (activeUser.privillages.includes("Update Vendor"))
+          updateVendor()
           else alert("You have no access!")
-          }}>Update Customer</MenuItem>
+          }}>Update Vendor</MenuItem>
         <MenuItem onClick={() => {
           if (activeUser.privillages.includes("View Transactions"))
           showProfile('Transaction')
@@ -158,7 +154,7 @@ const CustomersTable = (props) => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
            />,
-            tooltip: "Save User",
+            tooltip: "Vendor Actions",
             onClick: (event, rowData) => {
               handleClick(event, rowData)
             },
@@ -171,4 +167,4 @@ const CustomersTable = (props) => {
   );
 };
 
-export default CustomersTable;
+export default VendorsTable;

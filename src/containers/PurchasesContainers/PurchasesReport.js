@@ -17,21 +17,21 @@ const generatePDF = () => {
   });
 };
 
-const SalesReport = (props) => {
+const PurchasesReport = (props) => {
   
-  const [sales, setSales] = useState();
+  const [purchases, setPurchases] = useState();
 
-  const fetchSales = async () => {
+  const fetchPurchases = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/sales")
+      .get("http://127.0.0.1:80/api/v1/purchases")
       .catch((err) => {
         alert(err.message);
       });
-    setSales(response.data.data.sales);
+      setPurchases(response.data.data.purchases);
   };
 
   useEffect(() => {
-    fetchSales();
+    fetchPurchases();
   }, []);
 
   return (
@@ -50,17 +50,20 @@ const SalesReport = (props) => {
         gap: "10px",
       }}
     >
-      <h2> Sales Report</h2>
+      <h2> Purchases Report</h2>
       <div style={{ display: "flex", gap: "10%", marginBottom: "20px",
     width: "100%", justifyContent: "center" }}>
         <p style={{ margin: "0px" }}> From July 3, 2022</p>
         <p style={{ margin: "0px" }}> To July 7, 2022</p>
       </div>
 
-      {sales?.map((sale) => (
-        <SaleComp sale={sale} />
+      {purchases?.map((purchase) => (
+        <SaleComp purchase={purchase} />
       ))}
       <Divider orientation="horizantal" color="white" />
+      <button onClick={generatePDF} type="button">
+        Export PDF
+      </button>
     </div>
   );
 };
@@ -74,7 +77,7 @@ const SaleComp = (props) => {
       cellStyle: { padding: "0px 30px", height: "0px" },
     },
     { title: "Quantity", field: "quantity" },
-    { title: "Price", field: "price", render: (data) => <p>R{data.price}</p> },
+    { title: "Price", field: "unitPrice", render: (data) => <p>R{data.unitPrice}</p> },
     {
       title: "Subtotal",
       field: "subtotal",
@@ -95,14 +98,14 @@ const SaleComp = (props) => {
           justifyContent: "space-around",
         }}
       >
-        <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
+        <Typography> PurchaseNumber: {props.purchase.purchaseNumber}</Typography>
         <Typography> Date: 2022/7/3</Typography>
-        <Typography> Type: {props.sale.paymentType}</Typography>
-        <Typography> Total: R{props.sale.total}</Typography>
+        <Typography> Type: {props.purchase.paymentType}</Typography>
+        <Typography> Total: R{props.purchase.total}</Typography>
       </div>
       <MaterialTable
         columns={columns}
-        data={props.sale.products}
+        data={props.purchase.products}
         //     localization={{
         //       body: {
         //           emptyDataSourceMessage: (
@@ -144,7 +147,7 @@ const SaleComp = (props) => {
               >
                 <p style={{ margin: "0px", flex: 2 }}> {props.data.item}</p>
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
-                <p style={{ margin: "0px", flex: 1 }}> R{props.data.price}</p>
+                <p style={{ margin: "0px", flex: 1 }}> R{props.data.uniPrice}</p>
                 <p style={{ margin: "0px", flex: 0 }}>
                   {" "}
                   R{props.data.subtotal}
@@ -177,10 +180,10 @@ const SaleComp = (props) => {
         >
           Total:
         </p>
-        <p style={{ padding: "5px 0px" }}> R{props.sale.total}</p>
+        <p style={{ padding: "5px 0px" }}> R{props.purchase.total}</p>
       </div>
     </div>
   );
 };
 
-export default SalesReport;
+export default PurchasesReport;

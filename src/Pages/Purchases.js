@@ -10,41 +10,40 @@ import { Select, TextField } from "@mui/material";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import CloseIcon from "@material-ui/icons/Close";
-import SalesTable from "../containers/SalesContainers/SalesTable";
-import BrowseSales from "../containers/SalesContainers/BrowseSales";
-import { setCustomers } from "../redux/actions/customersActions";
-import { setOrderList } from "../redux/actions/orderListActions";
-import CreateCustomer from "../containers/SalesContainers/CreateCustomer";
-import SalesReport from "../containers/SalesContainers/SalesReport";
+import PurchasesTable from "../containers/PurchasesContainers/PurchasesTable";
+import BrowsePurchases from "../containers/PurchasesContainers/BrowsePurchases";
+import CreateVendor from "../containers/PurchasesContainers/CreateVendor";
+import PurchasesReport from "../containers/PurchasesContainers/PurchasesReport";
+import { setVendors } from "../redux/actions/vendorsActions";
+import { setPurchaseList } from "../redux/actions/purchaseListActions";
 
-function Sales() {
+function Purchases() {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [change, setChange] = useState(1);
   const statusArr = ["cash", "invoice"];
   const [status, setStatus] = useState();
   const [data, setData] = useState([]);
-  const [createCustomer, setCreateCustomer] = useState(false);
+  const [createVendor, setCreateVendor] = useState(false);
   const [force, setForce] = useState(1);
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
 
-  const fetchCustomers = async () => {
+  const fetchVendors = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/customers")
+      .get("http://127.0.0.1:80/api/v1/vendors")
       .catch((err) => {
         console.log("Err: ", err);
       });
-    dispatch(setCustomers(response.data.data.customers));
-    console.log(response.data.data.customers)
+    dispatch(setVendors(response.data.data.vendors));
   };
 
-  const customers = useSelector((state) => state.customers.customers);
-  const orderList = useSelector((state) => state.orderList.orderList);
-  const [customer, setCustomer] = useState();
+  const vendors = useSelector((state) => state.vendors.vendors);
+  const purchaseList = useSelector((state) => state.purchaseList.purchaseList);
+  const [vendor, setVendor] = useState();
   const activeUser = useSelector((state) => state.activeUser.activeUser);
   const [total, setTotal] = useState(0);
-  const [value, setValue] = React.useState("New Order");
+  const [value, setValue] = React.useState("New Purchase");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -53,8 +52,8 @@ function Sales() {
   const statusHandler = (e) => {
     setStatus(e.target.value);
   };
-  const customerHandler = (e) => {
-    setCustomer(e.target.value);
+  const vendorHandler = (e) => {
+    setVendor(e.target.value);
   };
 
   const browseHandler = () => {
@@ -63,7 +62,7 @@ function Sales() {
 
   const hideModal = () => {
     setShow(false);
-    setCreateCustomer(false);
+    setCreateVendor(false);
     setForce((state) => state + 1);
   };
 
@@ -72,22 +71,21 @@ function Sales() {
   };
 
   useEffect(() => {
-    dispatch(setOrderList(data));
+    dispatch(setPurchaseList(data));
   }, [data]);
   const totalHandler = (t) => {
     setTotal(t);
   };
 
   const addHandler = () => {
-    setCreateCustomer(true);
+    setCreateVendor(true);
   };
 
-  useEffect(() => {}, [orderList]);
+  useEffect(() => {}, [purchaseList]);
 
   useEffect(() => {
     if (force == 1) return
-    console.log("FROM Force")
-    fetchCustomers();
+    fetchVendors();
   }, [force]);
 
   return (
@@ -111,31 +109,31 @@ function Sales() {
           aria-label="secondary tabs example"
           disableFocusRipple={true}
         >
-          {activeUser.privillages.includes("New Order") && (
+          {activeUser.privillages.includes("New Purchase") && (
             <Tab
               disableFocusRipple={true}
               disableRipple={true}
-              value="New Order"
-              label="New Order"
+              value="New Purchase"
+              label="New Purchase"
               style={{ fontSize: "16px", fontWeight: "700" }}
             />
           )}
 
-          {activeUser.privillages?.includes("Sales Report") && (
+          {activeUser.privillages?.includes("Purchase Report") && (
             <Tab
               disableFocusRipple={true}
               disableRipple={true}
-              value="Sales"
-              label="Sales"
+              value="Purchases"
+              label="Purchases"
               style={{ fontSize: "16px", fontWeight: "700" }}
             />
           )}
         </Tabs>
       </Box>
 
-      {show && <BrowseSales hideModal={hideModal} data={dataHandler} />}
-      {createCustomer && <CreateCustomer hideModal={hideModal} />}
-      {value == "Sales" && (
+      {show && <BrowsePurchases hideModal={hideModal} data={dataHandler} />}
+      {createVendor && <CreateVendor hideModal={hideModal} />}
+      {value == "Purchases" && (
         <div
           style={{
             display: "flex",
@@ -170,9 +168,9 @@ function Sales() {
           />
         </div>
       )}
-      {value == "Sales" && <SalesReport />}
+      {value == "Purchases" && <PurchasesReport />}
 
-      {value == "New Order" && (
+      {value == "New Purchase" && (
         <div
           style={{
             display: "flex",
@@ -231,13 +229,13 @@ function Sales() {
                 style={selectStyle}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={customer}
-                label="Select Customer"
-                onChange={customerHandler}
+                value={vendor}
+                label="Select Vendor"
+                onChange={vendorHandler}
               >
-                {customers.map((customer, index) => (
-                  <MenuItem value={customer._id} key={index}>
-                    {customer.name}
+                {vendors.map((vendor, index) => (
+                  <MenuItem value={vendor._id} key={index}>
+                    {vendor.name}
                   </MenuItem>
                 ))}
               </TextField>
@@ -288,13 +286,14 @@ function Sales() {
               fontSize:"16px", width: "15%", marginLeft: "5px" }}>
               <p> R{total}</p>
           </div>
+
         </div>
       )}
 
-      {value == "New Order" && (
-        <SalesTable
-          data={orderList}
-          customer={customer}
+      {value == "New Purchase" && (
+        <PurchasesTable
+          data={purchaseList}
+          vendor={vendor}
           paymentType={status}
           total={totalHandler}
         />
@@ -303,4 +302,4 @@ function Sales() {
   );
 }
 
-export default Sales;
+export default Purchases;

@@ -99,7 +99,7 @@ const InfoPopUp = (props) => {
         style={{
           display: "flex",
           // justifyContent: "center",
-          width: "100%",
+          width: "95%",
           alignItems: "center",
           flexDirection: "column",
           gap: "15px"

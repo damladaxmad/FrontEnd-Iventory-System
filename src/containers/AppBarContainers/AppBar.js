@@ -75,7 +75,7 @@ const AppBarFile = () => {
     // >
     <>
       {show && <EditProfile user = {activeUser} hideModal = {hideModal}/>}
-      <Toolbar>
+      <Toolbar style = {{marginLeft: "87%", width: "800px",}}>
         <Typography className={classes.appBarTitle}></Typography>
         <Typography style={{ fontWeight: "bold" }}></Typography>
         <Typography style = {{fontWeight: "600", marginRight: "10px"}}>

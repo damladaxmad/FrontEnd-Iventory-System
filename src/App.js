@@ -15,6 +15,19 @@ import { setCustomers } from "./redux/actions/customersActions";
 import Products from "./Pages/Products";
 import { setCompanyInfo } from "./redux/actions/companyInfoActions";
 import NewLayout from "./containers/NewLayout";
+import Vendors from "./Pages/Vendors"
+import Purchases from "./Pages/Purchases";
+import { makeStyles } from '@material-ui/core/styles';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { setIsConnected } from "./redux/actions/isLoginActions";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 const pages = [
      <Route path= "/dashboard" element = {<Dashboard/>} />,
@@ -23,16 +36,25 @@ const pages = [
      <Route path= "/sales" element = {<Sales/>} />,
      <Route path= "/emplooyees" element = {<Employees/>} />,
      <Route path= "/adminstration" element = {<Adminstration/>} />,    
+     <Route path= "/vendors" element = {<Vendors/>} />,    
+     <Route path= "/purchases" element = {<Purchases/>} />,    
 ]
 
 function App() {
-
+  const classes=useStyles();
   const isLogin = useSelector(state => state.isLogin.isLogin)
   const isReports = useSelector(state => state.isLogin.isReports)
+  const isConnected = useSelector(state => state.isLogin.isConnected)
   const [showLayout, setShowLayout] = useState(isLogin)
   const [showReports, setShowReports] = useState(isReports)
   const dispatch = useDispatch();
   const companyInfo = useSelector(state => state.companyInfo.companyInfo)
+  const [timeInterval, setTimeInterval] = useState(0);
+
+setTimeout(() => {
+  setTimeInterval(timeInterval + 1);
+}, 5000);
+  
 
   const fetchCustomers = async () => {
     const response = await axios
@@ -44,8 +66,14 @@ function App() {
   };
 
   const fetchCompanyInfo = async () => {
-    const res = await axios.get('http://127.0.0.1:80/api/v1/companyInfo')
-    dispatch(setCompanyInfo(res.data.data))
+    const res = await axios
+    .get('http://127.0.0.1:80/api/v1/companyInfo').then((res)=> {
+      dispatch(setIsConnected("connected"))
+      dispatch(setCompanyInfo(res.data.data))
+    })
+    .catch(()=> {
+      dispatch(setIsConnected("no connection"))
+    })
   }
 
   const showHandler = () => {
@@ -55,9 +83,9 @@ function App() {
   
 
   useEffect(() => {
-    // fetchCustomers()
+    if (isConnected == "connected") return
     fetchCompanyInfo()
-  }, []);
+  }, [timeInterval]);
 
   useEffect(()=> {
     setShowLayout(isLogin)
@@ -69,6 +97,9 @@ function App() {
 
    <div className="App" style={{backgroundColor: "#F0F2FA", display: "flex",
    justifyContent: "center",}}>
+     {!companyInfo && <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+      </Backdrop>}
       <Router>
     {!showLayout && 
     <Route path= "/signup" element = {<SignupAndLogin

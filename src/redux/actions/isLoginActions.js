@@ -14,3 +14,9 @@ export const setIsReports = (data) => {
     payload: data,
   };
 };
+export const setIsConnected = (data) => {
+  return {
+    type: ActionTypes.SET_IS_CONNECTED,
+    payload: data,
+  };
+};

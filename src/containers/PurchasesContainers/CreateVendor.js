@@ -19,7 +19,7 @@ const CreateCustomer = (props) => {
     const errors = {};
    
     if (!values.name) {
-      errors.username = "Field is Required";
+      errors.name = "Field is Required";
     }
 
     return errors;
@@ -33,12 +33,12 @@ const CreateCustomer = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.post(`http://127.0.0.1:80/api/v1/customers`, values).then((res) => {
-        alert("Successfully created Customer")
+        axios.post(`http://127.0.0.1:80/api/v1/vendors`, values).then((res) => {
+        alert("Successfully created Vendor")
         props.hideModal();  
         }).catch(err => {
           props.hideModal();
-          alert("Couldn't create Customer")});
+          alert("Couldn't create Vendor")});
         resetForm(); 
     },
   });
@@ -55,7 +55,7 @@ const CreateCustomer = (props) => {
           gap: "15px"
         }}
       >
-        <h2>Customer Creation </h2>
+        <h2>Vendor Creation </h2>
      
 
         <form
@@ -94,7 +94,7 @@ const CreateCustomer = (props) => {
           type="submit"
           variant="contained"
         >
-          Create Customer
+          Create Vendor
         </Button>
       </form>
 

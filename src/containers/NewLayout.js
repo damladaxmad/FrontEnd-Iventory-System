@@ -72,6 +72,7 @@ const AppBar = styled(MuiAppBar, {
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
+    marginRight: "0px"
   }),
   ...(open && {
     marginLeft: drawerWidth,
@@ -79,6 +80,7 @@ const AppBar = styled(MuiAppBar, {
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
+      marginRight: "0px"
     }),
   }),
 }));
@@ -147,9 +149,19 @@ const menuItems = [
       path: "/sales",
     },
     {
+      text: "Vendors",
+      icon: <GroupIcon style={{fontSize: "20px", color: "white" }} />,
+      path: "/vendors",
+    },
+    {
       text: "Employees",
       icon: <VscPerson style={{ fontSize: "20px", color: "white" }} />,
       path: "/emplooyees",
+    },
+    {
+      text: "Purchases",
+      icon: <MdPointOfSale style={{ fontSize: "20px", color: "white" }} />,
+      path: "/purchases",
     },
     {
       text: "Adminstration",
@@ -164,8 +176,10 @@ export default function NewLayout({children}) {
     const location = useLocation();
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const companyInfo = useSelector(state => state.companyInfo.companyInfo)
+  const activeUser = useSelector(state => state.activeUser.activeUser)
+  const [show, setShow] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -175,14 +189,28 @@ export default function NewLayout({children}) {
     setOpen(false);
   };
 
+  const handleShow = (location) => {
+    if (location == "/") setShow(true)
+    if (location !== "/") setShow(false)
+  }
+
+  React.useEffect(()=> {
+    handleShow(location.pathname)
+  }, [location])
+
   return (
     <div style={{   display: "flex",
     width: "100%" }}>
       {/* <CssBaseline /> */}
-      <AppBar position="fixed" open={open}
+      <AppBar position="fixed" open={open} style={{
+        padding : '0px', 
+        margin: '0px',
+        display: "flex",
+      }}
       >
         <Toolbar 
-      style = {{display: "flex"}}>
+      style = {{display: "flex", width: "100%",
+       justifyContent: "space-between"}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -193,29 +221,28 @@ export default function NewLayout({children}) {
               ...(open && { display: 'none' }),
             }}
           >
-            <FiMenu style={{}}/>
+            <FiMenu />
           </IconButton>
-          <div style = {{marginLeft: "80%"}}>
           <AppBarFile />
-          </div>
-          {/* <Typography variant="h6" noWrap component="div">
-            Racayaam Inventory System
-          </Typography> */}
         </Toolbar>
       </AppBar>
+
+      
       <Drawer variant="permanent" open={open}
        classes={{ paper: classes.drawerPaper }}>
         <DrawerHeader>
         <div
           style={{
+            width: "100%",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingLeft: "10px",
+            paddingLeft: "2px",
             gap: "12px"
           }}
         >
-          <Avatar style={{ backgroundColor: "white", color: "orange" }}>
+          <Avatar style={{ backgroundColor: "white", color: "orange",
+        alignSelf: "self-start"}}>
             <img
               src={companyInfo ? companyInfo?.imageURl : femaleProfile}
               style={{
@@ -226,7 +253,7 @@ export default function NewLayout({children}) {
           </Avatar>
           <Typography variant="h5" style = {{fontSize:"17px",
         color: "white", fontWeight: "700"}}>
-            {companyInfo ? companyInfo?.name.substring(0, 13) : "Company Name"}{companyInfo ? companyInfo?.name.length <= 12 ? null : "..." : null}
+            {companyInfo ? companyInfo?.name?.substring(0, 13) : "Company Name"}{companyInfo ? companyInfo?.name?.length <= 12 ? null : "..." : null}
           </Typography>
          
        
@@ -272,6 +299,8 @@ export default function NewLayout({children}) {
       <div style={{width: "90%", margin: "100px auto",
        marginTop: "100px"}}>
         {children}
+        {show && <h2 style={{margin:"-5px 30px",}}>
+            Hello {activeUser.name},  Welcome Back!!</h2>}
       </div>
     </div>
   );

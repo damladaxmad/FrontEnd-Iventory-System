@@ -9,16 +9,17 @@ import { Select } from "@mui/material";
 import { BiDotsHorizontalRounded } from "react-icons/bi"; 
 import CloseIcon from "@material-ui/icons/Close";
 import TableRows from "./TableRows";
+import { setPurchaseList } from "../../redux/actions/purchaseListActions";
 // import { CodeSharp } from "@material-ui/icons";
-import { setOrderList } from "../../redux/actions/orderListActions";
 
 
-const SalesTable = (props) => {
+const PurchasesTable = (props) => {
   const dispatch = useDispatch()
   const activeUser = useSelector(state => state.activeUser.activeUser)
-  const orderList = useSelector(state => state.orderList.orderList)
+  const purchaseList = useSelector(state => state.purchaseList.purchaseList)
   
-  const columns = ["Product Name", "Quantity", "Unit Price", "Total",
+  const columns = ["Product Name", "Available", "QuantityIn", "Unit Price", 
+  "AvgCost", "Total",
     "Actions"]
 
   const [force, setForce] = useState(1)
@@ -42,25 +43,29 @@ const SalesTable = (props) => {
         setP({...p, [number]: { ...p[number], quantity: parseInt(quantity) , item: item}})
       }
     }
+
   }
 
   const unitPriceFun = (number, unitPrice, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], price: parseInt(unitPrice) ,
+        setP({...p, [number]: { ...p[number], unitPrice: parseFloat(unitPrice) ,
         item: item}})
       }
     }
+
   }
 
   const postSales = async (data) => {
-    const res = await axios.post(`http://127.0.0.1:80/api/v1/sales`, data).then(()=>{
-      alert("Successfully Completed Order")
+    const res = await axios.post(`http://127.0.0.1:80/api/v1/purchases`, data).then(()=>{
+      alert("Successfully Completed Purchase")
+      console.log(data)
       setDisabled(false)
       setP([])
-      dispatch(setOrderList([]))
+      dispatch(setPurchaseList([]))
     }).catch(()=> {
       alert("Failed To Complete")
+      console.log(data)
       setDisabled(false)
     })
   }
@@ -70,21 +75,22 @@ const SalesTable = (props) => {
     let products = []
     for (let i = 0; i< props.data.length; i++){
       if (!p[i].quantity) p[i].quantity = 1
-      if (!p[i].price) p[i].price = 0
+      if (!p[i].unitPrice) p[i].price = 0
       products.push(p[i])
     }
     const apiData = {products: products,
-      user: activeUser.name, customer: props.customer,
+      user: activeUser.name, vendor: props.vendor,
       paymentType: props.paymentType};
     if (apiData.products.length > 0 ) {
       postSales(apiData)
     }
     if (apiData.products.length < 1) {
       setDisabled(false)
-      alert("please make orders")
+      alert("please make purchases")
     }
 
   }
+
   const totalAdd = () => {
     
     let products = []
@@ -92,13 +98,13 @@ const SalesTable = (props) => {
     for (let i = 0; i< props.data.length; i++){
    
         if (!p[i].quantity) p[i].quantity = 1
-        if (!p[i].price) p[i].price = 0
+        if (!p[i].unitPrice) p[i].unitPrice = 0
         products.push(p[i])
       
     }
     
     products.map(p => {
-      total += p.quantity * p.price
+      total += p.quantity * p.unitPrice
     })
     props.total(total)
   }
@@ -108,7 +114,7 @@ const SalesTable = (props) => {
     }, [p])
 
   useEffect(()=> {
-  }, [props.data, orderList])
+  }, [props.data, purchaseList])
 
     return (
        <div style = {{width: "100%"}}>
@@ -118,8 +124,9 @@ const SalesTable = (props) => {
             background: "#EFF0F6", alignItems: "center"}}>
             {columns.map(c => (
              <p style={{margin: "0px", fontWeight: "bold",
-           fontSize: "14px", flex: c == "Product Name" ? 2 : 
-            c == "Quantity" || c == "Unit Price" || c == "Total" ? 1 : 0.3}}> {c}</p>
+           fontSize: "14px", flex: c == "Product Name" ? 1.5 : 
+            c == "QuantityIn" || c == "Unit Price" || c == "Total" 
+            || c == "Available" || c == "AvgCost" ? 1 : 0.3}}> {c}</p>
            ))}
           </div>
 
@@ -127,7 +134,7 @@ const SalesTable = (props) => {
         display: "flex", justifyContent: "start", padding: "15px",
         borderRadius: "0px 0px 10px 10px", background: "white",
         flexDirection: "column", gap: "30px"}}>
-            {orderList.map((data, index) => {
+            {purchaseList.map((data, index) => {
             return <TableRows value = {JSON.parse(data)} data = {(d) => dataHandler(d)}
              key = {index} number = {index}
              total = {(total)=>props.total(total)}
@@ -135,6 +142,7 @@ const SalesTable = (props) => {
              change = {forceHandler}/>
 })}
           </div>
+
           <Button
           variant="contained"
           disabled = {disabled}
@@ -150,9 +158,10 @@ const SalesTable = (props) => {
         >
           complete
         </Button>
+         
        </div>
 
     )
 }
 
-export default SalesTable
+export default PurchasesTable

@@ -3,10 +3,27 @@ import { TextField, Button, } from "@material-ui/core";
 import { useFormik } from "formik";
 import axios from "axios";
 import Login from "./Login";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 // const {BrowserWindow} = window.require('electron').remote
 // const remote = window.require('electron').remote
+import { makeStyles } from '@material-ui/core/styles';
+import useNetworkHook from "./networkHook"
+import { useSelector } from "react-redux";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 const SignupAndLogin = (props) => {
+  const classes=useStyles();
+  const status = useNetworkHook()
+  const isConnected = useSelector(state => state.isLogin.isConnected)
+
+  console.log(status)
 
     const handler = () => {
         props.showHandler()
@@ -38,13 +55,20 @@ const SignupAndLogin = (props) => {
     <div
       style={parentDivStyle}
     >
-
+        <div style={{display: "flex", flexDirection: "column",
+      alignItems: "center"}}>
+        {!status && <p style={{color: "red"}}> No Internet connection!</p>}
+        {isConnected == "no connection" && <p style={{color: "red"}}> No Server Connection!</p>}
         <p style={{margin: "0px",
         fontSize:"28px", fontWeight: "700",
         color: "#2F49D1",}}
         >Login</p>
-     
-      <Login showHandler = {showHandler}/>
+        </div>
+        
+       {isConnected == "loading" && status && <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+      </Backdrop>}
+      <Login showHandler = {showHandler} status = {status}/>
     </div>
   );
 };

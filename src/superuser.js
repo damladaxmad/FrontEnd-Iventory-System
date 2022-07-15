@@ -28,7 +28,15 @@ module.exports = {
     "Setting",
     "New Order",
     "Sales Report",
-    "View Sales"
+    "View Sales",
+    "Purchases",
+    "New Purchase",
+    "Purchase Report",
+    "Vendors",
+    "Add New Vendors",
+    "View Transactions",
+    "Update Vendor",
+    "Payment"
   ],
 };
 

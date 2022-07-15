@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
-import { Divider } from "@material-ui/core";
+import { Divider,  } from "@material-ui/core";
 import femaleProfile from "../../assets/images/sampleProfile.png";
 import MaterialTable from "material-table";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import InvoicePopUp from "./InvoicePopUp";
 
-const CustomerSales = (props) => {
-  const companyInfo = useSelector((state) => state.companyInfo.companyInfo);
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState();
+const VendorSales = (props) => {
+
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
+  const [show, setShow] = useState(false)
+  const [data, setData] = useState()
 
   const materialOptions = {
     showTitle: false,
@@ -53,23 +54,13 @@ const CustomerSales = (props) => {
       ),
       cellStyle: { border: "none" },
     },
-    {
-      title: "Invoice",
-      field: "invoice",
-      render: (data) => (
-        <p
-          style={{ cursor: "pointer", color: "blue" }}
-          onClick={() => {
-            setData(data?.sale?.products);
-            setShow(true);
-          }}
-        >
-          {" "}
-          {data?.sale?.invoice}
-        </p>
-      ),
-      cellStyle: { border: "none" },
-    },
+    { title: "Invoice", field: "invoice", 
+    render: (data) => <p style={{cursor: "pointer",
+  color: "blue"}} onClick = {()=> {
+    setData(data?.sale?.products)
+    setShow(true)
+  }}> {data?.sale?.saleNumber}</p>,
+    cellStyle: { border: "none" } },
     {
       title: "Transaction Date",
       field: "date",
@@ -82,25 +73,19 @@ const CustomerSales = (props) => {
     { title: "User", field: "user", cellStyle: { border: "none" } },
     { title: "Debit", field: "debit", cellStyle: { border: "none" } },
     { title: "Credit", field: "credit", cellStyle: { border: "none" } },
-    {
-      title: "Balance",
-      field: "balance",
-      render: (data) => (
-        <p>
-          {data.balance < 0 ? `-R${data.balance * -1}` : `R${data.balance}`}
-        </p>
-      ),
-      cellStyle: { border: "none" },
-    },
+    { title: "Balance", field: "balance", render: (data) => <p> R{data.balance}</p>
+    ,cellStyle: { border: "none" } },
   ];
 
   const hideModal = () => {
-    setShow(false);
-  };
+    setShow(false)
+  }
+
 
   return (
     <>
-      {show && <InvoicePopUp hideModal={hideModal} data={data} />}
+    {show && <InvoicePopUp hideModal = {hideModal}
+    data = {data}/>}
       <div
         style={{
           background: "#F7F7F7",
@@ -121,16 +106,17 @@ const CustomerSales = (props) => {
             gap: "15px",
           }}
         >
-          <img
-            src={companyInfo ? companyInfo.imageURl : femaleProfile}
-            style={{
-              width: "150px",
-              height: "150px",
-            }}
-          />
+         
+            <img
+              src={companyInfo ? companyInfo.imageURl : femaleProfile}
+              style={{
+                width: "150px",
+                height: "150px",
+              }}
+            />
           <p style={{ margin: "0px", fontWeight: "700", fontSize: "25px" }}>
             {" "}
-            Customer Transactions
+            Vendor Transactions
           </p>
         </div>
 
@@ -149,19 +135,20 @@ const CustomerSales = (props) => {
         >
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", gap: "20px" }}>
-              <p style={{ fontWeight: "700" }}> Customer Name:</p>
-              <p> {props.customer.name}</p>
+              <p style={{ fontWeight: "700" }}> Vendor Name:</p>
+              <p> {props.vendor.name}</p>
             </div>
             <div style={{ display: "flex", gap: "20px" }}>
-              <p style={{ fontWeight: "700" }}> Customer Phone:</p>
-              <p> {props.customer.phone}</p>
+              <p style={{ fontWeight: "700" }}> Vendor Phone:</p>
+              <p> {props.vendor.phone}</p>
             </div>
           </div>
+        
         </div>
 
         <MaterialTable
           columns={columns}
-          data={props.customer.transactions}
+          data={props.vendor.transactions}
           options={materialOptions}
           style={{
             borderRadius: "10px",
@@ -181,7 +168,7 @@ const CustomerSales = (props) => {
           fontSize: "16px",
           alignSelf: "flex-end",
           gap: "15px",
-          width: "95%",
+          width: "95%"
         }}
       >
         <p
@@ -195,14 +182,10 @@ const CustomerSales = (props) => {
           {" "}
           Total:
         </p>
-        <p style={{ padding: "20px 0px" }}>
-          {props.customer.balance < 0
-            ? `-R${props.customer.balance * -1}`
-            : `R${props.customer.balance}`}
-        </p>
+        <p style={{ padding: "20px 0px" }}> {props.vendor.balance}</p>
       </div>
     </>
   );
 };
 
-export default CustomerSales;
+export default VendorSales;
