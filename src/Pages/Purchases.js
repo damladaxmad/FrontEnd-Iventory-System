@@ -33,7 +33,7 @@ function Purchases() {
     const response = await axios
       .get("http://127.0.0.1:80/api/v1/vendors")
       .catch((err) => {
-        console.log("Err: ", err);
+        alert(err.response.data.message);
       });
     dispatch(setVendors(response.data.data.vendors));
   };

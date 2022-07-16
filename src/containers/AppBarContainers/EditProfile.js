@@ -52,6 +52,8 @@ const EditProfile = (props) => {
     onSubmit: (values, { resetForm }) => {
         axios.patch(`http://127.0.0.1:80/api/v1/users/${props.user._id}`, values).then((res) => {
              alert("Successfully Updated")
+        }).catch((err)=> {
+          alert(err.response.data.message);
         });
         resetForm();
         props.hideModal();  

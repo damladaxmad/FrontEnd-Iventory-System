@@ -79,13 +79,13 @@ const InfoPopUp = (props) => {
         if (!props.update) {
           axios.post(`http://127.0.0.1:80/api/v1/companyInfo`, formData).then((res) => {
             alert("Successfully  Created, please re-run the app.")
-       }).catch(er => alert("There is an error"));
+       }).catch(err => alert(err.response.data.message));
        props.hide()
        resetForm();
         } if (props.update) {
           axios.patch(`http://127.0.0.1:80/api/v1/companyInfo`, formData).then((res) => {
             alert("Successfully  Updated, please re-run the app.")
-       }).catch(er => alert("There is an error"));
+       }).catch(err => alert(err.response.data.message));
        props.hide()
         }
        

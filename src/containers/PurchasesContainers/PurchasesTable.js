@@ -19,7 +19,7 @@ const PurchasesTable = (props) => {
   const purchaseList = useSelector(state => state.purchaseList.purchaseList)
   
   const columns = ["Product Name", "Available", "QuantityIn", "Unit Price", 
-  "AvgCost", "Total",
+  "SalePrice", "Total",
     "Actions"]
 
   const [force, setForce] = useState(1)
@@ -31,7 +31,7 @@ const PurchasesTable = (props) => {
   useEffect(()=> {
   }, [force])
 
-  const [p, setP] = useState([])
+  const [p, setP] = useState({})
 
   const dataHandler = (d) => {
 
@@ -43,17 +43,24 @@ const PurchasesTable = (props) => {
         setP({...p, [number]: { ...p[number], quantity: parseInt(quantity) , item: item}})
       }
     }
-
   }
 
-  const unitPriceFun = (number, unitPrice, item) => {
+  const unitPriceFun = (number, unitPrice, currentUnitPrice, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], unitPrice: parseFloat(unitPrice) ,
-        item: item}})
+        setP({...p, [number]: { ...p[number], 
+          unitPrice: parseFloat((unitPrice + currentUnitPrice) / 2),
+          currentUnitPrice: parseFloat(unitPrice), item: item}})
       }
     }
+  }
+  const salePriceFun = (number, salePrice, item) => {
+    for (let i = 0; i<= props.data.length; i++){
+      if(number == i){
+        setP({...p, [number]: { ...p[number], salePrice: parseInt(salePrice) , item: item}})
 
+      }
+    }
   }
 
   const postSales = async (data) => {
@@ -63,9 +70,8 @@ const PurchasesTable = (props) => {
       setDisabled(false)
       setP([])
       dispatch(setPurchaseList([]))
-    }).catch(()=> {
-      alert("Failed To Complete")
-      console.log(data)
+    }).catch((err)=> {
+      alert(err.response.data.message);
       setDisabled(false)
     })
   }
@@ -95,22 +101,38 @@ const PurchasesTable = (props) => {
     
     let products = []
     let total = 0
-    for (let i = 0; i< props.data.length; i++){
-   
-        if (!p[i].quantity) p[i].quantity = 1
-        if (!p[i].unitPrice) p[i].unitPrice = 0
-        products.push(p[i])
-      
+    if (props.data.length){
+
+      for (let i = 0; i< props.data.length; i++){
+          
+          if (!p[i].quantity) p[i].quantity = 1
+          if (!p[i].unitPrice) p[i].unitPrice = 0
+          products.push(p[i])
+        
+      }
+      products.map(p => {
+        total += p.quantity * p.currentUnitPrice
+      })
+      props.total(total)
     }
     
-    products.map(p => {
-      total += p.quantity * p.unitPrice
-    })
-    props.total(total)
+    
   }
+ 
+  function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+  }
+  useEffect(()=> {
+    return () => {
+      console.log("unmounted")
+      setP({})
+    }
+  }, [])
+
 
     useEffect(()=> {
-      if (p) totalAdd()
+     
+      if (!isEmpty(p)) totalAdd()
     }, [p])
 
   useEffect(()=> {
@@ -126,7 +148,7 @@ const PurchasesTable = (props) => {
              <p style={{margin: "0px", fontWeight: "bold",
            fontSize: "14px", flex: c == "Product Name" ? 1.5 : 
             c == "QuantityIn" || c == "Unit Price" || c == "Total" 
-            || c == "Available" || c == "AvgCost" ? 1 : 0.3}}> {c}</p>
+            || c == "Available" || c == "SalePrice" ? 1 : 0.3}}> {c}</p>
            ))}
           </div>
 
@@ -139,6 +161,7 @@ const PurchasesTable = (props) => {
              key = {index} number = {index}
              total = {(total)=>props.total(total)}
              quantityFun = {quantityFun} unitPriceFun = {unitPriceFun}
+             salePriceFun = {salePriceFun}
              change = {forceHandler}/>
 })}
           </div>

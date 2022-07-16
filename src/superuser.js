@@ -36,7 +36,8 @@ module.exports = {
     "Add New Vendors",
     "View Transactions",
     "Update Vendor",
-    "Payment"
+    "Payment",
+    "Available"
   ],
 };
 

@@ -50,12 +50,16 @@ const RegisterVendors = (props) => {
         if (props.update){
           axios.patch(`http://127.0.0.1:80/api/v1/vendors/${props.vendor._id}`, values).then((res) => {
             alert("successfully updated")
+          }).catch((err) => {
+            alert(err.response.data.message);
           });
           props.reset()
         } else {
           axios.post(`http://127.0.0.1:80/api/v1/vendors`, values).then((res) => {
             alert("Successfully Created Vendor")
             props.reset()
+          }).catch((err) => {
+            alert(err.response.data.message);
           });
           resetForm();
         }

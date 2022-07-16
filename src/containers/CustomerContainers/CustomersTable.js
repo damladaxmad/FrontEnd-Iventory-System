@@ -64,7 +64,7 @@ const CustomersTable = (props) => {
   const deleteCustomer = (id) => {
     axios.delete(`http://127.0.0.1:80/api/v1/customers/${customer._id}`).then(()=>{
       alert("Succefully Deleted").catch((err)=> {
-        alert("Could not delete")
+        alert(err.response.data.message);
       })
     })
     handleClose()

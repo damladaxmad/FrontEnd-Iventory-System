@@ -98,7 +98,7 @@ const Customers = (props) => {
       const response = await axios
       .get(`http://127.0.0.1:80/api/v1/customers?status=${status}`)
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
     dispatch(setCustomers(response.data.data.customers));
     if (response.data.data.products.length < 1)
@@ -107,7 +107,7 @@ const Customers = (props) => {
       const response = await axios
       .get("http://127.0.0.1:80/api/v1/customers")
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
     dispatch(setCustomers(response.data.data.customers));
     if (response.data.data.customers?.length < 1)

@@ -6,3 +6,9 @@ export const setProducts = (data) => {
     payload: data,
   };
 };
+export const setAvailableProducts = (data) => {
+  return {
+    type: ActionTypes.SET_AVAILABLE_PRODUCTS,
+    payload: data,
+  };
+};

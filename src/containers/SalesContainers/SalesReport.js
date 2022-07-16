@@ -20,12 +20,13 @@ const generatePDF = () => {
 const SalesReport = (props) => {
   
   const [sales, setSales] = useState();
+  let totalSales = 0
 
   const fetchSales = async () => {
     const response = await axios
       .get("http://127.0.0.1:80/api/v1/sales")
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
     setSales(response.data.data.sales);
   };
@@ -57,10 +58,35 @@ const SalesReport = (props) => {
         <p style={{ margin: "0px" }}> To July 7, 2022</p>
       </div>
 
-      {sales?.map((sale) => (
-        <SaleComp sale={sale} />
-      ))}
+      {sales?.map((sale) => {
+        totalSales += sale.total
+        return <SaleComp sale={sale} />
+      })}
       <Divider orientation="horizantal" color="white" />
+      <div
+        style={{
+          margin: "0px auto",
+          background: "white",
+          borderRadius: "0px 0px 10px 10px",
+          display: "flex",
+          fontSize: "15px",
+          //   alignSelf: "flex-end",
+          gap: "15px",
+            width: "95%"
+        }}
+      >
+        <p
+          style={{
+            margin: "0px",
+            fontWeight: "700",
+            marginLeft: "85%",
+            padding: "5px 0px",
+          }}
+        >
+          Total:
+        </p>
+        <p style={{ padding: "5px 0px" }}> {totalSales}</p>
+      </div>
     </div>
   );
 };

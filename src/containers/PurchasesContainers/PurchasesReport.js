@@ -20,12 +20,13 @@ const generatePDF = () => {
 const PurchasesReport = (props) => {
   
   const [purchases, setPurchases] = useState();
+  let totalPurchases = 0
 
   const fetchPurchases = async () => {
     const response = await axios
       .get("http://127.0.0.1:80/api/v1/purchases")
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
       setPurchases(response.data.data.purchases);
   };
@@ -57,33 +58,41 @@ const PurchasesReport = (props) => {
         <p style={{ margin: "0px" }}> To July 7, 2022</p>
       </div>
 
-      {purchases?.map((purchase) => (
-        <SaleComp purchase={purchase} />
-      ))}
+      {purchases?.map((purchase) => {
+       totalPurchases += purchase.total
+       return <SaleComp purchase={purchase} />
+      })}
       <Divider orientation="horizantal" color="white" />
-      <button onClick={generatePDF} type="button">
-        Export PDF
-      </button>
+    
+      <div
+        style={{
+          margin: "0px auto",
+          background: "white",
+          borderRadius: "0px 0px 10px 10px",
+          display: "flex",
+          fontSize: "15px",
+          //   alignSelf: "flex-end",
+          gap: "15px",
+            width: "95%"
+        }}
+      >
+        <p
+          style={{
+            margin: "0px",
+            fontWeight: "700",
+            marginLeft: "85%",
+            padding: "5px 0px",
+          }}
+        >
+          Total:
+        </p>
+        <p style={{ padding: "5px 0px" }}> {totalPurchases}</p>
+      </div>
     </div>
   );
 };
 
 const SaleComp = (props) => {
-  const columns = [
-    {
-      title: "Product Name",
-      field: "item",
-      width: "4%",
-      cellStyle: { padding: "0px 30px", height: "0px" },
-    },
-    { title: "Quantity", field: "quantity" },
-    { title: "Price", field: "unitPrice", render: (data) => <p>R{data.unitPrice}</p> },
-    {
-      title: "Subtotal",
-      field: "subtotal",
-      render: (data) => <p>R{data.subtotal}</p>,
-    },
-  ];
 
   return (
     <div style={{ width: "100%", marginTop: "0px" }}>
@@ -104,7 +113,6 @@ const SaleComp = (props) => {
         <Typography> Total: R{props.purchase.total}</Typography>
       </div>
       <MaterialTable
-        columns={columns}
         data={props.purchase.products}
         //     localization={{
         //       body: {
@@ -147,7 +155,7 @@ const SaleComp = (props) => {
               >
                 <p style={{ margin: "0px", flex: 2 }}> {props.data.item}</p>
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
-                <p style={{ margin: "0px", flex: 1 }}> R{props.data.uniPrice}</p>
+                <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
                 <p style={{ margin: "0px", flex: 0 }}>
                   {" "}
                   R{props.data.subtotal}

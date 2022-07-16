@@ -61,12 +61,12 @@ const RegisterStudents = (props) => {
         if (props.update){
           axios.patch(`http://127.0.0.1:80/api/v1/products/${props.product._id}`, values).then((res) => {
             alert("Successfully Updated")
-          }).catch((err)=> alert(err.message));
+          }).catch((err)=> alert(err.response.data.message));
           props.reset()
         } else {
           axios.post(`http://127.0.0.1:80/api/v1/products`, values).then((res) => {
             alert("Successfully Created")
-          }).catch((err) => alert(err.message));
+          }).catch((err) => alert(err.response.data.message));
           props.reset()
           resetForm();
         }

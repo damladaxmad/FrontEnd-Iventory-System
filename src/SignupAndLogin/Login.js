@@ -47,7 +47,7 @@ const Login = (props) => {
       const response = await axios
       .get(`http://127.0.0.1:80/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
       .catch((err) => {
-        setUsernameOrPasswordError("error")
+        setUsernameOrPasswordError(err.response.data.message)
       });
       if (response.data.authenticated == true) {
         props.showHandler()
@@ -110,7 +110,7 @@ const Login = (props) => {
         Login
       </Button>
       { usernameOrPasswordError != '' ? <div style={errorStyle}> 
-      Username or password is incorrect</div> : null}
+      {usernameOrPasswordError}</div> : null}
     </form>
   );
 };

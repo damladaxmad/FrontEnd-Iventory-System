@@ -10,6 +10,8 @@ import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import RegisterProducts from "../containers/ProductsContainers/RegisterProducts";
 import { setProducts } from "../redux/actions/productsActions";
+import {Tabs, Tab, Box} from "@mui/material"
+import Available from "../containers/ProductsContainers/Available";
 
 const Products = () => {
   const [newProducts, setNewProducts] = useState(false)
@@ -27,6 +29,11 @@ const Products = () => {
   const [force, setForce] = useState(1)
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
+  const [value, setValue] = React.useState("Products");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, product) => {
     setAnchorEl(event.currentTarget);
@@ -89,7 +96,7 @@ const Products = () => {
       const response = await axios
       .get("http://127.0.0.1:80/api/v1/products")
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
       if (response.data.data.products.length < 1)
     setState("No products to display!") 
@@ -163,9 +170,32 @@ const Products = () => {
           margin: "auto",
         }}
       >
+             <Box sx={{ width: "80%" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="black"
+            indicatorColor="primary"
+            aria-label="secondary tabs example"
+            disableFocusRipple = {true}
+          >
+            
+
+          {activeUser.privillages.includes("Access") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value= {newProducts ? "Create New Products" : "Products"} label="Products"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
+
+          {activeUser.privillages?.includes("Available") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value="Available" label="Available"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
+          </Tabs>
+        </Box>
        
-        <h2> {newProducts ? "Create New Products" : 
-        showProfile ? "Product Profile" : "Products"}</h2>
+        {/* <h2> {newProducts ? "Create New Products" : "Products"}</h2> */}
         <Button
           variant="contained"
           style={{
@@ -192,7 +222,7 @@ const Products = () => {
           {buttonName}
         </Button>
       </div>
-      {!newProducts && !showProfile &&
+      {!newProducts && !showProfile && value == "Products" &&
       <div
         style={{
           display: "flex",
@@ -230,7 +260,8 @@ const Products = () => {
           }} onClick = {handleClick} />} */}
         </div>
       </div>}
-      {!newProducts && !showProfile && <ProductsTable data={handler(products)} 
+      {value == "Available" && <Available/>}
+      {!newProducts && !showProfile && value == "Products" && <ProductsTable data={handler(products)} 
       change = {changeHandler} selectProducts = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state}/>}

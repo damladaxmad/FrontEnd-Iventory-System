@@ -18,6 +18,7 @@ const ProductsTable = (props) => {
    
     { title: "Product Name", field: "name" , width: "8%",},
     { title: "Unit Price", field: "unitPrice"},
+    { title: "quantity", field: "quantity"},
     { title: "Sale Price", field: "salePrice"},
     
   ];
@@ -41,12 +42,10 @@ const ProductsTable = (props) => {
   };
 
   const deleteProduct = async () => {
-   
-    
     axios.delete(`http://127.0.0.1:80/api/v1/products/${product._id}`).then((res)=>{
       alert("Successfuly Deleted")
     }).catch((err)=>
-    alert(err.message))
+    alert(err.response.data.message))
     handleClose()
     props.change()
     setForce(state => state + 1)

@@ -59,8 +59,8 @@ const SalesTable = (props) => {
       setDisabled(false)
       setP([])
       dispatch(setOrderList([]))
-    }).catch(()=> {
-      alert("Failed To Complete")
+    }).catch((err)=> {
+      alert(err.response.data.message);
       setDisabled(false)
     })
   }
@@ -104,7 +104,7 @@ const SalesTable = (props) => {
   }
 
     useEffect(()=> {
-      if (p) totalAdd()
+      if (!Object.keys(p).length === 0) totalAdd()
     }, [p])
 
   useEffect(()=> {

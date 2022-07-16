@@ -20,7 +20,7 @@ const BrowsePurchases = (props) => {
     const response = await axios
     .get("http://127.0.0.1:80/api/v1/products")
     .catch((err) => {
-      console.log("Err: ", err);
+      alert(err.response.data.message);
     });
   dispatch(setProducts(response.data.data.products));   
 };

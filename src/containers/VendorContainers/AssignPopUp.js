@@ -33,14 +33,6 @@ const Login = (props) => {
       values.type = "Payment"
       values.vendor = props.vendor._id
       values.user = activeUser.name
-      // const response = await axios
-      // .get(`/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
-      // .catch((err) => {
-      //   setUsernameOrPasswordError("error")
-      // });
-      // if (response.data.authenticated == true) {
-      //   props.showHandler()
-      // }
       setDisabled(true)
 
       const res = await axios.post(`http://127.0.0.1:80/api/v1/transactions`, values).then(()=> {
@@ -48,10 +40,9 @@ const Login = (props) => {
         alert("Succesfully Paid")
         setDisabled(false)
       }
-      ).catch(()=> {
+      ).catch((err)=> {
         props.hideModal()
-        console.log(values)
-        alert("Failed")
+        alert(err.response.data.message);
         setDisabled(false)
       }
       )

@@ -8,8 +8,9 @@ const TableRows = (props) => {
 
     const [quantity, setQuantity] = useState(1)
     const [unitPrice, setUnitPrice] = useState(props.value.unitPrice)
+    const [salePrice, setSalePrice] = useState(props.value.salePrice)
     const [all, setAll] = useState({})
-    const orderList = useSelector(state => state.orderList.orderList)
+    const purchaseList = useSelector(state => state.purchaseList.purchaseList)
     const [force, setForce] = useState(1)
 
     const forceUpdate = () => {
@@ -17,7 +18,7 @@ const TableRows = (props) => {
     }
 
     useEffect(() => {
-      setUnitPrice(props.value.unitPrice)
+      setSalePrice(props.value.salePrice)
     }, [force])
 
     const dispatch = useDispatch()
@@ -29,23 +30,30 @@ const TableRows = (props) => {
     
     const unitPriceHandler = (e) => {
         setUnitPrice(parseInt(e?.target?.value))
-        props.unitPriceFun(props.number, (parseFloat(e?.target?.value) + 
-        props.value.unitPrice) / 2, props.value.name)
+        props.unitPriceFun(props.number, parseFloat(e?.target?.value),
+        parseFloat(props.value.unitPrice), props.value.name)
     }
+
+    const salePriceHandler = (e) => {
+      setSalePrice(parseInt(e?.target?.value))
+      props.salePriceFun(props.number, parseFloat(e?.target?.value), props.value.name)
+  }
     
     useEffect(()=> {
       props.quantityFun(props.number, quantity, props.value.name)
-      props.unitPriceFun(props.number, (unitPrice + props.value.unitPrice) / 2, props.value.name)
+      props.unitPriceFun(props.number, unitPrice, parseFloat(props.value.unitPrice), props.value.name)
+      props.salePriceFun(props.number, salePrice, props.value.name)
+
     }, [])
 
     useEffect(()=> {
         props.data({item: props.value.name, quantity: quantity,
-            unitPrice: unitPrice})
+            unitPrice: unitPrice, salePrice: salePrice})
         props.total(quantity * unitPrice)
     }, [quantity, unitPrice])
 
     const iconHandler = () => {
-        let all = orderList
+        let all = purchaseList
         all.splice(props.number, 1)
         dispatch(setPurchaseList(all))
         props.change()
@@ -102,11 +110,21 @@ const TableRows = (props) => {
                 }}
               /> 
 
-              <div style={{background: "#F0F2FA",
-                border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",
-                fontSize:"16px", width: "15%", marginLeft: "5px" }}>
-                <p> {!Number.isNaN(unitPrice + props.value.unitPrice / 2) ? `R${(unitPrice + props.value.unitPrice) / 2}` : 0}  </p>
-                </div>
+              <input
+                name= "salePrice"
+                type= "number"
+                onChange={(e)=>salePriceHandler(e)}
+                value= {salePrice}
+                style={{
+                  width: "15%",
+                  height: "40px",
+                  padding: "15px",
+                  fontSize: "16px",
+                  marginLeft: "5px",
+                  border: "1px solid #C7C7C7",
+                  borderRadius: "6px",
+                }}
+              /> 
 
               <div style={{background: "#F0F2FA",
               border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",

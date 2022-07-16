@@ -90,7 +90,7 @@ const Emplooyees = () => {
       const response = await axios
       .get("http://127.0.0.1:80/api/v1/employees")
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
 
     dispatch(setEmployees(response.data.data.employees)); 

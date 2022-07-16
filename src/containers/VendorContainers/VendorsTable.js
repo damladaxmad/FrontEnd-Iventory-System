@@ -60,7 +60,7 @@ const VendorsTable = (props) => {
   const deleteVendor = (id) => {
     axios.delete(`http://127.0.0.1:80/api/v1/vendors/${vendor._id}`).then(()=>{
       alert("Succefully Deleted").catch((err)=> {
-        alert("Could not delete")
+        alert(err.response.data.message);
       })
     })
     handleClose()

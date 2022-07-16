@@ -38,7 +38,7 @@ const CreateCustomer = (props) => {
         props.hideModal();  
         }).catch(err => {
           props.hideModal();
-          alert("Couldn't create Customer")});
+          alert(err.response.data.message)});
         resetForm(); 
     },
   });

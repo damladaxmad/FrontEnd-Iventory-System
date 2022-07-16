@@ -20,12 +20,13 @@ const BrowseSales = (props) => {
     const response = await axios
     .get("http://127.0.0.1:80/api/v1/products")
     .catch((err) => {
-      console.log("Err: ", err);
+      alert(err.response.data.message);
     });
   dispatch(setProducts(response.data.data.products));   
 };
 
   const rowClickHandler = (data) => {
+    if (data.quantity < 1) return alert(`${data.name} is not available`)
     setQuery('')
     props.hideModal()
     if (!orderList.includes(JSON.stringify(data))){
@@ -75,6 +76,8 @@ const BrowseSales = (props) => {
       const columns = [
    
         { title: "Product Name", field: "name", width: "4%",
+        cellStyle: { border: "none"} },
+        { title: "Available", field: "quantity",
         cellStyle: { border: "none"} },
         { title: "Product Price", field: "unitPrice", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>

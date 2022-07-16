@@ -100,7 +100,7 @@ const Access = () => {
     const response = await axios
       .get("http://127.0.0.1:80/api/v1/users")
       .catch((err) => {
-        alert(err.nessage);
+        alert(err.response.data.message);
       });
     dispatch(setUsers(response.data.data.users));
   };

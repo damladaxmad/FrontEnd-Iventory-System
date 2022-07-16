@@ -50,12 +50,16 @@ const RegisterStudents = (props) => {
         if (props.update){
           axios.patch(`http://127.0.0.1:80/api/v1/customers/${props.customer._id}`, values).then((res) => {
             alert("successfully update")
+          }).catch((err) => {
+            alert(err.response.data.message);
           });
           props.reset()
         } else {
           axios.post(`http://127.0.0.1:80/api/v1/customers`, values).then((res) => {
             alert("Successfully Created Customer")
             props.reset()
+          }).catch((err) => {
+            alert(err.response.data.message);
           });
           resetForm();
         }

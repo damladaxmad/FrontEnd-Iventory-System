@@ -59,12 +59,14 @@ const RegisterEmployees = (props) => {
         axios.patch(`http://127.0.0.1:80/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
           alert("Successfully Updated")
         }).catch((err) => {
-          alert("Couldn't update Employee")
+          alert(err.response.data.message);
         });
         props.reset()
       } else {
         axios.post(`http://127.0.0.1:80/api/v1/employees`, values).then((res) => {
           alert("Successfully Created")
+        }).catch((err) => {
+          alert(err.response.data.message);
         });
         resetForm();
         props.reset()

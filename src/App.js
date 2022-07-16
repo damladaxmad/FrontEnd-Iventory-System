@@ -52,6 +52,7 @@ function App() {
   const [timeInterval, setTimeInterval] = useState(0);
 
 setTimeout(() => {
+  if (isConnected == "connected") return
   setTimeInterval(timeInterval + 1);
 }, 5000);
   
@@ -60,7 +61,7 @@ setTimeout(() => {
     const response = await axios
       .get("http://127.0.0.1:80/api/v1/customers")
       .catch((err) => {
-        console.log("Err: ", err);
+        alert(err.response.data.message);
       });
     dispatch(setCustomers(response.data.data.customers));
   };
@@ -71,7 +72,7 @@ setTimeout(() => {
       dispatch(setIsConnected("connected"))
       dispatch(setCompanyInfo(res.data.data))
     })
-    .catch(()=> {
+    .catch((err)=> {
       dispatch(setIsConnected("no connection"))
     })
   }

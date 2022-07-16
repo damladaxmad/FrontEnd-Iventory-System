@@ -98,7 +98,7 @@ const Vendors = (props) => {
       const response = await axios
       .get(`http://127.0.0.1:80/api/v1/vendors?status=${status}`)
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
     dispatch(setVendors(response.data.data.vendors));
     if (response.data.data.products.length < 1)
@@ -107,7 +107,7 @@ const Vendors = (props) => {
       const response = await axios
       .get("http://127.0.0.1:80/api/v1/vendors")
       .catch((err) => {
-        alert(err.message);
+        alert(err.response.data.message);
       });
     dispatch(setVendors(response.data.data.vendors));
     if (response.data.data.customers?.length < 1)
