@@ -23,26 +23,56 @@ const Available = (props) => {
         setState("Loading...")
         fetchProducts()
       }, [])
+
+      let total = 0
+
+      availableProducts.map(p => {
+        total += p.total
+      })
     
 
     const columns = [
    
-        { title: "Product Name", field: "name" , width: "8%",},
-        { title: "Unit Price", field: "unitPrice"},
-        { title: "Sale Price", field: "salePrice"},
-        { title: "unitMeasurment", field: "unitMeasurment"},
-        { title: "status", field: "status"},
-        { title: "total", field: "total"},
+      "Product Name",
+      "Quantity",
+       "Unit Price",
+        "Sale Price",
+       "Measurment", 
+        "Status",
+        "Total", 
         
       ];
     return (
         <div style={{width: "93%", margin: "30px auto", background: "white",
-        pading: "20px", gap: "20px", display: "flex", flexDirection: "column",
+        pading: "20px", gap: "10px", display: "flex", flexDirection: "column",
         borderRadius: "10px",
         alignItems: "center"}}>
             <h2 style = {{marginTop: "20px"}}> Available Products</h2>
+            <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  borderBottom: "0.5px solid grey",
+                  borderTop: "0.5px solid grey",
+                  padding: "8px 8px",
+                  background: "#EFF0F6",
+                  color: "black",
+                  fontWeight: "700",
+                  fontSize: "15px",
+                }}
+              >
+                {columns.map(c => (
+                  <p style={{ margin: "0px", flex: 
+                    c == "Product Name" ? 2 : 1 }}> {c}</p>
+                ))}
+              </div>
+
+            
+
+
              <MaterialTable
-        columns={columns}
         data={availableProducts}
         localization={{
           body: {
@@ -56,6 +86,7 @@ const Available = (props) => {
           showTitle: true,
           exportButton: false,
           search: false,
+          paging: false,
           sorting: false,
           showTextRowsSelected: false,
           toolbar: false,
@@ -65,10 +96,62 @@ const Available = (props) => {
           actionsColumnIndex: -1,
           headerStyle: { background: "#EFF0F6", fontSize: "13px", },
         }}
+
+        components={{
+          Row: (props) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  // margin: "10px 10px",
+                  borderBottom: "0.5px solid grey",
+                  padding: "2px 8px",
+                  fontSize: "16px",
+                }}
+              >
+                <p style={{ margin: "0px", flex: 2 }}> {props.data.name}</p>
+                <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
+                <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
+                <p style={{ margin: "0px", flex: 1 }}> R{props.data.salePrice}</p>
+                <p style={{ margin: "0px", flex: 1 }}> {props.data.unitMeasurment}</p>
+                <p style={{ margin: "0px", flex: 1 }}> {props.data.status}</p>
+                <p style={{ margin: "0px", flex: 1 }}> R{props.data.total}</p>
+             
+              </div>
+            );
+          },
+        }}
    
         style={{ borderRadius: "10px", boxShadow: "none",
     width: "100%" }}
       />
+      
+      <div
+        style={{
+          margin: "0px auto",
+          background: "white",
+          borderRadius: "0px 0px 10px 10px",
+          display: "flex",
+          fontSize: "13px",
+          //   alignSelf: "flex-end",
+          gap: "15px",
+          //   width: "95%"
+        }}
+      >
+        <p
+          style={{
+            margin: "0px",
+            fontWeight: "700",
+            marginLeft: "345px",
+            padding: "5px 0px",
+          }}
+        >
+          Total:
+        </p>
+        <p style={{ padding: "5px 0px" }}> R{total}</p>
+      </div>
         </div>
     )
 }

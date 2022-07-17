@@ -42,7 +42,8 @@ const Access = () => {
     {
       name: "Products",
       access: [
-        "Products", "Add New Products", "Delete Product", "Update Product"
+        "Products", "Add New Products", "Delete Product", "Update Product",
+        "Available"
       ],
     },
    {

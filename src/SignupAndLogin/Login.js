@@ -109,8 +109,9 @@ const Login = (props) => {
         {" "}
         Login
       </Button>
-      { usernameOrPasswordError != '' ? <div style={errorStyle}> 
-      {usernameOrPasswordError}</div> : null}
+      { usernameOrPasswordError != '' ? <p style={{alignSelf: "center",
+    color: "red"}}> 
+      {usernameOrPasswordError}</p> : null}
     </form>
   );
 };
