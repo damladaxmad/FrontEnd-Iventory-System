@@ -135,16 +135,15 @@ const Available = (props) => {
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
           fontSize: "13px",
-          //   alignSelf: "flex-end",
           gap: "15px",
-          //   width: "95%"
+            // width: "69%"
         }}
       >
         <p
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "345px",
+            marginLeft: "140%",
             padding: "5px 0px",
           }}
         >

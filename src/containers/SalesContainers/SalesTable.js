@@ -59,6 +59,7 @@ const SalesTable = (props) => {
       setDisabled(false)
       setP([])
       dispatch(setOrderList([]))
+      props.complete()
     }).catch((err)=> {
       alert(err.response.data.message);
       setDisabled(false)

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const AppBarFile = () => {
+const AppBarFile = (props) => {
   const dispatch = useDispatch()
   const activeUser = useSelector((state) => state.activeUser.activeUser);
   const [show, setShow] = useState(false)
@@ -53,6 +53,7 @@ const AppBarFile = () => {
 
   const logoutHandler = () => {
     dispatch(setIsLogin(false))
+    props.setNavigation()
     // const win = remote.getCurrentWindow();
     // win.setSize(700, 500);
     // win.center();
@@ -75,9 +76,9 @@ const AppBarFile = () => {
     // >
     <>
       {show && <EditProfile user = {activeUser} hideModal = {hideModal}/>}
-      <Toolbar style = {{marginLeft: "87%", width: "800px",}}>
-        <Typography className={classes.appBarTitle}></Typography>
-        <Typography style={{ fontWeight: "bold" }}></Typography>
+      <Toolbar style = {{marginLeft: props.open && "87%",}}>
+        {/* <Typography className={classes.appBarTitle}></Typography>
+        <Typography style={{ fontWeight: "bold" }}></Typography> */}
         <Typography style = {{fontWeight: "600", marginRight: "10px"}}>
        {activeUser ? activeUser.name : "Ahmed Ali"}
         </Typography>

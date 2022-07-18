@@ -194,6 +194,10 @@ export default function NewLayout({children}) {
     if (location !== "/") setShow(false)
   }
 
+  const setNavigation = () => {
+    navigate("/")
+  }
+
   React.useEffect(()=> {
     handleShow(location.pathname)
   }, [location])
@@ -223,7 +227,7 @@ export default function NewLayout({children}) {
           >
             <FiMenu />
           </IconButton>
-          <AppBarFile />
+          <AppBarFile open = {open} setNavigation = {setNavigation}/>
         </Toolbar>
       </AppBar>
 

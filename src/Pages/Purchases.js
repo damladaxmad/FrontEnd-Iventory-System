@@ -44,6 +44,7 @@ function Purchases() {
   const activeUser = useSelector((state) => state.activeUser.activeUser);
   const [total, setTotal] = useState(0);
   const [value, setValue] = React.useState("New Purchase");
+  const [complete, setComplete] = useState()
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -87,6 +88,16 @@ function Purchases() {
     if (force == 1) return
     fetchVendors();
   }, [force]);
+
+  const completeHandler = () => {
+    setComplete("complete")
+  }
+
+  useEffect(()=> {
+    if (complete !== "complete") return
+    dispatch(setPurchaseList([]));
+    setData([])
+  }, [complete])
 
   return (
     <div
@@ -296,6 +307,7 @@ function Purchases() {
           vendor={vendor}
           paymentType={status}
           total={totalHandler}
+          complete = {completeHandler}
         />
       )}
     </div>

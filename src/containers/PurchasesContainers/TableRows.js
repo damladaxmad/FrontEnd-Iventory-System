@@ -47,8 +47,7 @@ const TableRows = (props) => {
     }, [])
 
     useEffect(()=> {
-        props.data({item: props.value.name, quantity: quantity,
-            unitPrice: unitPrice, salePrice: salePrice})
+        props.data(props.value.unitPrice)
         props.total(quantity * unitPrice)
     }, [quantity, unitPrice])
 

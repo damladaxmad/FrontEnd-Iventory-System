@@ -24,6 +24,7 @@ const PurchasesTable = (props) => {
 
   const [force, setForce] = useState(1)
   const [disabled, setDisabled] = useState(false)
+  const [cUnitPrice, setCunitPrice] = useState(0)
 
   const forceHandler = () => {
     setForce(state => state + 1)
@@ -33,8 +34,8 @@ const PurchasesTable = (props) => {
 
   const [p, setP] = useState({})
 
-  const dataHandler = (d) => {
-
+  const dataHandler = (currentUnitPrice) => {
+    setCunitPrice(currentUnitPrice)
   }
 
   const quantityFun = (number, quantity, item) => {
@@ -70,6 +71,7 @@ const PurchasesTable = (props) => {
       setDisabled(false)
       setP([])
       dispatch(setPurchaseList([]))
+      props.complete()
     }).catch((err)=> {
       alert(err.response.data.message);
       setDisabled(false)
@@ -81,7 +83,7 @@ const PurchasesTable = (props) => {
     let products = []
     for (let i = 0; i< props.data.length; i++){
       if (!p[i].quantity) p[i].quantity = 1
-      if (!p[i].unitPrice) p[i].price = 0
+      if (!p[i].unitPrice) p[i].unitPrice = cUnitPrice
       products.push(p[i])
     }
     const apiData = {products: products,
@@ -106,7 +108,7 @@ const PurchasesTable = (props) => {
       for (let i = 0; i< props.data.length; i++){
           
           if (!p[i].quantity) p[i].quantity = 1
-          if (!p[i].unitPrice) p[i].unitPrice = 0
+          if (!p[i].currentUnitPrice) p[i].currentUnitPrice = cUnitPrice
           products.push(p[i])
         
       }
@@ -157,7 +159,7 @@ const PurchasesTable = (props) => {
         borderRadius: "0px 0px 10px 10px", background: "white",
         flexDirection: "column", gap: "30px"}}>
             {purchaseList.map((data, index) => {
-            return <TableRows value = {JSON.parse(data)} data = {(d) => dataHandler(d)}
+            return <TableRows value = {JSON.parse(data)} data = {dataHandler}
              key = {index} number = {index}
              total = {(total)=>props.total(total)}
              quantityFun = {quantityFun} unitPriceFun = {unitPriceFun}

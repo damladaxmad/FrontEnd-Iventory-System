@@ -170,7 +170,7 @@ const Products = () => {
           margin: "auto",
         }}
       >
-             <Box sx={{ width: "80%" }}>
+             <Box sx={{ width: "50%" }}>
           <Tabs
             value={value}
             onChange={handleChange}

@@ -16,11 +16,8 @@ const generatePDF = () => {
 };
 
 const Dashboard = () => {
+  
   const dashboard = useSelector((state) => state.dashboard.dashboard);
-  
-  
-
-  
 
   const dispatch = useDispatch();
   const stats = [
@@ -70,14 +67,7 @@ const Dashboard = () => {
           <StatCard value={d} key={index} />
         ))}
       </div>
-      {/* <Chart />
-      <div style={{ display: "flex", gap: "30px"}}>
-      <QuickActions />
-     <UpdateStudents/>
-      </div>   */}
-      <button onClick={generatePDF} type="button">
-        Export PDF
-      </button>
+ 
     </div>
   );
 };

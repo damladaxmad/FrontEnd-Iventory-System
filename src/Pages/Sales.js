@@ -26,6 +26,7 @@ function Sales() {
   const [data, setData] = useState([]);
   const [createCustomer, setCreateCustomer] = useState(false);
   const [force, setForce] = useState(1);
+  const [complete, setComplete] = useState()
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
 
@@ -78,6 +79,16 @@ function Sales() {
     setTotal(t);
   };
 
+  const completeHandler = () => {
+    setComplete("complete")
+  }
+
+  useEffect(()=> {
+    if (complete !== "complete") return
+    dispatch(setOrderList([]));
+    setData([])
+  }, [complete])
+
   const addHandler = () => {
     setCreateCustomer(true);
   };
@@ -86,7 +97,6 @@ function Sales() {
 
   useEffect(() => {
     if (force == 1) return
-    console.log("FROM Force")
     fetchCustomers();
   }, [force]);
 
@@ -297,6 +307,7 @@ function Sales() {
           customer={customer}
           paymentType={status}
           total={totalHandler}
+          complete = {completeHandler}
         />
       )}
     </div>
