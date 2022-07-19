@@ -35,6 +35,7 @@ const SalesReport = (props) => {
     fetchSales();
   }, []);
 
+
   return (
     <div
     id="saleReport"
@@ -59,8 +60,11 @@ const SalesReport = (props) => {
       </div>
 
       {sales?.map((sale) => {
-        totalSales += sale.total
-        return <SaleComp sale={sale} />
+        if (sale.paymentType != props.type && props.type != "all")  return
+        else {
+          totalSales += sale.total
+          return <SaleComp sale={sale} />
+        }
       })}
       <Divider orientation="horizantal" color="white" />
       <div

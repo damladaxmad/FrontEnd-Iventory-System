@@ -59,8 +59,11 @@ const PurchasesReport = (props) => {
       </div>
 
       {purchases?.map((purchase) => {
-       totalPurchases += purchase.total
-       return <SaleComp purchase={purchase} />
+       if (purchase.paymentType != props.type && props.type != "all")  return
+       else {
+         totalPurchases += purchase.total
+         return <PurchaseComp purchase={purchase} />
+       }
       })}
       <Divider orientation="horizantal" color="white" />
     
@@ -92,7 +95,7 @@ const PurchasesReport = (props) => {
   );
 };
 
-const SaleComp = (props) => {
+const PurchaseComp = (props) => {
 
   return (
     <div style={{ width: "100%", marginTop: "0px" }}>

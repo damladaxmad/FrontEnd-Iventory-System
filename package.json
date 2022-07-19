@@ -40,6 +40,18 @@
   "build": {
     "extends": null,
     "appId": "com.example.electron-cra",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "uninstallDisplayName": "inventory-system",
+      "license": "license.md",
+      "allowToChangeInstallationDirectory": true
+    },
+
     "files": [
       "dist/**/*",
       "build/**/*",

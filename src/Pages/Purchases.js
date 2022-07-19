@@ -23,6 +23,8 @@ function Purchases() {
   const [change, setChange] = useState(1);
   const statusArr = ["cash", "invoice"];
   const [status, setStatus] = useState();
+  const typeArr = ["all", "cash", "invoice"];
+  const [type, setType] = useState(typeArr[0]);
   const [data, setData] = useState([]);
   const [createVendor, setCreateVendor] = useState(false);
   const [force, setForce] = useState(1);
@@ -53,6 +55,11 @@ function Purchases() {
   const statusHandler = (e) => {
     setStatus(e.target.value);
   };
+
+  const typeHandler = (e) => {
+    setType(e.target.value);
+  };
+
   const vendorHandler = (e) => {
     setVendor(e.target.value);
   };
@@ -177,9 +184,25 @@ function Purchases() {
             }}
             // onChange={(e) => setQuery(e.target.value)}
           />
+           <TextField
+                select
+                size="small"
+                style={{width:"25%"}}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={type}
+                label="Select Type"
+                onChange={typeHandler}
+              >
+                {typeArr.map((type, index) => (
+                  <MenuItem value={type} key={index}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </TextField>
         </div>
       )}
-      {value == "Purchases" && <PurchasesReport />}
+      {value == "Purchases" && <PurchasesReport type = {type}/>}
 
       {value == "New Purchase" && (
         <div

@@ -35,10 +35,10 @@ const RegisterEmployees = (props) => {
       values.sex.toLowerCase() !== "male" &&
       values.sex.toLowerCase() !== "female"
     ) {
-      errors.sex = "No qaniis allowed";
+      errors.sex = "Either male or female";
     }
     if (!values.salary && values.salary != 0) {
-      errors.monthlyFee = "Field is Required";
+      errors.salary = "Field is Required";
     }
 
     return errors;
@@ -54,7 +54,6 @@ const RegisterEmployees = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-      console.log(props.empoloyee._id)
       if (props.update){
         axios.patch(`http://127.0.0.1:80/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
           alert("Successfully Updated")

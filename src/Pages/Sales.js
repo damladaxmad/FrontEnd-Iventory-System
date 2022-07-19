@@ -23,6 +23,8 @@ function Sales() {
   const [change, setChange] = useState(1);
   const statusArr = ["cash", "invoice"];
   const [status, setStatus] = useState();
+  const typeArr = ["all", "cash", "invoice"];
+  const [type, setType] = useState(typeArr[0]);
   const [data, setData] = useState([]);
   const [createCustomer, setCreateCustomer] = useState(false);
   const [force, setForce] = useState(1);
@@ -53,6 +55,9 @@ function Sales() {
 
   const statusHandler = (e) => {
     setStatus(e.target.value);
+  };
+  const typeHandler = (e) => {
+    setType(e.target.value);
   };
   const customerHandler = (e) => {
     setCustomer(e.target.value);
@@ -165,7 +170,7 @@ function Sales() {
             type="date"
             placeholder="Search"
             style={{
-              width: "300px",
+              width: "25%",
             }}
             // onChange={(e) => setQuery(e.target.value)}
           />
@@ -174,13 +179,30 @@ function Sales() {
             type="date"
             placeholder="Search"
             style={{
-              width: "300px",
+              width: "25%",
             }}
             // onChange={(e) => setQuery(e.target.value)}
           />
+       
+              <TextField
+                select
+                size="small"
+                style={{width:"25%"}}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={type}
+                label="Select Type"
+                onChange={typeHandler}
+              >
+                {typeArr.map((type, index) => (
+                  <MenuItem value={type} key={index}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </TextField>
         </div>
       )}
-      {value == "Sales" && <SalesReport />}
+      {value == "Sales" && <SalesReport type = {type}/>}
 
       {value == "New Order" && (
         <div

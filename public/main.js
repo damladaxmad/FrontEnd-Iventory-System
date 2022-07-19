@@ -5,9 +5,36 @@ const isDev = require('electron-is-dev')
 require('@electron/remote/main').initialize()
 const axios = require('axios')
 
-// const server = require(path.join(process.resourcesPath, "Inventory-Management-System/server.js"))
+const server = require(path.join(process.resourcesPath, "Inventory-Management-System/server.js"))
 let splash
 let isConnected = "loading"
+
+function createWindow() {
+  // Create the browser window.
+  const win = new BrowserWindow({
+    width: 1920,
+    height: 920,
+    // width: "100%",
+    // height: "100%",
+    // resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
+    },
+    devTools: false
+  })
+
+  win.loadURL(
+    isDev
+      ? 'http://localhost:3000'
+      : `file://${path.join(__dirname, '../build/index.html')}`
+  )
+  win.maximize()
+  win.removeMenu(true)
+
+}
+
 
 
 app.on('ready', () => {
@@ -20,8 +47,8 @@ app.on('ready', () => {
       webPreferences: {
         nodeIntegration: true,
         enableRemoteModule: true,
-        // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
-      }
+        devTools: false,
+        preload: null }
   });
   // create a new `splash`-Window 
   splash = new BrowserWindow({width: 410, height: 310, transparent: true, frame: false, alwaysOnTop: true});
@@ -41,37 +68,11 @@ app.on('ready', () => {
     //   isConnected = "connected"
     // }).catch(err => isConnected = "no connection")
       splash.destroy();
-      win.show();
-      win.maximize()
-      win.removeMenu(true)
+      createWindow()
   // }, 2000);
   });
 });
 
-// function createWindow() {
-  // Create the browser window.
-//   const win = new BrowserWindow({
-//     width: 1920,
-//     height: 920,
-//     // width: "100%",
-//     // height: "100%",
-//     // resizable: false,
-    // webPreferences: {
-    //   nodeIntegration: true,
-    //   enableRemoteModule: true,
-    //   preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
-    // }
-//   })
-
-  // win.loadURL(
-  //   isDev
-  //     ? 'http://localhost:3000'
-  //     : `file://${path.join(__dirname, '../build/index.html')}`
-  // )
-  // win.maximize()
-//   // win.removeMenu(true)
-
-// }
 
 // app.on('ready', createWindow)
 
