@@ -183,7 +183,7 @@ const Products = () => {
           >
             
 
-          {activeUser.privillages.includes("Access") && <Tab 
+          {activeUser.privillages.includes("Products") && <Tab 
             disableFocusRipple = {true}
             disableRipple = {true}
             value= {newProducts ? "Create New Products" : "Products"} label="Products"
@@ -267,7 +267,7 @@ const Products = () => {
       change = {changeHandler} selectProducts = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state}/>}
-      {newProducts && value != "Available" && value != "Products" &&
+      {newProducts && value != "Available" &&
        <RegisterProducts update = {update}
       product = {updatedProduct} reset = {resetFomr}/>}
 

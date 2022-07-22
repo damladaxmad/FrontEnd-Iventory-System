@@ -1,6 +1,8 @@
 import React from "react";
 import { Avatar, Typography, makeStyles } from "@material-ui/core";
 import { IoMdStats } from "react-icons/io";
+import { useSelect } from "@mui/base";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -43,7 +45,9 @@ const StatCard = (props) => {
             fontWeight: "600",
           }}
         >
-          {/* {props.value.value} */}
+          { props.value.isMoney ? 
+          props.value.value < 0 ? `-R${props.value.value*-1}` : `R${props.value.value}`
+        : props.value.value}
         </p>
         <Typography
           style={{
@@ -53,7 +57,7 @@ const StatCard = (props) => {
             fontWeight: "500",
           }}
         >
-          {props.value.lable}
+          {props.value.label}
         </Typography>
       </div>
     </div>

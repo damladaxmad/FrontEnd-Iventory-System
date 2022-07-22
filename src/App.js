@@ -21,6 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { setIsConnected } from "./redux/actions/isLoginActions";
+import { setDashboard } from "./redux/actions/dashboardActions";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -58,21 +59,25 @@ function App() {
       });
     dispatch(setCustomers(response.data.data.customers));
   };
-  const obj = {
-    startDate: "2022/7/17", endDate: "2022/7/19"
-  }
+
+  const fetchDashboard = async () => {
+    const response = await axios
+      .get("http://127.0.0.1:80/api/v1/dashboard").then(res=> {
+        dispatch(setDashboard(res.data.data))
+      })
+      .catch((err) => {
+        alert(err.response?.data?.message)
+      });
+  };
 
 
   const showHandler = () => {
     setShowLayout(true)
   }
 
-  
-
-  // useEffect(() => {
-  //   if (isConnected == "connected") return
-  //   fetchCompanyInfo()
-  // }, [timeInterval]);
+  useEffect(()=> {
+    fetchDashboard()
+  }, [])
 
   useEffect(()=> {
     setShowLayout(isLogin)
