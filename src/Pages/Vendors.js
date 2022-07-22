@@ -258,22 +258,6 @@ const Vendors = (props) => {
         />
         <div style={{ display: "flex", gap: "20px" }}>
       
-          <FormControl style={{ padding: "0px", margin: "0px" }}>
-          <Select
-            style={{  height: "40px", color: "#B9B9B9",
-            width: "150px", }}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={status}
-            onChange={statusHandler}
-          >
-            {statusArr.map((status, index) => (
-              <MenuItem value={status} key={index}>
-                {status}
-              </MenuItem>
-            ))}
-          </Select>
-          </FormControl>
           {showCornerIcon && <BiDotsVerticalRounded style = {{
             fontSize: "24px", margin: "auto 0px",
             cursor: "pointer"

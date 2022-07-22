@@ -36,6 +36,7 @@ module.exports = {
     "Add New Vendors",
     "View Transactions",
     "Update Vendor",
+    "View Purchases",
     "Payment",
     "Available"
   ],

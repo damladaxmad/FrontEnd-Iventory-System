@@ -3,14 +3,50 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveUser } from "../redux/actions/activeUseActions";
-import { setIsLogin } from "../redux/actions/isLoginActions";
+import { setIsConnected, setIsLogin } from "../redux/actions/isLoginActions";
 import superuser from '../superuser'
 import { Button } from "@mui/material";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
+import useNetworkHook from "./networkHook"
+import { setCompanyInfo } from "../redux/actions/companyInfoActions";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 const Login = (props) => {
   const dispatch = useDispatch()
+  const classes=useStyles();
+  const [showSpinner, setShowSpinner] = useState(false)
+  const [stateValues, setStateValues] = useState("")
   const isConnected = useSelector(state => state.isLogin.isConnected)
   const [usernameOrPasswordError, setUsernameOrPasswordError] = useState('')
+  const [timeInterval, setTimeInterval] = useState(0);
+  const companyInfo = useSelector(state => state.companyInfo.companyInfo)
+
+  setTimeout(() => {
+    if (isConnected == "connected") return
+    setTimeInterval(timeInterval + 1);
+  }, 5000);
+
+  const fetchCompanyInfo = async () => {
+    const res = await axios
+    .get('http://127.0.0.1:80/api/v1/companyInfo').then((res)=> {
+      // setTimeout(()=> {
+        dispatch(setIsConnected("connected"))
+        dispatch(setCompanyInfo(res.data.data))
+      // }, 5000)
+    })
+    .catch((err)=> {
+      dispatch(setIsConnected("no connection"))
+    })
+  }
+
   const loginArr = [
     { label: "Enter Username", type: "text", name: "userName" },
     { label: "Enter Password", type: "password", name: "password" },
@@ -31,6 +67,29 @@ const Login = (props) => {
     return errors;
   };
 
+  const authenticateFun = async (values) => {
+    console.log("Authenticate is called")
+    if(values.userName=="superuser" && values.password == "234"){
+      props.showHandler()
+      dispatch(setActiveUser(superuser))
+      dispatch(setIsLogin(true))
+      setShowSpinner(false)
+      return
+    }
+    const response = await axios
+    .get(`http://127.0.0.1:80/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
+    .catch((err) => {
+      setShowSpinner(false)
+      setUsernameOrPasswordError(err.response.data.message)
+    });
+    if (response?.data?.authenticated == true) {
+      props.showHandler()
+      dispatch(setActiveUser(response.data.user))
+      dispatch(setIsLogin(true))
+      setShowSpinner(false)
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       userName: "",
@@ -38,24 +97,25 @@ const Login = (props) => {
     },
     validate,
     onSubmit: async (values, { resetForm }) =>  {
-      if(values.userName=="superuser" && values.password == "234"){
-        props.showHandler()
-        dispatch(setActiveUser(superuser))
-        dispatch(setIsLogin(true))
-        return
-      }
-      const response = await axios
-      .get(`http://127.0.0.1:80/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
-      .catch((err) => {
-        setUsernameOrPasswordError(err.response.data.message)
-      });
-      if (response.data.authenticated == true) {
-        props.showHandler()
-        dispatch(setActiveUser(response.data.user))
-        dispatch(setIsLogin(true))
-      }
+      setShowSpinner(true)
+      setStateValues(values)
+    // authenticateFun(values)
+
+      
     },
   });
+
+  useEffect(()=> {
+    if (companyInfo) {
+      if (stateValues != "") authenticateFun(stateValues)
+    } 
+  }, [companyInfo, stateValues])
+
+  useEffect(() => {
+    if (isConnected != "connected") {
+      fetchCompanyInfo()
+    } 
+  }, [timeInterval, isConnected]);
 
   return (
     <form
@@ -66,6 +126,9 @@ const Login = (props) => {
     >
       {loginArr.map((a, index) => (
         <div>
+      {showSpinner && <Backdrop className={classes.backdrop} open>
+        <CircularProgress color="inherit" />
+      </Backdrop>}
           <input
             placeholder={a.label}
             id={a.name}

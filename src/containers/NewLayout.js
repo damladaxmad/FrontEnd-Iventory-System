@@ -23,6 +23,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdMenuOpen } from "react-icons/md"; 
 import { FiMenu } from "react-icons/fi"; 
+import { BiPurchaseTagAlt } from "react-icons/bi"; 
 import AppBarFile from './AppBarContainers/AppBar';
 import femaleProfile from "../assets/images/sampleProfile.png";
 import { useSelector } from 'react-redux';
@@ -154,14 +155,14 @@ const menuItems = [
       path: "/vendors",
     },
     {
+      text: "Purchases",
+      icon: <BiPurchaseTagAlt style={{ fontSize: "20px", color: "white" }} />,
+      path: "/purchases",
+    },
+    {
       text: "Employees",
       icon: <VscPerson style={{ fontSize: "20px", color: "white" }} />,
       path: "/emplooyees",
-    },
-    {
-      text: "Purchases",
-      icon: <MdPointOfSale style={{ fontSize: "20px", color: "white" }} />,
-      path: "/purchases",
     },
     {
       text: "Adminstration",
@@ -210,11 +211,15 @@ export default function NewLayout({children}) {
         padding : '0px', 
         margin: '0px',
         display: "flex",
+        width: open ? `calc(100% - ${drawerWidth}px)` : "100%",
+        flexDirection: "row",
+        justifyContent:"space-between",
       }}
       >
         <Toolbar 
-      style = {{display: "flex", width: "100%",
-       justifyContent: "space-between"}}>
+      style = {{display: "flex", 
+       justifyContent: !open && "space-between",
+       }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -227,8 +232,8 @@ export default function NewLayout({children}) {
           >
             <FiMenu />
           </IconButton>
-          <AppBarFile open = {open} setNavigation = {setNavigation}/>
         </Toolbar>
+          <AppBarFile open = {open} setNavigation = {setNavigation}/>
       </AppBar>
 
       
@@ -271,7 +276,7 @@ export default function NewLayout({children}) {
         <Divider />
         <List>
           {menuItems.map((item, index) => {
-            // if (!activeUser?.privillages?.includes(item.text)) return
+            if (!activeUser?.privillages?.includes(item.text)) return
             if (1 === 2) return
             else {
               

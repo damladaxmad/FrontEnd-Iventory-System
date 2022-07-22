@@ -68,17 +68,13 @@ const AppBarFile = (props) => {
   }
 
   return (
-    // <AppBar
-    //   position="fixed"
-    //   className={classes.appBar}
-    //   elevation={1}
-    //   color="primary"
-    // >
+
     <>
       {show && <EditProfile user = {activeUser} hideModal = {hideModal}/>}
-      <Toolbar style = {{marginLeft: props.open && "87%",}}>
-        {/* <Typography className={classes.appBarTitle}></Typography>
-        <Typography style={{ fontWeight: "bold" }}></Typography> */}
+      <div style = {{
+        marginRight: "2%", display: "flex",
+        alignItems: "center",}}>
+
         <Typography style = {{fontWeight: "600", marginRight: "10px"}}>
        {activeUser ? activeUser.name : "Ahmed Ali"}
         </Typography>
@@ -95,7 +91,7 @@ const AppBarFile = (props) => {
             }}
           />
         </Avatar>
-      </Toolbar>
+      </div>
       
       <Menu
         anchorEl={anchorEl}

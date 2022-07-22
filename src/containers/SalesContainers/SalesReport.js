@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Divider } from "@material-ui/core";
 import JsPDF from "jspdf";
-
+import moment from "moment";
 var doc = new JsPDF("p", "px", "a4");
 
 var width = doc.internal.pageSize.getWidth();
@@ -24,16 +24,18 @@ const SalesReport = (props) => {
 
   const fetchSales = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/sales")
+      .get(`http://127.0.0.1:80/api/v1/sales/bydate/${props.startDate}/${props.endDate}`).then((response)=> {
+        setSales(response.data.data.sales);
+      })
       .catch((err) => {
         alert(err.response.data.message);
       });
-    setSales(response.data.data.sales);
+    
   };
 
   useEffect(() => {
     fetchSales();
-  }, []);
+  }, [props.view]);
 
 
   return (
@@ -53,10 +55,15 @@ const SalesReport = (props) => {
       }}
     >
       <h2> Sales Report</h2>
-      <div style={{ display: "flex", gap: "10%", marginBottom: "20px",
+      <div style={{ display: "flex", gap: "1.5%", marginBottom: "20px",
     width: "100%", justifyContent: "center" }}>
-        <p style={{ margin: "0px" }}> From July 3, 2022</p>
-        <p style={{ margin: "0px" }}> To July 7, 2022</p>
+        <p style={{ margin: "0px" }}> {moment(props.startDate).format("MM/DD/YYYY")}</p>
+      
+        <Divider orientation="vertical"  style={{
+          width:"1.5px",
+        }} />
+        
+        <p style={{ margin: "0px" }}> {moment(props.endDate).format("MM/DD/YYYY")}</p>
       </div>
 
       {sales?.map((sale) => {
@@ -67,6 +74,7 @@ const SalesReport = (props) => {
         }
       })}
       <Divider orientation="horizantal" color="white" />
+      {!sales && <p> Loading...</p>}
       <div
         style={{
           margin: "0px auto",
@@ -126,7 +134,7 @@ const SaleComp = (props) => {
         }}
       >
         <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
-        <Typography> Date: 2022/7/3</Typography>
+        <Typography> {moment(props.sale.date).format("MM/DD/YYYY")}</Typography>
         <Typography> Type: {props.sale.paymentType}</Typography>
         <Typography> Total: R{props.sale.total}</Typography>
       </div>

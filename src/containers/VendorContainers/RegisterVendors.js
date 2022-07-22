@@ -109,23 +109,7 @@ const RegisterVendors = (props) => {
             
           </div>
         ))}
-         <FormControl >
-          <TextField
-          select
-            style={selectStyle}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sex}
-            label = "Enter Sex"
-            onChange={sexHandler}
-          >
-            {sexes.map((sex, index) => (
-              <MenuItem value={sex} key={index}>
-                {sex}
-              </MenuItem>
-            ))}
-          </TextField>
-        </FormControl>
+         
         {formik.touched.sex && formik.errors.sex ? (
               <div style={{ color: "red" }}>{formik.errors.sex}</div>
             ) : null}

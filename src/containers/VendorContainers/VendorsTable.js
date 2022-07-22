@@ -18,18 +18,24 @@ const VendorsTable = (props) => {
   const columns = [
    
     { title: "Vendor Name", field: "name" , width: "8%",},
-    { title: "Phone", field: "phone" },
+    { title: "Phone", field: "phone", render: (data) => {
+      if (data.phone) return <p> {data.phone}</p>
+    else return <em>no phone</em>}
+   },
     {
       title: "Deadline",
       field: "date",
       render: (data) => {
         const formatted = moment(data.deadline).format("DD/MM/YYYY");
+        if (formatted == "Invalid date") return <em> no deadline</em>
         return <p>{formatted}</p>;
       },
       
     },
     // { title: "Deadline", field: "deadline" },   
-    { title: "Balance", field: "balance", render: (data)=> <p>R{data.balance}</p> },
+    { title: "Balance", field: "balance", render: (data) =>
+    <p>{data.balance < 0 ? `-R${data.balance*-1}` : `R${data.balance}`}</p>},
+    
     { title: "Stutus", field: "status", render: (row)=> <span
     style={{color: row.status == "Late" ? "#FFAC32" 
     : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
@@ -112,10 +118,10 @@ const VendorsTable = (props) => {
           else alert("You have no access!")
           }}>View Transactions</MenuItem>
         <MenuItem onClick={() => {
-          if (activeUser.privillages.includes("View Sales"))
+          if (activeUser.privillages.includes("View Purchases"))
           showProfile("Sale")
           else alert("You have no access!")
-          }}>View Sales</MenuItem>
+          }}>View Purchases</MenuItem>
       </Menu>
       <MaterialTable
         columns={columns}

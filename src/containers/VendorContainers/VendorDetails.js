@@ -47,7 +47,7 @@ const VendorDetails = (props) => {
     display: "flex", alignItems: "center", flexDirection:"column",
     width: "85%", marginBottom: "30px", background: "white",
     padding: "30px 65px", gap: "10px"}}>
-        <h2 > Sales Report</h2>
+        <h2 > Purchases Report</h2>
             <div style = {{display:"flex", gap:"150px",
         marginBottom: "20px"}}>
             <p style={{margin: "0px"}}> From July 3, 2022</p>
@@ -55,8 +55,8 @@ const VendorDetails = (props) => {
             </div>
 
             {props.vendor.transactions?.map(transaction => {
-              if (!transaction.sale) return
-              else return <SaleComp sale = {transaction.sale} />
+              if (!transaction.purchase) return
+              else return <SaleComp purchase = {transaction.purchase} />
             })}
     </div>
       
@@ -81,17 +81,25 @@ const SaleComp = (props) => {
     ];
 
   return <div style = {{width:"100%", marginTop: "0px"}}>
-      <div style={{background: '#F0F2FA', padding: "5px 5px",
-       border: "1.5px solid black", display:"flex", borderRadius:"5px",
-       justifyContent: "space-around"}}> 
-          <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
+             <div
+        style={{
+          background: "#F0F2FA",
+          opacity: 0.8,
+          padding: "5px 5px",
+          border: "0.1px solid grey",
+          display: "flex",
+          borderRadius: "5px",
+          justifyContent: "space-around",
+        }}
+      >
+          <Typography> PurchaseNumber: {props.purchase.purchaseNumber}</Typography>
           <Typography> Date: 2022/7/3</Typography>
-          <Typography> Type: {props.sale.paymentType}</Typography>
-          <Typography> Total: R{props.sale.total}</Typography>
+          <Typography> Type: {props.purchase.paymentType}</Typography>
+          <Typography> Total: R{props.purchase.total}</Typography>
       </div>
       <MaterialTable
       columns={columns}
-      data={props.sale.products}
+      data={props.purchase.products}
   //     localization={{
   //       body: {
   //           emptyDataSourceMessage: (
@@ -117,6 +125,31 @@ const SaleComp = (props) => {
         },
         actionsColumnIndex: -1,
         headerStyle: { display: "none"},
+      }}
+
+      components={{
+        Row: (props) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                margin: "1px 20px",
+                borderBottom: "0.5px solid grey",
+                padding: "2px 0px",
+                fontSize: 13,
+              }}
+            >
+              <p style={{ margin: "0px", flex: 2 }}> {props.data.item}</p>
+              <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
+              <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
+              <p style={{ margin: "0px", flex: 0 }}>
+                {" "}
+                R{props.data.subtotal}
+              </p>
+            </div>
+          );
+        },
       }}
    
       style={{boxShadow: "none", background: "white",
@@ -144,7 +177,7 @@ const SaleComp = (props) => {
       >
         Total:
       </p>
-      <p style={{ padding: "10px 0px" }}> R{props.sale.total}</p>
+      <p style={{ padding: "10px 0px" }}> R{props.purchase.total}</p>
     </div>
   </div>
 }

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { setAvailableProducts } from "../../redux/actions/productsActions";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { Divider } from "@mui/material";
 const Available = (props) => {
     const [state, setState] = useState()
     const dispatch = useDispatch()
@@ -36,9 +37,6 @@ const Available = (props) => {
       "Product Name",
       "Quantity",
        "Unit Price",
-        "Sale Price",
-       "Measurment", 
-        "Status",
         "Total", 
         
       ];
@@ -46,7 +44,8 @@ const Available = (props) => {
         <div style={{width: "93%", margin: "30px auto", background: "white",
         pading: "20px", gap: "10px", display: "flex", flexDirection: "column",
         borderRadius: "10px",
-        alignItems: "center"}}>
+        alignItems: "center"
+        }}>
             <h2 style = {{marginTop: "20px"}}> Available Products</h2>
             <div
                 style={{
@@ -54,8 +53,8 @@ const Available = (props) => {
                   width: "100%",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  borderBottom: "0.5px solid grey",
-                  borderTop: "0.5px solid grey",
+                  borderBottom: "0.5px solid #E0E0E0",
+                  borderTop: "0.5px solid #E0E0E0",
                   padding: "8px 8px",
                   background: "#EFF0F6",
                   color: "black",
@@ -64,8 +63,7 @@ const Available = (props) => {
                 }}
               >
                 {columns.map(c => (
-                  <p style={{ margin: "0px", flex: 
-                    c == "Product Name" ? 2 : 1 }}> {c}</p>
+                  <p style={{ margin: "0px", flex: 1 }}> {c}</p>
                 ))}
               </div>
 
@@ -106,17 +104,14 @@ const Available = (props) => {
                   width: "100%",
                   justifyContent: "space-between",
                   // margin: "10px 10px",
-                  borderBottom: "0.5px solid grey",
+                  borderBottom: "0.5px solid #E0E0E0",
                   padding: "2px 8px",
                   fontSize: "16px",
                 }}
               >
-                <p style={{ margin: "0px", flex: 2 }}> {props.data.name}</p>
+                <p style={{ margin: "0px", flex: 1 }}> {props.data.name}</p>
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
                 <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
-                <p style={{ margin: "0px", flex: 1 }}> R{props.data.salePrice}</p>
-                <p style={{ margin: "0px", flex: 1 }}> {props.data.unitMeasurment}</p>
-                <p style={{ margin: "0px", flex: 1 }}> {props.data.status}</p>
                 <p style={{ margin: "0px", flex: 1 }}> R{props.data.total}</p>
              
               </div>
@@ -127,23 +122,25 @@ const Available = (props) => {
         style={{ borderRadius: "10px", boxShadow: "none",
     width: "100%" }}
       />
-      
+ 
+       
       <div
         style={{
           margin: "0px auto",
           background: "white",
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
-          fontSize: "13px",
+          fontSize: "15px",
           gap: "15px",
-            // width: "69%"
+          marginLeft: "81.5%",
+          borderTop: "1px solid black"
+            // width: "80%"
         }}
       >
         <p
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "140%",
             padding: "5px 0px",
           }}
         >

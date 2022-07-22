@@ -16,6 +16,7 @@ import { setCustomers } from "../redux/actions/customersActions";
 import { setOrderList } from "../redux/actions/orderListActions";
 import CreateCustomer from "../containers/SalesContainers/CreateCustomer";
 import SalesReport from "../containers/SalesContainers/SalesReport";
+import moment from 'moment';
 
 function Sales() {
   const dispatch = useDispatch();
@@ -29,6 +30,9 @@ function Sales() {
   const [createCustomer, setCreateCustomer] = useState(false);
   const [force, setForce] = useState(1);
   const [complete, setComplete] = useState()
+  const [startDate, setStartDate] = useState(moment(new Date()).format("MM-DD-YYYY"))
+  const [endDate, setEndDate] = useState(moment(new Date()).format("MM-DD-YYYY"))
+  const [view, setView] = useState(1)
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
 
@@ -39,7 +43,6 @@ function Sales() {
         alert(err.response.data.message);
       });
     dispatch(setCustomers(response.data.data.customers));
-    console.log(response.data.data.customers)
   };
 
   const customers = useSelector((state) => state.customers.customers);
@@ -98,12 +101,20 @@ function Sales() {
     setCreateCustomer(true);
   };
 
+  const viewHandler = () => {
+    setView(state => state + 1)
+  }
+
   useEffect(() => {}, [orderList]);
 
   useEffect(() => {
     if (force == 1) return
     fetchCustomers();
   }, [force]);
+
+  useEffect(()=> {
+    fetchCustomers()
+  }, [])
 
   return (
     <div
@@ -168,20 +179,19 @@ function Sales() {
           <TextField
             size="small"
             type="date"
-            placeholder="Search"
-            style={{
-              width: "25%",
-            }}
-            // onChange={(e) => setQuery(e.target.value)}
+            label = "Start Date"
+            value= {moment(new Date(startDate)).format("YYYY-MM-DD")}
+            style={{ width: "25%" }}
+            onChange={(e) => setStartDate(e.target.value)}
           />
           <TextField
             size="small"
             type="date"
+            label = "End Date"
+            value= {moment(new Date(endDate)).format("YYYY-MM-DD")}
             placeholder="Search"
-            style={{
-              width: "25%",
-            }}
-            // onChange={(e) => setQuery(e.target.value)}
+            style={{ width: "25%" }}
+            onChange={(e) => setEndDate(e.target.value)}
           />
        
               <TextField
@@ -200,9 +210,24 @@ function Sales() {
                   </MenuItem>
                 ))}
               </TextField>
+              
+              <Button
+            variant="contained"
+            style={{
+              backgroundColor: "#2F49D1",
+              color: "white",
+              width: "25%",
+              height: "40px",
+              fontSize: "18px",
+            }}
+            onClick={viewHandler}
+          >
+            View
+          </Button>
         </div>
       )}
-      {value == "Sales" && <SalesReport type = {type}/>}
+      {value == "Sales" && <SalesReport type = {type}
+      startDate = {startDate} endDate = {endDate} view = {view}/>}
 
       {value == "New Order" && (
         <div
@@ -227,7 +252,7 @@ function Sales() {
             }}
           >
             <FormControl
-              style={{ padding: "0px", margin: "0px", width: "25%" }}
+              style={{ padding: "0px", margin: "0px", width: "28%" }}
             >
               <TextField
                 select

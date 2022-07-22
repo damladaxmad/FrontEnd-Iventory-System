@@ -16,7 +16,6 @@ const InfoPopUp = (props) => {
     { label: "Enter Adress", type: "text", name: "address" },
     { label: "Enter Phone", type: "number", name: "phone" },
     { label: "Enter Email", type: "email", name: "email" },
-    { label: "Enter Image Name", type: "text", name: "imageName" },
   ];
 
   const formData = new FormData()
@@ -50,10 +49,6 @@ const InfoPopUp = (props) => {
 
     if (!values.email) {
         errors.email = "Field is Required";
-    }
-
-    if (!values.imageName) {
-        errors.imageName = "Field is Required";
     }
   
 
@@ -99,7 +94,7 @@ const InfoPopUp = (props) => {
         style={{
           display: "flex",
           // justifyContent: "center",
-          width: "95%",
+          width: "90%",
           alignItems: "center",
           flexDirection: "column",
           gap: "15px"
@@ -138,7 +133,7 @@ const InfoPopUp = (props) => {
       textAlign:"center", background: "#F3F3F3", width: "300px",
       alignItems: "center", fontWeight: "bolder", fontSize: "18px",
       borderRadius: "6px", border: "thin solid black",
-      cursor: "pointer", maxHeight: "50px"}}>
+      cursor: "pointer", height: "50px"}}>
         <label > Select Image
           <input id="inputTag" type="file" style={{display: "none"}}
           onChange = {(e) => handleFile(e)}/>
@@ -146,9 +141,9 @@ const InfoPopUp = (props) => {
 </div>
         <Button
           style={{
-            width: "190px",
+            width: "300px",
             height: "50px",
-            marginTop: "20px",
+            marginTop: "0px",
             fontSize: "16px",
             backgroundColor: "#2F49D1",
             color: "white",

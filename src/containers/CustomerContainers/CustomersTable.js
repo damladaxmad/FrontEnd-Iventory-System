@@ -18,12 +18,16 @@ const CustomersTable = (props) => {
   const columns = [
    
     { title: "Customer Name", field: "name" , width: "8%",},
-    { title: "Phone", field: "phone" },
+    { title: "Phone", field: "phone", render: (data) => {
+      if (data.phone) return <p> {data.phone}</p>
+    else return <em>no phone</em>}
+   },
     {
       title: "Deadline",
       field: "date",
       render: (data) => {
         const formatted = moment(data.deadline).format("DD/MM/YYYY");
+        if (formatted == "Invalid date") return <em> no deadline</em>
         return <p>{formatted}</p>;
       },
       

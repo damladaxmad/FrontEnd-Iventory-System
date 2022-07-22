@@ -65,6 +65,7 @@ const Products = () => {
 
   const addProductHandler = () => {
     setQuery('')
+    setValue("no")
     if (buttonName == "Add New Products"){
       setNewProducts(true)
       setButtonName("Go To Products")
@@ -72,6 +73,7 @@ const Products = () => {
       return
     } else if (buttonName == "Go To Products") {
       setShowProfile(false)
+      setValue("Products")
       setNewProducts(false)
       setButtonName("Add New Products") 
       setUpdate(false)
@@ -265,7 +267,8 @@ const Products = () => {
       change = {changeHandler} selectProducts = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state}/>}
-      {newProducts && <RegisterProducts update = {update}
+      {newProducts && value != "Available" && value != "Products" &&
+       <RegisterProducts update = {update}
       product = {updatedProduct} reset = {resetFomr}/>}
 
       <Menu

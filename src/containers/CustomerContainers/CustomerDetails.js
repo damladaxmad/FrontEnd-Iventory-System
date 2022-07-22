@@ -40,6 +40,8 @@ const CustomerDetails = (props) => {
           // onChange={(e) => setQuery(e.target.value)}
         />
 
+        
+
       </div>
 
       <div style = {{alignSelf: "center", 
@@ -81,9 +83,17 @@ const SaleComp = (props) => {
     ];
 
   return <div style = {{width:"100%", marginTop: "0px"}}>
-      <div style={{background: '#F0F2FA', padding: "5px 5px",
-       border: "1.5px solid black", display:"flex", borderRadius:"5px",
-       justifyContent: "space-around"}}> 
+       <div
+        style={{
+          background: "#F0F2FA",
+          opacity: 0.8,
+          padding: "5px 5px",
+          border: "0.1px solid grey",
+          display: "flex",
+          borderRadius: "5px",
+          justifyContent: "space-around",
+        }}
+      >
           <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
           <Typography> Date: 2022/7/3</Typography>
           <Typography> Type: {props.sale.paymentType}</Typography>
@@ -117,6 +127,30 @@ const SaleComp = (props) => {
         },
         actionsColumnIndex: -1,
         headerStyle: { display: "none"},
+      }}
+      components={{
+        Row: (props) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                margin: "1px 20px",
+                borderBottom: "0.5px solid grey",
+                padding: "2px 0px",
+                fontSize: 13,
+              }}
+            >
+              <p style={{ margin: "0px", flex: 2 }}> {props.data.item}</p>
+              <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
+              <p style={{ margin: "0px", flex: 1 }}> R{props.data.price}</p>
+              <p style={{ margin: "0px", flex: 0 }}>
+                {" "}
+                R{props.data.subtotal}
+              </p>
+            </div>
+          );
+        },
       }}
    
       style={{boxShadow: "none", background: "white",

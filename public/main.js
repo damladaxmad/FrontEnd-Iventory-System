@@ -48,7 +48,9 @@ app.on('ready', () => {
         nodeIntegration: true,
         enableRemoteModule: true,
         devTools: false,
-        preload: null }
+        // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
+ 
+      }
   });
   // create a new `splash`-Window 
   splash = new BrowserWindow({width: 410, height: 310, transparent: true, frame: false, alwaysOnTop: true});
@@ -81,7 +83,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.exit(0)
   }
 })
 

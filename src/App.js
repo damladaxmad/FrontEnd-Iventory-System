@@ -49,13 +49,6 @@ function App() {
   const [showReports, setShowReports] = useState(isReports)
   const dispatch = useDispatch();
   const companyInfo = useSelector(state => state.companyInfo.companyInfo)
-  const [timeInterval, setTimeInterval] = useState(0);
-
-setTimeout(() => {
-  if (isConnected == "connected") return
-  setTimeInterval(timeInterval + 1);
-}, 5000);
-  
 
   const fetchCustomers = async () => {
     const response = await axios
@@ -65,17 +58,10 @@ setTimeout(() => {
       });
     dispatch(setCustomers(response.data.data.customers));
   };
-
-  const fetchCompanyInfo = async () => {
-    const res = await axios
-    .get('http://127.0.0.1:80/api/v1/companyInfo').then((res)=> {
-      dispatch(setIsConnected("connected"))
-      dispatch(setCompanyInfo(res.data.data))
-    })
-    .catch((err)=> {
-      dispatch(setIsConnected("no connection"))
-    })
+  const obj = {
+    startDate: "2022/7/17", endDate: "2022/7/19"
   }
+
 
   const showHandler = () => {
     setShowLayout(true)
@@ -83,10 +69,10 @@ setTimeout(() => {
 
   
 
-  useEffect(() => {
-    if (isConnected == "connected") return
-    fetchCompanyInfo()
-  }, [timeInterval]);
+  // useEffect(() => {
+  //   if (isConnected == "connected") return
+  //   fetchCompanyInfo()
+  // }, [timeInterval]);
 
   useEffect(()=> {
     setShowLayout(isLogin)
@@ -98,9 +84,9 @@ setTimeout(() => {
 
    <div className="App" style={{backgroundColor: "#F0F2FA", display: "flex",
    justifyContent: "center",}}>
-     {!companyInfo && <Backdrop className={classes.backdrop} open>
+     {/* {!companyInfo && <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
-      </Backdrop>}
+      </Backdrop>} */}
       <Router>
     {!showLayout && 
     <Route path= "/signup" element = {<SignupAndLogin

@@ -73,8 +73,9 @@ const VendorSales = (props) => {
     { title: "User", field: "user", cellStyle: { border: "none" } },
     { title: "Debit", field: "debit", cellStyle: { border: "none" } },
     { title: "Credit", field: "credit", cellStyle: { border: "none" } },
-    { title: "Balance", field: "balance", render: (data) => <p> R{data.balance}</p>
-    ,cellStyle: { border: "none" } },
+    { title: "Balance", field: "balance", render: (data) =>
+    <p>{data.balance < 0 ? `-R${data.balance*-1}` : `R${data.balance}`}</p>
+  },
   ];
 
   const hideModal = () => {
@@ -123,7 +124,7 @@ const VendorSales = (props) => {
         <Divider
           style={{ height: "1px", margin: "20px 0px", background: "grey" }}
         />
-
+{/* 
         <div
           style={{
             display: "flex",
@@ -132,8 +133,10 @@ const VendorSales = (props) => {
             padding: "20px",
             fontSize: "20px",
           }}
-        >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+        > */}
+              <div style={{ display: "flex", flexDirection: "row",
+            justifyContent: "space-between", padding: "10px",
+            fontSize: "20px",}}>
             <div style={{ display: "flex", gap: "20px" }}>
               <p style={{ fontWeight: "700" }}> Vendor Name:</p>
               <p> {props.vendor.name}</p>
@@ -143,8 +146,6 @@ const VendorSales = (props) => {
               <p> {props.vendor.phone}</p>
             </div>
           </div>
-        
-        </div>
 
         <MaterialTable
           columns={columns}
@@ -182,7 +183,8 @@ const VendorSales = (props) => {
           {" "}
           Total:
         </p>
-        <p style={{ padding: "20px 0px" }}> {props.vendor.balance}</p>
+
+        <p style={{ padding: "20px 0px" }}> {props.vendor.balance < 0 ? `-R${props.vendor.balance*-1}` : `R${data.balance}`}</p>
       </div>
     </>
   );

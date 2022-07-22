@@ -5,8 +5,6 @@ import axios from "axios";
 import Login from "./Login";
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-// const {BrowserWindow} = window.require('electron').remote
-// const remote = window.require('electron').remote
 import { makeStyles } from '@material-ui/core/styles';
 import useNetworkHook from "./networkHook"
 import { useSelector } from "react-redux";
@@ -65,9 +63,9 @@ const SignupAndLogin = (props) => {
         >Login</p>
         </div>
         
-       {isConnected == "loading" && status && <Backdrop className={classes.backdrop} open>
+       {/* {isConnected == "loading" && status && <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
-      </Backdrop>}
+      </Backdrop>} */}
       <Login showHandler = {showHandler} status = {status}/>
     </div>
   );

@@ -138,16 +138,10 @@ const CustomerSales = (props) => {
           style={{ height: "1px", margin: "20px 0px", background: "grey" }}
         />
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: "20px",
-            fontSize: "20px",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+      
+          <div style={{ display: "flex", flexDirection: "row",
+            justifyContent: "space-between", padding: "10px",
+            fontSize: "20px",}}>
             <div style={{ display: "flex", gap: "20px" }}>
               <p style={{ fontWeight: "700" }}> Customer Name:</p>
               <p> {props.customer.name}</p>
@@ -157,7 +151,6 @@ const CustomerSales = (props) => {
               <p> {props.customer.phone}</p>
             </div>
           </div>
-        </div>
 
         <MaterialTable
           columns={columns}

@@ -16,6 +16,7 @@ import CreateVendor from "../containers/PurchasesContainers/CreateVendor";
 import PurchasesReport from "../containers/PurchasesContainers/PurchasesReport";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { setPurchaseList } from "../redux/actions/purchaseListActions";
+import moment from "moment";
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ function Purchases() {
   const [data, setData] = useState([]);
   const [createVendor, setCreateVendor] = useState(false);
   const [force, setForce] = useState(1);
+  const [startDate, setStartDate] = useState(moment(new Date()).format("MM-DD-YYYY"))
+  const [endDate, setEndDate] = useState(moment(new Date()).format("MM-DD-YYYY"))
+  const [view, setView] = useState(1)
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
 
@@ -51,6 +55,10 @@ function Purchases() {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  const viewHandler = () => {
+    setView(state => state + 1)
+  }
 
   const statusHandler = (e) => {
     setStatus(e.target.value);
@@ -106,6 +114,10 @@ function Purchases() {
     setData([])
   }, [complete])
 
+  useEffect(()=> {
+    fetchVendors()
+  }, [])
+
   return (
     <div
       style={{
@@ -152,57 +164,72 @@ function Purchases() {
       {show && <BrowsePurchases hideModal={hideModal} data={dataHandler} />}
       {createVendor && <CreateVendor hideModal={hideModal} />}
       {value == "Purchases" && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-            gap: "20px",
-            padding: "15px 20px",
-            background: "white",
-            width: "85%",
-            margin: "auto",
-            marginTop: "20px",
-            borderRadius: "8px 8px 0px 0px",
-          }}
-        >
-          <TextField
-            size="small"
-            type="date"
-            placeholder="Search"
-            style={{
-              width: "300px",
-            }}
-            // onChange={(e) => setQuery(e.target.value)}
-          />
-          <TextField
-            size="small"
-            type="date"
-            placeholder="Search"
-            style={{
-              width: "300px",
-            }}
-            // onChange={(e) => setQuery(e.target.value)}
-          />
-           <TextField
-                select
-                size="small"
-                style={{width:"25%"}}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={type}
-                label="Select Type"
-                onChange={typeHandler}
-              >
-                {typeArr.map((type, index) => (
-                  <MenuItem value={type} key={index}>
-                    {type}
-                  </MenuItem>
-                ))}
-              </TextField>
-        </div>
+         <div
+         style={{
+           display: "flex",
+           alignItems: "center",
+           justifyContent: "space-around",
+           gap: "20px",
+           padding: "15px 20px",
+           background: "white",
+           width: "85%",
+           margin: "auto",
+           marginTop: "20px",
+           borderRadius: "8px 8px 0px 0px",
+         }}
+       >
+         <TextField
+           size="small"
+           type="date"
+           label = "Start Date"
+           value= {moment(new Date(startDate)).format("YYYY-MM-DD")}
+           style={{ width: "25%" }}
+           onChange={(e) => setStartDate(e.target.value)}
+         />
+         <TextField
+           size="small"
+           type="date"
+           label = "End Date"
+           value= {moment(new Date(endDate)).format("YYYY-MM-DD")}
+           placeholder="Search"
+           style={{ width: "25%" }}
+           onChange={(e) => setEndDate(e.target.value)}
+         />
+      
+             <TextField
+               select
+               size="small"
+               style={{width:"25%"}}
+               labelId="demo-simple-select-label"
+               id="demo-simple-select"
+               value={type}
+               label="Select Type"
+               onChange={typeHandler}
+             >
+               {typeArr.map((type, index) => (
+                 <MenuItem value={type} key={index}>
+                   {type}
+                 </MenuItem>
+               ))}
+             </TextField>
+             
+             <Button
+           variant="contained"
+           style={{
+             backgroundColor: "#2F49D1",
+             color: "white",
+             width: "25%",
+             height: "40px",
+             fontSize: "18px",
+           }}
+           onClick={viewHandler}
+         >
+           View
+         </Button>
+       </div>
       )}
-      {value == "Purchases" && <PurchasesReport type = {type}/>}
+      {value == "Purchases" && <PurchasesReport type = {type}
+      startDate = {startDate} endDate = {endDate} view = {view}/>}
 
       {value == "New Purchase" && (
         <div
@@ -227,7 +254,7 @@ function Purchases() {
             }}
           >
             <FormControl
-              style={{ padding: "0px", margin: "0px", width: "25%" }}
+              style={{ padding: "0px", margin: "0px", width: "28%" }}
             >
               <TextField
                 select

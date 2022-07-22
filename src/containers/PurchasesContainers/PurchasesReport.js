@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Divider } from "@material-ui/core";
 import JsPDF from "jspdf";
-
+import moment from "moment";
 var doc = new JsPDF("p", "px", "a4");
 
 var width = doc.internal.pageSize.getWidth();
@@ -24,16 +24,18 @@ const PurchasesReport = (props) => {
 
   const fetchPurchases = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/purchases")
+      .get(`http://127.0.0.1:80/api/v1/purchases/bydate/${props.startDate}/${props.endDate}`).then((response)=> {
+        setPurchases(response.data.data.purchases);
+      })
       .catch((err) => {
         alert(err.response.data.message);
       });
-      setPurchases(response.data.data.purchases);
+    
   };
 
   useEffect(() => {
     fetchPurchases();
-  }, []);
+  }, [props.view]);
 
   return (
     <div
@@ -52,10 +54,15 @@ const PurchasesReport = (props) => {
       }}
     >
       <h2> Purchases Report</h2>
-      <div style={{ display: "flex", gap: "10%", marginBottom: "20px",
+      <div style={{ display: "flex", gap: "1.5%", marginBottom: "20px",
     width: "100%", justifyContent: "center" }}>
-        <p style={{ margin: "0px" }}> From July 3, 2022</p>
-        <p style={{ margin: "0px" }}> To July 7, 2022</p>
+        <p style={{ margin: "0px" }}> {moment(props.startDate).format("MM/DD/YYYY")}</p>
+      
+        <Divider orientation="vertical"  style={{
+          width:"1.5px",
+        }} />
+        
+        <p style={{ margin: "0px" }}> {moment(props.endDate).format("MM/DD/YYYY")}</p>
       </div>
 
       {purchases?.map((purchase) => {
@@ -66,7 +73,7 @@ const PurchasesReport = (props) => {
        }
       })}
       <Divider orientation="horizantal" color="white" />
-    
+      {!purchases && <p> Loading...</p>}
       <div
         style={{
           margin: "0px auto",
@@ -111,7 +118,7 @@ const PurchaseComp = (props) => {
         }}
       >
         <Typography> PurchaseNumber: {props.purchase.purchaseNumber}</Typography>
-        <Typography> Date: 2022/7/3</Typography>
+        <Typography> {moment(props.purchase.date).format("MM/DD/YYYY")}</Typography>
         <Typography> Type: {props.purchase.paymentType}</Typography>
         <Typography> Total: R{props.purchase.total}</Typography>
       </div>
