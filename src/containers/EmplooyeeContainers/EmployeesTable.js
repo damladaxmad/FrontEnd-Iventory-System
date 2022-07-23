@@ -6,6 +6,7 @@ import PopupForm from "./AssignPopUp";
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
+import swal from "sweetalert";
 
 const EmployeesTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,6 +27,32 @@ const EmployeesTable = (props) => {
     
   ];
 
+  const showSweetAlert = () => {
+    setAnchorEl(null);
+    swal({
+      title: "Delete Employee",
+      text: `Are you sure to delete ${employee.name}?`,
+      icon: "warning",
+      buttons: {
+        cancel : 'No',
+        confirm : {text:'Yes',className:'sweet-warning'},
+    }
+
+    }).then((response) => {
+      if (response) {
+        axios.delete(`http://127.0.0.1:80/api/v1/employees/${employee._id}`).then(()=> {
+          swal({text: `You have successfully deleted ${employee.name}`,
+          icon:"success", timer: "2000"})
+        }).catch((err) => {
+          swal({text: err.response.data.message,
+      icon:"error", timer: "2000"})
+        })
+        handleClose()
+        props.change()
+      }
+    })
+  }
+
   const showModal = () =>{
     setShow(true)
     handleClose()
@@ -45,13 +72,8 @@ const EmployeesTable = (props) => {
   };
 
   const deleteEmployee = () => {
-    axios.delete(`http://127.0.0.1:80/api/v1/employees/${employee._id}`).then(()=> {
-      alert("Successfully deleted")
-    }).catch((err) => {
-      alert(err.response.data.message);
-    })
+    showSweetAlert()
     handleClose()
-    props.change()
   };
 
   const updateEmployee = () => {

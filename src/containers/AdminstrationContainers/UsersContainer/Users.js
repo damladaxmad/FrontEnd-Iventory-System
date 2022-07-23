@@ -82,7 +82,7 @@ const Users = () => {
 
   </div>
       <UsersTable data = {handler(users)}
-      change = {change}state =  {state}/>
+      change = {change} state =  {state}/>
       </>
   )
 }

@@ -269,7 +269,8 @@ const Products = () => {
       state = {state}/>}
       {newProducts && value != "Available" &&
        <RegisterProducts update = {update}
-      product = {updatedProduct} reset = {resetFomr}/>}
+      product = {updatedProduct} reset = {resetFomr}
+      change = {changeHandler}/>}
 
       <Menu
         id="basic-menu"

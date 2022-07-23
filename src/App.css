@@ -6,3 +6,8 @@ body {
 .MuiTableRow-root:hover { 
     /* background: #dedede !important; */
 }
+
+.sweet-warning{
+    background-color: #2F49D1;
+   }
+   

@@ -5,6 +5,7 @@ import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
+import swal from "sweetalert";
 
 const ProductsTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,14 +42,34 @@ const ProductsTable = (props) => {
     setAnchorEl(null);
   };
 
+  const showSweetAlert = () => {
+    setAnchorEl(null);
+    swal({
+      title: "Delete Employee",
+      text: `Are you sure to delete ${product.name}?`,
+      icon: "warning",
+      buttons: {
+        cancel : 'No',
+        confirm : {text:'Yes',className:'sweet-warning'},
+    }
+
+    }).then((response) => {
+      if (response) {
+        axios.delete(`http://127.0.0.1:80/api/v1/products/${product._id}`).then(()=> {
+          swal({text: `You have successfully deleted ${product.name}`,
+          icon:"success", timer: "2000"})
+          props.change()
+        }).catch((err) => {
+          swal({text: err.response.data.message,
+      icon:"error", timer: "2000"})
+        })
+      }
+    })
+  }
+
   const deleteProduct = async () => {
-    axios.delete(`http://127.0.0.1:80/api/v1/products/${product._id}`).then((res)=>{
-      alert("Successfuly Deleted")
-    }).catch((err)=>
-    alert(err.response.data.message))
+    showSweetAlert()
     handleClose()
-    props.change()
-    setForce(state => state + 1)
   };
 
   const updateProduct = () => {

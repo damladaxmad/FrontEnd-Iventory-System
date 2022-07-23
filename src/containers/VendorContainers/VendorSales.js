@@ -184,7 +184,7 @@ const VendorSales = (props) => {
           Total:
         </p>
 
-        <p style={{ padding: "20px 0px" }}> {props.vendor.balance < 0 ? `-R${props.vendor.balance*-1}` : `R${data.balance}`}</p>
+        <p style={{ padding: "20px 0px" }}> {props.vendor.balance < 0 ? `-R${props.vendor.balance*-1}` : `R${props.vendor.balance}`}</p>
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
 import ResetPopUp from "./ResetPopUp";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import swal from "sweetalert";
 
 const UsersTable = (props) => {
 
@@ -51,13 +52,33 @@ const UsersTable = (props) => {
     setAnchorEl(null);
   };
 
+  const showSweetAlert = () => {
+    setAnchorEl(null);
+    swal({
+      title: "Delete User!",
+      text: `Are you sure to delete ${user.name}?`,
+      icon: "warning",
+      buttons: {
+        cancel : 'No',
+        confirm : {text:'Yes',className:'sweet-warning'},
+    }
 
-  const deleteUser = () => {
-    axios.delete(`http://127.0.0.1:80/api/v1/users/${user._id}`).then((res)=>
-      alert("Deleted successfully")
-    ).catch((err) => {
-      alert(err.response.data.message);
+    }).then((response) => {
+      if (response) {
+        axios.delete(`http://127.0.0.1:80/api/v1/users/${user._id}`).then(()=> {
+          swal({text: `You have successfully deleted ${user.name}`,
+          icon:"success", timer: "2000"})    
+          props.change()
+        }).catch((err) => {
+          swal({text: err.response.data.message,
+      icon:"error", timer: "2000"})
+        })
+        handleClose()
+      }
     })
+  }
+  const deleteUser = () => {
+    showSweetAlert()
     handleClose()
     // props.change()
   };

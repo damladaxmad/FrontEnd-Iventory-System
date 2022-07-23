@@ -5,7 +5,7 @@ const isDev = require('electron-is-dev')
 require('@electron/remote/main').initialize()
 const axios = require('axios')
 
-const server = require(path.join(process.resourcesPath, "Inventory-Management-System/server.js"))
+// const server = require(path.join(process.resourcesPath, "Inventory-Management-System/server.js"))
 let splash
 let isConnected = "loading"
 

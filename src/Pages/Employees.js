@@ -19,7 +19,7 @@ const Emplooyees = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [updatedEmployee, setUpdatedEmployee] = useState(null)
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [del, setDel] = useState(1);
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [emplyeeIds, setEmployeesIds] = useState('')
@@ -41,7 +41,7 @@ const Emplooyees = () => {
   }
 
   const changeHandler = () => {
-    forceUpdate()
+    setDel(state => state + 1)
   }
 
   const dispatch = useDispatch()
@@ -129,7 +129,12 @@ const Emplooyees = () => {
   useEffect(()=> {
     setState("Loading...")
     fetchEmpoloyees()
-  }, [force, ignored])
+  }, [force])
+
+  useEffect(()=> {
+      console.log("Application re rerun")
+      fetchEmpoloyees()
+  }, [del, employees])
 
     useEffect(()=> {
     if (query != '') {
@@ -237,7 +242,8 @@ const Emplooyees = () => {
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state}/>}
       {newEmployees && <RegisterEmployees update = {update}
-      empoloyee = {updatedEmployee} reset = {resetFomr}/>}
+      empoloyee = {updatedEmployee} reset = {resetFomr}
+      change = {changeHandler} />}
 
       <Menu
         id="basic-menu"
