@@ -133,20 +133,20 @@ const SaleComp = (props) => {
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-around",
                 margin: "1px 20px",
                 borderBottom: "0.5px solid grey",
                 padding: "2px 0px",
                 fontSize: 13,
               }}
             >
-              <p style={{ margin: "0px", flex: 2 }}> {props.data.item}</p>
-              <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
-              <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
-              <p style={{ margin: "0px", flex: 0 }}>
+              <p style={{ margin: "0px", width: "35%"}}> {props.data.item}</p>
+              <p style={{ margin: "0px", width: "20%"}}> {props.data.quantity}</p>
+              <p style={{ margin: "0px", width: "20%"}}> R{props.data.unitPrice}</p>
+              <p style={{ margin: "0px", width: "25%", textAlign: "end"}}>
                 {" "}
                 R{props.data.subtotal}
               </p>
+              
             </div>
           );
         },
@@ -155,30 +155,30 @@ const SaleComp = (props) => {
       style={{boxShadow: "none", background: "white",
   width: "70%" }}
     />
-     <div
-      style={{
-        margin: "0px auto",
-        background: "white",
-        borderRadius: "0px 0px 10px 10px",
-        display: "flex",
-        fontSize: "16px",
-      //   alignSelf: "flex-end",
-        gap: "15px",
-      //   width: "95%"
-      }}
-    >
-      <p
+    <div
         style={{
-          margin: "0px",
-          fontWeight: "700",
-          marginLeft: "345px",
-          padding: "10px 0px",
+          margin: "0px auto",
+          background: "white",
+          borderRadius: "0px 0px 10px 10px",
+          display: "flex",
+          fontSize: "13px",
+          justifyContent: "flex-end",
+          gap: "15px",
+          padding: "2px 18px",
+          width: "30%",
         }}
       >
-        Total:
-      </p>
-      <p style={{ padding: "10px 0px" }}> R{props.purchase.total}</p>
-    </div>
+        <p
+          style={{
+            margin: "0px",
+            fontWeight: "700",
+            padding: "5px 0px",
+          }}
+        >
+          Total:
+        </p>
+        <p style={{ padding: "5px 0px" }}> R{props.purchase.total}</p>
+      </div>
   </div>
 }
 

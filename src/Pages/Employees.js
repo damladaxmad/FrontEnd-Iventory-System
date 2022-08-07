@@ -10,7 +10,8 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { setEmployees } from "../redux/actions/employeesActions";
 import EmployeesTable from "../containers/EmplooyeeContainers/EmployeesTable";
 import RegisterEmployees from "../containers/EmplooyeeContainers/RegisterEmployees";
-
+import { constants } from "../Helpers/constantsFile";
+import useFetch from "../funcrions/DataFetchers";
 const Emplooyees = () => {
   const [newEmployees, setNewEmployees] = useState(false)
   const [buttonName, setButtonName] = useState('Add New Employees')
@@ -46,6 +47,8 @@ const Emplooyees = () => {
 
   const dispatch = useDispatch()
   const employees = useSelector((state) => state.employees.employees);
+  dispatch(setEmployees(useFetch("employees", del, "employees")))
+  
   const statusArr = ["All", "Active", "Inactive"]
   const [status, setStatus] = useState(statusArr[0]);
   const [query, setQuery] = useState("");
@@ -74,7 +77,7 @@ const Emplooyees = () => {
 
   const handler = (data) => { 
  
-    if (data.length > 0) {
+    if (data?.length > 0) {
       return data.filter(
         (std) =>
         std.name.toLowerCase().includes(query) ||
@@ -88,7 +91,7 @@ const Emplooyees = () => {
   const fetchEmpoloyees = async (status) => {
 
       const response = await axios
-      .get("http://127.0.0.1:80/api/v1/employees")
+      .get(`${constants.baseUrl}/employees`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -122,19 +125,17 @@ const Emplooyees = () => {
   }
 
   const resetFomr = () => {
-    setUpdate(false)
     setForce(state => state + 1)
   }
 
   useEffect(()=> {
     setState("Loading...")
-    fetchEmpoloyees()
+    // fetchEmpoloyees()
   }, [force])
 
   useEffect(()=> {
-      console.log("Application re rerun")
-      fetchEmpoloyees()
-  }, [del, employees])
+      // fetchEmpoloyees()
+  }, [del])
 
     useEffect(()=> {
     if (query != '') {
@@ -200,7 +201,7 @@ const Emplooyees = () => {
           {buttonName}
         </Button>
       </div>
-      {!newEmployees && !showProfile &&
+      {!showProfile &&
       <div
         style={{
           display: "flex",
@@ -237,12 +238,16 @@ const Emplooyees = () => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!newEmployees && !showProfile && <EmployeesTable data={handler(employees)} 
+      {!showProfile && <EmployeesTable data={handler(employees)} 
       change = {changeHandler} selectEmpoloyees = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state}/>}
       {newEmployees && <RegisterEmployees update = {update}
-      empoloyee = {updatedEmployee} reset = {resetFomr}
+      empoloyee = {updatedEmployee} reset = {resetFomr}  hideModal = {()=> {
+        setUpdate(false)
+        setNewEmployees(false)
+        setButtonName("Add New Employees")
+      }}
       change = {changeHandler} />}
 
       <Menu

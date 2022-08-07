@@ -17,6 +17,7 @@ import PurchasesReport from "../containers/PurchasesContainers/PurchasesReport";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { setPurchaseList } from "../redux/actions/purchaseListActions";
 import moment from "moment";
+import {constants} from "../Helpers/constantsFile"
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function Purchases() {
 
   const fetchVendors = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/vendors")
+      .get(`${constants.baseUrl}/vendors`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -323,7 +324,7 @@ function Purchases() {
                     fontSize: "25px",
                     fontWeight: "bolder",
                   }}
-                  onClick={addHandler}
+                  onClick={()=> status == "invoice" && addHandler()}
                 />
               </div>
           </div>

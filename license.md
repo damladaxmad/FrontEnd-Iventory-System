@@ -1,1 +1,1 @@
-Please read and agree.
+This is the inventory system. Clike agree to continue.

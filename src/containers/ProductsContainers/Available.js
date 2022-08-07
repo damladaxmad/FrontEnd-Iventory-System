@@ -4,10 +4,12 @@ import { setAvailableProducts } from "../../redux/actions/productsActions";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "@mui/material";
+import useFetch from "../../funcrions/DataFetchers";
 const Available = (props) => {
     const [state, setState] = useState()
     const dispatch = useDispatch()
     const availableProducts = useSelector((state) => state.products.availableProducts);
+    dispatch(setAvailableProducts(useFetch("products/available", "sth", "products")));
 
     const fetchProducts = async () => {
         const response = await axios
@@ -22,23 +24,21 @@ const Available = (props) => {
 
     useEffect(()=> {
         setState("Loading...")
-        fetchProducts()
+        // fetchProducts()
       }, [])
 
       let total = 0
 
-      availableProducts.map(p => {
+      availableProducts?.map(p => {
         total += p.total
       })
     
 
-    const columns = [
-   
+    const columns = [ 
       "Product Name",
       "Quantity",
        "Unit Price",
-        "Total", 
-        
+        "Total",     
       ];
     return (
         <div style={{width: "93%", margin: "30px auto", background: "white",
@@ -55,7 +55,7 @@ const Available = (props) => {
                   alignItems: "center",
                   borderBottom: "0.5px solid #E0E0E0",
                   borderTop: "0.5px solid #E0E0E0",
-                  padding: "8px 8px",
+                  padding: "8px 18px",
                   background: "#EFF0F6",
                   color: "black",
                   fontWeight: "700",
@@ -63,7 +63,8 @@ const Available = (props) => {
                 }}
               >
                 {columns.map(c => (
-                  <p style={{ margin: "0px", flex: 1 }}> {c}</p>
+                  <p style={{ margin: "0px", flex: 1,
+                textAlign: c == "Total" && "end"}}> {c}</p>
                 ))}
               </div>
 
@@ -105,14 +106,14 @@ const Available = (props) => {
                   justifyContent: "space-between",
                   // margin: "10px 10px",
                   borderBottom: "0.5px solid #E0E0E0",
-                  padding: "2px 8px",
+                  padding: "2px 18px",
                   fontSize: "16px",
                 }}
               >
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.name}</p>
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
                 <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
-                <p style={{ margin: "0px", flex: 1 }}> R{props.data.total}</p>
+                <p style={{ margin: "0px", flex: 1, textAlign: "end" }}> R{props.data.total}</p>
              
               </div>
             );
@@ -131,10 +132,10 @@ const Available = (props) => {
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
           fontSize: "15px",
+          justifyContent: "flex-end",
           gap: "15px",
-          marginLeft: "81.5%",
-          borderTop: "1px solid black"
-            // width: "80%"
+          padding: "2px 18px",
+          width: "100%",
         }}
       >
         <p

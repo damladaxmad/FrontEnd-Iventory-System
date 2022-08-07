@@ -38,7 +38,8 @@ module.exports = {
     "Update Vendor",
     "View Purchases",
     "Payment",
-    "Available"
+    "Available",
+    "Print"
   ],
 };
 

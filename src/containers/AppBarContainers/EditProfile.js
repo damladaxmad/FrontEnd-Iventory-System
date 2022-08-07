@@ -64,7 +64,7 @@ const EditProfile = (props) => {
 
  
   return (
-    <Modal onClose = {()=> props.hideModal() } pwidth = "400px">
+    <Modal onClose = {()=> props.hideModal() } pwidth = "450px">
       <div
         style={{
           display: "flex",

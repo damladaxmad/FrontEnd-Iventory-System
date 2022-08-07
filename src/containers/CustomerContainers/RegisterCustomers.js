@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Modal from "../../Modal/Modal";
 import { useFormik } from "formik";
 import { selectClasses } from "@material-ui/core";
 import axios from "axios";
@@ -6,30 +7,17 @@ import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select, TextField, Button} from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
 
-const RegisterStudents = (props) => {
+const RegisterCustomers = (props) => {
+
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
-    { label: "Enter Phone", type: "text", name: "phone" },
+    { label: "Enter phone", type: "text", name: "phone" },
     { label: "", type: "date", name: "deadline" },
   ];
 
-  const sexes = ["male", "female"]
-  const statuses = ["Active", "Inactive"]
-  const [status, setStatus] = useState(statuses[0])
-  const [sex, setSex] = useState()
-
-  const sexHandler = (e) => {
-    setSex(e.target.value);
-  }; 
-  const statusHandler = (e) => {
-    setStatus(e.target.value);
-  }; 
-
- 
-
   const validate = (values) => {
     const errors = {};
-
+   
     if (!values.name) {
       errors.name = "Field is Required";
     }
@@ -45,21 +33,25 @@ const RegisterStudents = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-      values.sex = sex
-      values.status = status
         if (props.update){
           axios.patch(`http://127.0.0.1:80/api/v1/customers/${props.customer._id}`, values).then((res) => {
             alert("successfully update")
+            props.reset()
+            props.hideModal()
           }).catch((err) => {
             alert(err.response.data.message);
+            props.hideModal()
+
           });
-          props.reset()
+          
         } else {
           axios.post(`http://127.0.0.1:80/api/v1/customers`, values).then((res) => {
             alert("Successfully Created Customer")
             props.reset()
+            props.hideModal()
           }).catch((err) => {
             alert(err.response.data.message);
+            props.hideModal()
           });
           resetForm();
         }
@@ -67,32 +59,30 @@ const RegisterStudents = (props) => {
     },
   });
 
-
-  useEffect(()=>{
-
-  }, [props])
-
-  const parentDivStyle = { height: "100%", width: "95%",
-    margin: "0px auto", marginTop: "20px", display: "flex",
-    gap: "14px", background: "white", flexDirection: "column",
-    borderRadius: "10px", padding: "28px",
-  }
-  
-  const selectStyle = {  height: "50px", color: "#B9B9B9",
-  width: "290px", }
-
+ 
   return (
-    <div
-      style={parentDivStyle}
-    >
-      <h2>Register Customers </h2>
-      <form
+    <Modal onClose = {props.hideModal} pwidth = "450px">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "15px"
+        }}
+      >
+        <h2>{props.update ? "Customer Update" : "Customer Creation"}</h2>
+     
+
+        <form
         onSubmit={formik.handleSubmit}
-        style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
+        style={{ display: "flex", gap: "16px",
+      flexDirection: "column", alignItems: "center" }}
       >
         {arr.map((a, index) => (
           <div>
             <TextField
+              variant="outlined"
               label={a.label}
               id={a.name}
               name={a.name}
@@ -100,35 +90,32 @@ const RegisterStudents = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values[a.name]}
-              style={{ width: "290px" }}
+              style={{ width: "290px", color: "black" }}
               key={index}
             />
             {formik.touched[a.name] && formik.errors[a.name] ? (
               <div style={{ color: "red" }}>{formik.errors[a.name]}</div>
             ) : null}
-            
           </div>
         ))}
-        
-        {formik.touched.sex && formik.errors.sex ? (
-              <div style={{ color: "red" }}>{formik.errors.sex}</div>
-            ) : null}
-      
+  
+
         <Button
           style={{
-            width: "290px",
-            height: "50px",
+            width: "190px",
             fontSize: "16px",
             backgroundColor: "#2F49D1",
+            color: "white",
           }}
           type="submit"
           variant="contained"
         >
-          {props.update ? "Update" : "Register"}
+          {props.update ? "Update Customer": "Create Customer"}
         </Button>
       </form>
-    </div>
+
+      </div>
+    </Modal>
   );
 };
-
-export default RegisterStudents;
+export default RegisterCustomers;

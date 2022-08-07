@@ -22,6 +22,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { setIsConnected } from "./redux/actions/isLoginActions";
 import { setDashboard } from "./redux/actions/dashboardActions";
+import PrintFile from "./Pages/PrintFile";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -39,6 +40,7 @@ const pages = [
      <Route path= "/adminstration" element = {<Adminstration/>} />,    
      <Route path= "/vendors" element = {<Vendors/>} />,    
      <Route path= "/purchases" element = {<Purchases/>} />,    
+     <Route path= "/print" element = {<PrintFile/>} />,    
 ]
 
 function App() {
@@ -66,7 +68,7 @@ function App() {
         dispatch(setDashboard(res.data.data))
       })
       .catch((err) => {
-        alert(err.response?.data?.message)
+        console.log("Couldn't fetch dashboard data")
       });
   };
 

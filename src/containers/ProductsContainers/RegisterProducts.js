@@ -1,49 +1,25 @@
 import React, { useEffect, useState } from "react";
+import Modal from "../../Modal/Modal";
 import { useFormik } from "formik";
 import { selectClasses } from "@material-ui/core";
 import axios from "axios";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
+import {Select, TextField, Button} from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
-import { TextField, Select, Button } from "@mui/material";
 
-const RegisterStudents = (props) => {
+const RegisterProducts = (props) => {
+
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
     { label: "Enter Unit Price", type: "number", name: "unitPrice" },
     { label: "Enter Sales Price", type: "number", name: "salePrice" },
   ];
 
-  const sexes = ["male", "female"]
-  const statuses = ["Active", "Inactive"]
-  const [status, setStatus] = useState(statuses[0])
-  const [sex, setSex] = useState()
-
-  const sexHandler = (e) => {
-    setSex(e.target.value);
-  }; 
-  const statusHandler = (e) => {
-    setStatus(e.target.value);
-  }; 
-
- 
-
   const validate = (values) => {
     const errors = {};
-
+   
     if (!values.name) {
       errors.name = "Field is Required";
-    }
-  
-    // if (!values.quantity && values.quantity!=0) {
-    //   errors.quantity = "Field is Required";
-    // }
-
-    if (!values.unitPrice) {
-      errors.unitPrice = "Field is Required";
-    }
-  
-    if (!values.salePrice) {
-      errors.salePrice = "Field is Required";
     }
 
     return errors;
@@ -54,54 +30,59 @@ const RegisterStudents = (props) => {
       name: props.update ? props.product.name : "",
       salePrice: props.update ? props.product.salePrice : "",
       quantity: props.update ? props.product.quantity : "",
-      unitPrice: props.update ? props.product.unitPrice : "",
     },
     validate,
     onSubmit: (values, { resetForm }) => {
         if (props.update){
           axios.patch(`http://127.0.0.1:80/api/v1/products/${props.product._id}`, values).then((res) => {
-            alert("Successfully Updated")
-            props.change()
-          }).catch((err)=> alert(err.response.data.message));
-          props.reset()
+            alert("successfully updated")
+            props.reset()
+            props.hideModal()
+          }).catch((err) => {
+            alert(err.response.data.message);
+            props.hideModal()
+
+          });
+          
         } else {
           axios.post(`http://127.0.0.1:80/api/v1/products`, values).then((res) => {
-            alert("Successfully Created")
-            props.change()
-          }).catch((err) => alert(err.response.data.message));
-          props.reset()
+            alert("Successfully Created Customer")
+            props.reset()
+            props.hideModal()
+          }).catch((err) => {
+            alert(err.response.data.message);
+            props.hideModal()
+          });
           resetForm();
         }
     
     },
   });
 
-
-  useEffect(()=>{
-
-  }, [props])
-
-  const parentDivStyle = { height: "100%", width: "95%",
-    margin: "0px auto", marginTop: "20px", display: "flex",
-    gap: "14px", background: "white", flexDirection: "column",
-    borderRadius: "10px", padding: "28px",
-  }
-  
-  const selectStyle = {  height: "50px", color: "#B9B9B9",
-  width: "290px", }
-
+ 
   return (
-    <div
-      style={parentDivStyle}
-    >
-      <h2>Register Students </h2>
-      <form
+    <Modal onClose = {props.hideModal} pwidth = "450px">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "15px"
+        }}
+      >
+        <h2>Update Product </h2>
+     
+
+        <form
         onSubmit={formik.handleSubmit}
-        style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
+        style={{ display: "flex", gap: "16px",
+      flexDirection: "column", alignItems: "center" }}
       >
         {arr.map((a, index) => (
           <div>
             <TextField
+              variant="outlined"
               label={a.label}
               id={a.name}
               name={a.name}
@@ -109,30 +90,32 @@ const RegisterStudents = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values[a.name]}
-              style={{ width: "290px" }}
+              style={{ width: "290px", color: "black" }}
               key={index}
             />
             {formik.touched[a.name] && formik.errors[a.name] ? (
               <div style={{ color: "red" }}>{formik.errors[a.name]}</div>
             ) : null}
-            
           </div>
         ))}
-    
+  
+
         <Button
           style={{
-            width: "290px",
+            width: "190px",
             fontSize: "16px",
             backgroundColor: "#2F49D1",
+            color: "white",
           }}
           type="submit"
           variant="contained"
         >
-          {props.update ? "Update" : "Register"}
+          {props.update ? "Update Product": "Create Product"}
         </Button>
       </form>
-    </div>
+
+      </div>
+    </Modal>
   );
 };
-
-export default RegisterStudents;
+export default RegisterProducts;

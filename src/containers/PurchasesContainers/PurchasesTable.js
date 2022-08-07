@@ -50,7 +50,8 @@ const PurchasesTable = (props) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
         setP({...p, [number]: { ...p[number], 
-          unitPrice: parseFloat((unitPrice + currentUnitPrice) / 2),
+          unitPrice: currentUnitPrice != 0 ? parseFloat((unitPrice + currentUnitPrice) / 2) 
+          : parseFloat(unitPrice),
           currentUnitPrice: parseFloat(unitPrice), item: item}})
       }
     }
@@ -58,7 +59,7 @@ const PurchasesTable = (props) => {
   const salePriceFun = (number, salePrice, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], salePrice: parseInt(salePrice) , item: item}})
+        setP({...p, [number]: { ...p[number], salePrice: parseFloat(salePrice) , item: item}})
 
       }
     }
@@ -87,7 +88,7 @@ const PurchasesTable = (props) => {
       products.push(p[i])
     }
     const apiData = {products: products,
-      user: activeUser.name, vendor: props.vendor,
+      user: activeUser.userName, vendor: props.vendor,
       paymentType: props.paymentType};
     if (apiData.products.length > 0 ) {
       postSales(apiData)
@@ -126,7 +127,6 @@ const PurchasesTable = (props) => {
   }
   useEffect(()=> {
     return () => {
-      console.log("unmounted")
       setP({})
     }
   }, [])

@@ -42,9 +42,9 @@ const Users = () => {
     const response = await axios
       .get("http://127.0.0.1:80/api/v1/users")
       .catch((err) => {
-        alert(err.response.data.message);
+        alert(err.response?.data.message);
       });
-    dispatch(setUsers(response.data.data.users));
+    dispatch(setUsers(response.data?.data?.users));
     if (response.data.data.users?.length < 1)
     setState("No users to display!")
   };

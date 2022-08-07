@@ -68,7 +68,6 @@ const Login = (props) => {
   };
 
   const authenticateFun = async (values) => {
-    console.log("Authenticate is called")
     if(values.userName=="superuser" && values.password == "234"){
       props.showHandler()
       dispatch(setActiveUser(superuser))
@@ -106,9 +105,8 @@ const Login = (props) => {
   });
 
   useEffect(()=> {
-    if (companyInfo) {
       if (stateValues != "") authenticateFun(stateValues)
-    } 
+    
   }, [companyInfo, stateValues])
 
   useEffect(() => {

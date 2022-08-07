@@ -20,7 +20,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
+      preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
     },
     devTools: false
   })
@@ -48,7 +48,7 @@ app.on('ready', () => {
         nodeIntegration: true,
         enableRemoteModule: true,
         devTools: false,
-        // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
+        preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
  
       }
   });

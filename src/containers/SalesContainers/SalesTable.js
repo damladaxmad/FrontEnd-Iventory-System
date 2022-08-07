@@ -11,12 +11,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import TableRows from "./TableRows";
 // import { CodeSharp } from "@material-ui/icons";
 import { setOrderList } from "../../redux/actions/orderListActions";
+import Invoice from "./Invoice";
 
 
 const SalesTable = (props) => {
   const dispatch = useDispatch()
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const orderList = useSelector(state => state.orderList.orderList)
+  const [showInvoice, setShowInvoice] = useState(false)
+  const [invoiceData, setInvoiceData] = useState()
   
   const columns = ["Product Name", "Quantity", "Unit Price", "Total",
     "Actions"]
@@ -54,8 +57,10 @@ const SalesTable = (props) => {
   }
 
   const postSales = async (data) => {
+    setInvoiceData(data)
     const res = await axios.post(`http://127.0.0.1:80/api/v1/sales`, data).then(()=>{
       alert("Successfully Completed Order")
+      setShowInvoice(true)
       setDisabled(false)
       setP([])
       dispatch(setOrderList([]))
@@ -75,7 +80,7 @@ const SalesTable = (props) => {
       products.push(p[i])
     }
     const apiData = {products: products,
-      user: activeUser.name, customer: props.customer,
+      user: activeUser.userName, customer: props.customer,
       paymentType: props.paymentType};
     if (apiData.products.length > 0 ) {
       postSales(apiData)
@@ -113,6 +118,8 @@ const SalesTable = (props) => {
 
     return (
        <div style = {{width: "100%"}}>
+          {showInvoice && <Invoice sale = {invoiceData}
+          hideModal = {()=> setShowInvoice(false)}/>}
 
           <div style={{display: "flex", width: "100%", height: "50px",
             display: "flex", justifyContent: "space-between", padding: "20px",

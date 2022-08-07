@@ -12,6 +12,7 @@ import RegisterVendors from "../containers/VendorContainers/RegisterVendors";
 import VendorSales from "../containers/VendorContainers/VendorSales";
 import VendorDetails from "../containers/VendorContainers/VendorDetails";
 import { setVendors } from "../redux/actions/vendorsActions";
+import { constants } from "../Helpers/constantsFile";
 
 const Vendors = (props) => {
   const [newVendors, setNewVendors] = useState(false)
@@ -96,7 +97,7 @@ const Vendors = (props) => {
   const fetchVendors = async (status) => {
     if (status !== "All"){
       const response = await axios
-      .get(`http://127.0.0.1:80/api/v1/vendors?status=${status}`)
+      .get(`${constants.baseUrl}/vendors?status=${status}`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -105,7 +106,7 @@ const Vendors = (props) => {
     setState("No vendors to display!")
     } else {
       const response = await axios
-      .get("http://127.0.0.1:80/api/v1/vendors")
+      .get(`${constants.baseUrl}/vendors`)
       .catch((err) => {
         alert(err.response.data.message);
       });

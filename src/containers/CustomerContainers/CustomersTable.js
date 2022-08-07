@@ -77,6 +77,7 @@ const CustomersTable = (props) => {
 
   const updateCustomer = () => {
     props.update(customer)
+    handleClose()
   }
 
   const selectionHandler = (data) => {
@@ -89,7 +90,7 @@ const CustomersTable = (props) => {
 
   let state = props.state
 
-
+  if (props.data){
   return (
     <div style={{ width: "95%", margin: "auto" }}>
  {show && <PopupForm hideModal = {hideModal} customer = {customer}
@@ -145,7 +146,7 @@ const CustomersTable = (props) => {
           showTextRowsSelected: false,
           toolbar: false,
           pageSizeOptions: [2, 5, 8, 10, 20, 25, 50, 100],
-          pageSize: 8,
+          pageSize: props.data.length < 100 ? props.data.length < 8 ? 8 : props.data.length : 100,
           draggable: false,
           // rowStyle: {
           //   overflowWrap: 'break-word'
@@ -173,6 +174,13 @@ const CustomersTable = (props) => {
       />
     </div>
   );
+} else {
+  return <div style={{width: "95%", margin: "60px auto",
+  display: "flex", justifyContent: "center", alignItems: "center"}}>
+
+    <p>Loading...</p>
+  </div>
+}
 };
 
 export default CustomersTable;

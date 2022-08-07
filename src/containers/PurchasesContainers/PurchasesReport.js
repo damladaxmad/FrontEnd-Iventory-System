@@ -1,24 +1,16 @@
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import MaterialTable from "material-table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Divider } from "@material-ui/core";
 import JsPDF from "jspdf";
 import moment from "moment";
-var doc = new JsPDF("p", "px", "a4");
-
-var width = doc.internal.pageSize.getWidth();
-var height = doc.internal.pageSize.getHeight();
-
-const generatePDF = () => {
-  const report = doc;
-  report.html(document.getElementById("saleReport")).then(() => {
-    report.save("sales.pdf");
-  });
-};
+import ReactToPrint from "react-to-print"
+import React, { useRef } from 'react';
+import {AiFillPrinter} from "react-icons/ai"
 
 const PurchasesReport = (props) => {
-  
+  const componentRef = useRef();
   const [purchases, setPurchases] = useState();
   let totalPurchases = 0
 
@@ -37,9 +29,10 @@ const PurchasesReport = (props) => {
     fetchPurchases();
   }, [props.view]);
 
+
   return (
+    <>
     <div
-    id="saleReport"
       style={{
         alignSelf: "center",
         marginTop: "10px",
@@ -52,7 +45,38 @@ const PurchasesReport = (props) => {
         padding: "30px 65px",
         gap: "10px",
       }}
+      class= "waryaa"
+      ref={componentRef}
     >
+      
+     <div style={{display: "flex", flexDirection: "row",
+     width: "100%",
+     justifyContent: "end"}}>
+       <ReactToPrint
+        trigger={() => 
+          <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#2F49D1",
+            color: "white",
+            width: "100px",
+            alignSelf: "flex-end",
+          }}
+          startIcon={
+            <AiFillPrinter
+            style={{
+              color: "white",
+            }}
+          />
+          }
+        >
+          Print
+        </Button>}
+        content={() => componentRef.current}
+        pageStyle = "print"
+      />
+     </div>
+
       <h2> Purchases Report</h2>
       <div style={{ display: "flex", gap: "1.5%", marginBottom: "20px",
     width: "100%", justifyContent: "center" }}>
@@ -66,11 +90,14 @@ const PurchasesReport = (props) => {
       </div>
 
       {purchases?.map((purchase) => {
-       if (purchase.paymentType != props.type && props.type != "all")  return
-       else {
-         totalPurchases += purchase.total
-         return <PurchaseComp purchase={purchase} />
-       }
+        if (purchase.paymentType != props.type && props.type != "all")  return
+        else {
+          totalPurchases += purchase.total
+          return <>
+          <div className="page-break"> </div>
+          <SaleComp purchase={purchase} />
+          </>
+        }
       })}
       <Divider orientation="horizantal" color="white" />
       {!purchases && <p> Loading...</p>}
@@ -81,39 +108,57 @@ const PurchasesReport = (props) => {
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
           fontSize: "15px",
-          //   alignSelf: "flex-end",
+          justifyContent: "flex-end",
           gap: "15px",
-            width: "95%"
+          padding: "2px 18px",
+          width: "100%",
         }}
       >
         <p
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "85%",
             padding: "5px 0px",
           }}
         >
           Total:
         </p>
-        <p style={{ padding: "5px 0px" }}> {totalPurchases}</p>
+        <p style={{ padding: "5px 0px" }}> R{totalPurchases}</p>
       </div>
     </div>
+    </>
   );
 };
 
-const PurchaseComp = (props) => {
+const SaleComp = (props) => {
+  const columns = [
+    {
+      title: "Product Name",
+      field: "item",
+      width: "4%",
+      cellStyle: { padding: "0px 30px", height: "0px" },
+    },
+    { title: "Quantity", field: "quantity" },
+    { title: "Price", field: "price", render: (data) => <p>R{data.price}</p> },
+    {
+      title: "Subtotal",
+      field: "subtotal",
+      render: (data) => <p>R{data.subtotal}</p>,
+    },
+  ];
 
   return (
-    <div style={{ width: "100%", marginTop: "0px" }}>
+    <div class="saleComponent" style={{ width: "100%", marginTop: "0px" }}>
       <div
         style={{
           background: "#F0F2FA",
           opacity: 0.8,
-          padding: "5px 5px",
+          height: "25px",
+          // padding: "5px 5px",
           border: "0.1px solid grey",
           display: "flex",
           borderRadius: "5px",
+          alignItems: "center",
           justifyContent: "space-around",
         }}
       >
@@ -123,6 +168,7 @@ const PurchaseComp = (props) => {
         <Typography> Total: R{props.purchase.total}</Typography>
       </div>
       <MaterialTable
+        columns={columns}
         data={props.purchase.products}
         //     localization={{
         //       body: {
@@ -156,20 +202,22 @@ const PurchaseComp = (props) => {
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-around",
+                  // width: "100%",
+                  // justifyContent: "space-around",
                   margin: "1px 20px",
                   borderBottom: "0.5px solid grey",
                   padding: "2px 0px",
                   fontSize: 13,
                 }}
               >
-                <p style={{ margin: "0px", flex: 2 }}> {props.data.item}</p>
-                <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
-                <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
-                <p style={{ margin: "0px", flex: 0 }}>
+                <p style={{ margin: "0px", width: "35%"}}> {props.data.item}</p>
+                <p style={{ margin: "0px", width: "20%"}}> {props.data.quantity}</p>
+                <p style={{ margin: "0px", width: "20%"}}> R{props.data.unitPrice}</p>
+                <p style={{ margin: "0px", width: "25%", textAlign: "end"}}>
                   {" "}
                   R{props.data.subtotal}
                 </p>
+                
               </div>
             );
           },
@@ -183,16 +231,16 @@ const PurchaseComp = (props) => {
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
           fontSize: "13px",
-          //   alignSelf: "flex-end",
+          justifyContent: "flex-end",
           gap: "15px",
-          //   width: "95%"
+          padding: "2px 18px",
+          width: "30%",
         }}
       >
         <p
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "345px",
             padding: "5px 0px",
           }}
         >

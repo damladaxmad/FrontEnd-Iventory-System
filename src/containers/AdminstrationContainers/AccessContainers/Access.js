@@ -86,7 +86,7 @@ const Access = () => {
   const [userAccess, setUserAccess] = useState([]);
   const [refresh, setRefresh] = useState(1)
 
-  const [user, setUser] = useState(users[0]._id);
+  const [user, setUser] = useState(users[0]?._id);
   const userHandler = (e) => {
     fetchUsers()
     setUser(e.target.value);

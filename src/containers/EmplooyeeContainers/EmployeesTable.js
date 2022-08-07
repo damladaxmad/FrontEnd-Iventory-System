@@ -18,12 +18,12 @@ const EmployeesTable = (props) => {
   const columns = [
     { title: "ID", field: "employeeId",},
     { title: "Full Name", field: "name", width: "4%"},
-    { title: "Sex", field: "sex" },
+    // { title: "Sex", field: "sex" },
     { title: "Email Address", field: "email" },
     { title: "Employee Role", field: "role" },
-    { title: "Salary", field: "salary", render: (row)=> <p>
-      R{row.salary}
-    </p> }
+    // { title: "Salary", field: "salary", render: (row)=> <p>
+    //   R{row.salary}
+    // </p> }
     
   ];
 
@@ -43,12 +43,13 @@ const EmployeesTable = (props) => {
         axios.delete(`http://127.0.0.1:80/api/v1/employees/${employee._id}`).then(()=> {
           swal({text: `You have successfully deleted ${employee.name}`,
           icon:"success", timer: "2000"})
+          props.change()
         }).catch((err) => {
           swal({text: err.response.data.message,
       icon:"error", timer: "2000"})
         })
-        handleClose()
         props.change()
+        handleClose()
       }
     })
   }
@@ -78,6 +79,7 @@ const EmployeesTable = (props) => {
 
   const updateEmployee = () => {
     props.update(employee)
+    handleClose()
   }
 
   const selectionHandler = (data) => {

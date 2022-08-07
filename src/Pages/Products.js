@@ -12,7 +12,9 @@ import RegisterProducts from "../containers/ProductsContainers/RegisterProducts"
 import { setProducts } from "../redux/actions/productsActions";
 import {Tabs, Tab, Box} from "@mui/material"
 import Available from "../containers/ProductsContainers/Available";
-
+import AddProducts from "../containers/ProductsContainers/AddProducts";
+import { constants } from "../Helpers/constantsFile";
+import useFetch from "../funcrions/DataFetchers";
 const Products = () => {
   const [newProducts, setNewProducts] = useState(false)
   
@@ -33,6 +35,8 @@ const Products = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    setNewProducts(false)
+    setButtonName("Add New Products")
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, product) => {
@@ -54,6 +58,7 @@ const Products = () => {
 
   const dispatch = useDispatch()
   const products = useSelector((state) => state.products.products);
+  dispatch(setProducts(useFetch("products", force, "products")));
   const statusArr = ["All", "Active", "Inactive"]
   const [status, setStatus] = useState(statusArr[0]);
   const [query, setQuery] = useState("");
@@ -65,14 +70,14 @@ const Products = () => {
 
   const addProductHandler = () => {
     setQuery('')
-    setValue("no")
+    // setValue("no")
     if (buttonName == "Add New Products"){
       setNewProducts(true)
       setButtonName("Go To Products")
       setShowProfile(false)
       return
     } else if (buttonName == "Go To Products") {
-      setShowProfile(false)
+      // setShowProfile(false)
       setValue("Products")
       setNewProducts(false)
       setButtonName("Add New Products") 
@@ -84,7 +89,7 @@ const Products = () => {
 
   const handler = (data) => { 
  
-    if (data.length > 0) {
+    if (data?.length > 0) {
       return data.filter(
         (std) =>
         std.name.toLowerCase().includes(query)
@@ -96,7 +101,7 @@ const Products = () => {
 
   const fetchProducts = async () => {
       const response = await axios
-      .get("http://127.0.0.1:80/api/v1/products")
+      .get(`${constants.baseUrl}/products`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -121,7 +126,7 @@ const Products = () => {
   }
 
   const updateHandler = (product) => {
-    setNewProducts(true)
+    // setNewProducts(true)
     setButtonName("Go To Products")
     setUpdate(true)
     setUpdatedProduct(product)
@@ -134,7 +139,7 @@ const Products = () => {
 
   useEffect(()=> {
     setState("Loading...")
-    fetchProducts()
+    // fetchProducts()
   }, [force])
 
   useEffect(()=> {
@@ -149,7 +154,11 @@ const Products = () => {
   }
 
   const hideModal = () =>{
-    setAssignMany(false)
+    setValue("Products")
+    setNewProducts(false)
+    setButtonName("Add New Products") 
+    setUpdate(false)
+    setForce(state => state + 1)
   }
 
   return (
@@ -186,7 +195,7 @@ const Products = () => {
           {activeUser.privillages.includes("Products") && <Tab 
             disableFocusRipple = {true}
             disableRipple = {true}
-            value= {newProducts ? "Create New Products" : "Products"} label="Products"
+            value= "Products" label="Products"
             style={{ fontSize: "16px", fontWeight: "700" }} />}
 
           {activeUser.privillages?.includes("Available") && <Tab 
@@ -210,7 +219,7 @@ const Products = () => {
             else alert("You have no access!")
           }}
           startIcon={
-            newProducts || showProfile ? <BiArrowBack
+            buttonName == "Go To Products" ? <BiArrowBack
               style={{
                 color: "white",
               }}
@@ -224,7 +233,7 @@ const Products = () => {
           {buttonName}
         </Button>
       </div>
-      {!newProducts && !showProfile && value == "Products" &&
+      { !showProfile && value == "Products" &&
       <div
         style={{
           display: "flex",
@@ -255,21 +264,20 @@ const Products = () => {
         />
         <div style={{ display: "flex", gap: "20px" }}>
       
-        
-          {/* {showCornerIcon && <BiDotsVerticalRounded style = {{
-            fontSize: "24px", margin: "auto 0px",
-            cursor: "pointer"
-          }} onClick = {handleClick} />} */}
         </div>
       </div>}
       {value == "Available" && <Available/>}
-      {!newProducts && !showProfile && value == "Products" && <ProductsTable data={handler(products)} 
+      { !showProfile && value == "Products" && <ProductsTable data={handler(products)} 
       change = {changeHandler} selectProducts = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state}/>}
-      {newProducts && value != "Available" &&
+      {newProducts && <AddProducts hideModal = {hideModal}/>}
+      {update &&
        <RegisterProducts update = {update}
-      product = {updatedProduct} reset = {resetFomr}
+      product = {updatedProduct} reset = {resetFomr} hideModal = {()=> {
+        setUpdate(false)
+        setButtonName("Add New Products")
+      }}
       change = {changeHandler}/>}
 
       <Menu

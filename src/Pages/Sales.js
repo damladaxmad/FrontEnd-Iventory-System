@@ -17,6 +17,8 @@ import { setOrderList } from "../redux/actions/orderListActions";
 import CreateCustomer from "../containers/SalesContainers/CreateCustomer";
 import SalesReport from "../containers/SalesContainers/SalesReport";
 import moment from 'moment';
+import {constants} from "../Helpers/constantsFile"
+import useFetch from "../funcrions/DataFetchers";
 
 function Sales() {
   const dispatch = useDispatch();
@@ -38,7 +40,7 @@ function Sales() {
 
   const fetchCustomers = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/customers")
+      .get(`${constants.baseUrl}/customers`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -46,6 +48,7 @@ function Sales() {
   };
 
   const customers = useSelector((state) => state.customers.customers);
+  dispatch(setCustomers(useFetch("customers", force, "customers")));
   const orderList = useSelector((state) => state.orderList.orderList);
   const [customer, setCustomer] = useState();
   const activeUser = useSelector((state) => state.activeUser.activeUser);
@@ -109,11 +112,11 @@ function Sales() {
 
   useEffect(() => {
     if (force == 1) return
-    fetchCustomers();
+    // fetchCustomers();
   }, [force]);
 
   useEffect(()=> {
-    fetchCustomers()
+    // fetchCustomers()
   }, [])
 
   return (
@@ -292,7 +295,7 @@ function Sales() {
                 label="Select Customer"
                 onChange={customerHandler}
               >
-                {customers.map((customer, index) => (
+                {customers?.map((customer, index) => (
                   <MenuItem value={customer._id} key={index}>
                     {customer.name}
                   </MenuItem>
@@ -321,7 +324,7 @@ function Sales() {
                     fontSize: "25px",
                     fontWeight: "bolder",
                   }}
-                  onClick={addHandler}
+                  onClick={()=> status == "invoice" && addHandler()}
                 />
               </div>
           </div>

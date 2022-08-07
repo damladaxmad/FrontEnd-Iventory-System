@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import ReactToPrint from "react-to-print"
 import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
 import { Divider } from "@material-ui/core";
 import femaleProfile from "../../assets/images/sampleProfile.png";
@@ -6,11 +7,14 @@ import MaterialTable from "material-table";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import InvoicePopUp from "./InvoicePopUp";
+import {AiFillPrinter} from "react-icons/ai"
+import { Button } from "@mui/material";
 
 const CustomerSales = (props) => {
   const companyInfo = useSelector((state) => state.companyInfo.companyInfo);
   const [show, setShow] = useState(false);
   const [data, setData] = useState();
+  const componentRef = useRef();
 
   const materialOptions = {
     showTitle: false,
@@ -34,28 +38,28 @@ const CustomerSales = (props) => {
 
   const columns = [
     {
-      title: "Transaction ID",
+      title: "ID",
       field: "transactionId",
-      width: "4%",
       cellStyle: { border: "none" },
     },
-    {
-      title: "Description",
-      field: "description",
-      width: "4%",
-      render: (data) => (
-        <p>
-          {" "}
-          {data.sale
-            ? `${data.description}#${data.sale.saleNumber}`
-            : data.description}
-        </p>
-      ),
-      cellStyle: { border: "none" },
-    },
+    // {
+    //   title: "Description",
+    //   field: "description",
+    //   width: "4%",
+    //   render: (data) => (
+    //     <p>
+    //       {" "}
+    //       {data.sale
+    //         ? `${data.description}#${data.sale.saleNumber}`
+    //         : data.description}
+    //     </p>
+    //   ),
+    //   cellStyle: { border: "none" },
+    // },
     {
       title: "Invoice",
-      field: "invoice",
+      field: "invoice",   
+      width: "4%",
       render: (data) => (
         <p
           style={{ cursor: "pointer", color: "blue" }}
@@ -71,7 +75,7 @@ const CustomerSales = (props) => {
       cellStyle: { border: "none" },
     },
     {
-      title: "Transaction Date",
+      title: "Date",
       field: "date",
       render: (data) => {
         const formatted = moment(data.date).format("DD/MM/YYYY");
@@ -86,7 +90,7 @@ const CustomerSales = (props) => {
       title: "Balance",
       field: "balance",
       render: (data) => (
-        <p>
+        <p style={{texAlign: 'end'}}>
           {data.balance < 0 ? `-R${data.balance * -1}` : `R${data.balance}`}
         </p>
       ),
@@ -101,7 +105,10 @@ const CustomerSales = (props) => {
   return (
     <>
       {show && <InvoicePopUp hideModal={hideModal} data={data} />}
+    
       <div
+      class = "waryaa"
+       ref={componentRef}
         style={{
           background: "#F7F7F7",
           width: "95%",
@@ -112,6 +119,30 @@ const CustomerSales = (props) => {
           flexDirection: "column",
         }}
       >
+          <ReactToPrint
+        trigger={() => 
+          <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#2F49D1",
+            color: "white",
+            width: "100px",
+            alignSelf: "flex-end",
+            margin: "10px"
+          }}
+          startIcon={
+            <AiFillPrinter
+            style={{
+              color: "white",
+            }}
+          />
+          }
+        >
+          Print
+        </Button>}
+        content={() => componentRef.current}
+        pageStyle = "print"
+      />
         <div
           style={{
             marginTop: "20px",
@@ -120,6 +151,7 @@ const CustomerSales = (props) => {
             alignItems: "center",
             gap: "15px",
           }}
+          class = "imgDiv"
         >
           <img
             src={companyInfo ? companyInfo.imageURl : femaleProfile}
@@ -164,16 +196,16 @@ const CustomerSales = (props) => {
             background: "#F7F7F7",
           }}
         />
-      </div>
-      <div
+         <div
         style={{
           margin: "0px auto",
           background: "#F7F7F7",
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
-          fontSize: "16px",
-          alignSelf: "flex-end",
+          fontSize: "15px",
+          justifyContent: "flex-end",
           gap: "15px",
+          padding: "20px 0px",
           width: "95%",
         }}
       >
@@ -181,19 +213,20 @@ const CustomerSales = (props) => {
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "840px",
-            padding: "20px 0px",
+            textAlign: "end"
           }}
         >
-          {" "}
           Total:
         </p>
-        <p style={{ padding: "20px 0px" }}>
+        <p >
           {props.customer.balance < 0
             ? `-R${props.customer.balance * -1}`
             : `R${props.customer.balance}`}
         </p>
       </div>
+      </div>
+     
+       
     </>
   );
 };

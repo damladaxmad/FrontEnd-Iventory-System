@@ -15,6 +15,7 @@ const BrowseSales = (props) => {
   const products = useSelector(state => state.products.products)
   const orderList = useSelector(state => state.orderList.orderList)
   const [query, setQuery] = useState("");
+  const [state, setState] = useState()
 
   const fetchProducts = async (status) => {
     const response = await axios
@@ -38,9 +39,16 @@ const BrowseSales = (props) => {
 
   }, [orderList])
 
- useEffect(()=> {
-  fetchProducts()
- }, [])
+  useEffect(()=> {
+    setState("Loading...")
+    fetchProducts()
+   }, [])
+  
+   useEffect(()=> {
+    if (query != '') {
+      setState("No matching products!")
+    }
+  }, [query])
 
   const handler = (data) => { 
     if (query !== ""){
@@ -81,7 +89,7 @@ const BrowseSales = (props) => {
         cellStyle: { border: "none"} },
         { title: "Product Price", field: "unitPrice", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> ${data.unitPrice}</p>}
+        <p> R{data.unitPrice}</p>}
       ]
 
       // const data = products
@@ -108,6 +116,11 @@ const BrowseSales = (props) => {
         columns={columns}
         data={handler(products)}
         options={materialOptions}
+        localization={{
+          body: {
+            emptyDataSourceMessage: state,
+          },
+        }}
         onRowClick={(event, rowData) => {
           rowClickHandler(rowData)
           }}

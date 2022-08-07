@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import jaabirLogo from "../../assets/images/jaabirLogo.jpg";
 import { Divider,  } from "@material-ui/core";
 import femaleProfile from "../../assets/images/sampleProfile.png";
@@ -6,9 +6,12 @@ import MaterialTable from "material-table";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import InvoicePopUp from "./InvoicePopUp";
+import {AiFillPrinter} from "react-icons/ai"
+import { Button } from "@mui/material";
+import ReactToPrint from "react-to-print"
 
 const VendorSales = (props) => {
-
+  const componentRef = useRef();
   const companyInfo = useSelector(state => state.companyInfo.companyInfo)
   const [show, setShow] = useState(false)
   const [data, setData] = useState()
@@ -40,20 +43,20 @@ const VendorSales = (props) => {
       width: "4%",
       cellStyle: { border: "none" },
     },
-    {
-      title: "Description",
-      field: "description",
-      width: "4%",
-      render: (data) => (
-        <p>
-          {" "}
-          {data.sale
-            ? `${data.description}#${data.sale.saleNumber}`
-            : data.description}
-        </p>
-      ),
-      cellStyle: { border: "none" },
-    },
+    // {
+    //   title: "Description",
+    //   field: "description",
+    //   width: "4%",
+    //   render: (data) => (
+    //     <p>
+    //       {" "}
+    //       {data.sale
+    //         ? `${data.description}#${data.sale.saleNumber}`
+    //         : data.description}
+    //     </p>
+    //   ),
+    //   cellStyle: { border: "none" },
+    // },
     { title: "Invoice", field: "invoice", 
     render: (data) => <p style={{cursor: "pointer",
   color: "blue"}} onClick = {()=> {
@@ -97,7 +100,33 @@ const VendorSales = (props) => {
           borderRadius: "10px 10px 0px 0px",
           flexDirection: "column",
         }}
+        class = "waryaa"
+        ref={componentRef}
       >
+         <ReactToPrint
+        trigger={() => 
+          <Button
+          variant="contained"
+          style={{
+            backgroundColor: "#2F49D1",
+            color: "white",
+            width: "100px",
+            alignSelf: "flex-end",
+            margin: "10px"
+          }}
+          startIcon={
+            <AiFillPrinter
+            style={{
+              color: "white",
+            }}
+          />
+          }
+        >
+          Print
+        </Button>}
+        content={() => componentRef.current}
+        pageStyle = "print"
+      />
         <div
           style={{
             marginTop: "20px",
@@ -106,6 +135,7 @@ const VendorSales = (props) => {
             alignItems: "center",
             gap: "15px",
           }}
+          class = "imgDiv"
         >
          
             <img
@@ -159,33 +189,32 @@ const VendorSales = (props) => {
             background: "#F7F7F7",
           }}
         />
-      </div>
-      <div
+            <div
         style={{
           margin: "0px auto",
           background: "#F7F7F7",
           borderRadius: "0px 0px 10px 10px",
           display: "flex",
-          fontSize: "16px",
-          alignSelf: "flex-end",
+          fontSize: "15px",
+          justifyContent: "flex-end",
           gap: "15px",
-          width: "95%"
+          padding: "10px 0px",
+          width: "95%",
         }}
       >
         <p
           style={{
             margin: "0px",
             fontWeight: "700",
-            marginLeft: "840px",
-            padding: "20px 0px",
           }}
         >
-          {" "}
           Total:
         </p>
+        <p > {props.vendor.balance < 0 ? `-R${props.vendor.balance*-1}` : `R${props.vendor.balance}`}</p>
 
-        <p style={{ padding: "20px 0px" }}> {props.vendor.balance < 0 ? `-R${props.vendor.balance*-1}` : `R${props.vendor.balance}`}</p>
       </div>
+      </div>
+  
     </>
   );
 };

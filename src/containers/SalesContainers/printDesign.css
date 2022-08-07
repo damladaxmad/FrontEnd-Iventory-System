@@ -1,0 +1,46 @@
+
+
+/* daldjfa */
+
+@media all {
+  .page-break {
+    display: none;
+  }
+}
+
+/* @media print {
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+  }
+} */
+
+@media print {
+  @page {
+    /* margin: auto; */
+  margin: 4rem;
+  width: 200mm;
+}
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
+  .waryaa {
+    width: 100% !important;
+    margin: 0px auto !important;
+    padding: 0px !important;
+  }
+  .waryaa button{
+    display: none;
+  }
+  .waryaa .imgDiv{
+    margin-top: 0px !important;
+  }
+  .saleComponent {
+    width: 100%;
+  }
+}
+
+

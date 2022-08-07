@@ -21,8 +21,6 @@ const SignupAndLogin = (props) => {
   const status = useNetworkHook()
   const isConnected = useSelector(state => state.isLogin.isConnected)
 
-  console.log(status)
-
     const handler = () => {
         props.showHandler()
     }

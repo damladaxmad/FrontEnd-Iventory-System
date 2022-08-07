@@ -12,7 +12,7 @@ import RegisterCustomers from "../containers/CustomerContainers/RegisterCustomer
 import { setCustomers } from "../redux/actions/customersActions";
 import CustomerSales from "../containers/CustomerContainers/CustomerSales";
 import CustomerDetails from "../containers/CustomerContainers/CustomerDetails";
-
+import { constants } from "../Helpers/constantsFile";
 const Customers = (props) => {
   const [newCustomers, setNewCustomers] = useState(false)
   const [buttonName, setButtonName] = useState('Add New Customers')
@@ -96,7 +96,7 @@ const Customers = (props) => {
   const fetchCustomers = async (status) => {
     if (status !== "All"){
       const response = await axios
-      .get(`http://127.0.0.1:80/api/v1/customers?status=${status}`)
+      .get(`${constants.baseUrl}/customers?status=${status}`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -105,7 +105,7 @@ const Customers = (props) => {
     setState("No customers to display!")
     } else {
       const response = await axios
-      .get("http://127.0.0.1:80/api/v1/customers")
+      .get(`${constants.baseUrl}/customers`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -151,10 +151,10 @@ const Customers = (props) => {
   }, [force, ignored])
 
   useEffect(()=> {
-    if (query != '') {
+    if (query != '' || status != "All") {
       setState("No matching customers!")
     }
-  }, [query])
+  }, [query, status])
 
   const showProfileHandler = (data, type) => {
     if (type == "Sale") {
@@ -172,7 +172,11 @@ const Customers = (props) => {
   }
 
   const hideModal = () =>{
-    setAssignMany(false)
+      setShowProfile(false)
+      setSale(false)
+      setNewCustomers(false)
+      setButtonName("Add New Customers") 
+      setUpdate(false)
   }
 
   return (
@@ -227,7 +231,7 @@ const Customers = (props) => {
           {buttonName}
         </Button>
       </div>}
-      {!newCustomers && !showProfile && !sale &&
+      {!showProfile && !sale &&
       <div
         style={{
           display: "flex",
@@ -280,11 +284,12 @@ const Customers = (props) => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!newCustomers && !showProfile && !sale && <CustomersTable data={handler(customers)} 
+      {!showProfile && !sale && <CustomersTable data={handler(customers)} 
       change = {changeHandler} selectCustomers = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state} />}
       {newCustomers && <RegisterCustomers update = {update}
+      hideModal = {hideModal}
       customer = {updatedCustomer} reset = {resetFomr}/>}
       {showProfile && <CustomerSales customer = {customerTransactions}/>}
       {sale && <CustomerDetails customer = {customerTransactions}/>}

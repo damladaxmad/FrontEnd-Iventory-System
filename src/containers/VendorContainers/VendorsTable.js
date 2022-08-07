@@ -87,7 +87,7 @@ const VendorsTable = (props) => {
 
   let state = props.state
 
-
+  if (props.data){
   return (
     <div style={{ width: "95%", margin: "auto" }}>
  {show && <PopupForm hideModal = {hideModal} vendor = {vendor}
@@ -143,7 +143,7 @@ const VendorsTable = (props) => {
           showTextRowsSelected: false,
           toolbar: false,
           pageSizeOptions: [2, 5, 8, 10, 20, 25, 50, 100],
-          pageSize: 8,
+          pageSize: props.data.length < 100 ? props.data.length < 8 ? 8 : props.data.length : 100,
           draggable: false,
           // rowStyle: {
           //   overflowWrap: 'break-word'
@@ -171,6 +171,13 @@ const VendorsTable = (props) => {
       />
     </div>
   );
+} else {
+  return <div style={{width: "95%", margin: "60px auto",
+  display: "flex", justifyContent: "center", alignItems: "center"}}>
+
+    <p>Loading...</p>
+  </div>
+}
 };
 
 export default VendorsTable;

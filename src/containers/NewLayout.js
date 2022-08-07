@@ -169,6 +169,12 @@ const menuItems = [
       icon: <MdAdminPanelSettings style={{fontSize: "20px", color: "white" }} />,
       path: "/adminstration",
     },
+
+    {
+      text: "Print",
+      icon: <MdAdminPanelSettings style={{fontSize: "20px", color: "white" }} />,
+      path: "/print",
+    },
          
   ];
 

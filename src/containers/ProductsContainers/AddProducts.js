@@ -4,40 +4,33 @@ import axios from "axios";
 import MyModal from "../../Modal/Modal"
 import { useSelector } from "react-redux";
 
-const Login = (props) => {
+const AddProducts = (props) => {
 
-  const activeUser = useSelector(state => state.activeUser.activeUser)
   const [disabled, setDisabled] = useState(false)
-  const [usernameOrPasswordError, setUsernameOrPasswordError] = useState('')
   const loginArr = [
-    { label: "Enter Amount", type: "number", name: "credit" },
+    { label: "Enter Name", type: "text", name: "name" },
   ];
-
-  const errorStyle = { color: "red", marginLeft: "27px", fontSize: "16px"}
 
   const validate = (values) => {
     const errors = {};
 
-    if (!values.credit) {
-      errors.credit = "Field is Required";
+    if (!values.name) {
+      errors.name = "Field is Required";
     }
     return errors;
   };
 
   const formik = useFormik({
     initialValues: {
-      credit: "",
+      name: "",
     },
     validate,
     onSubmit: async (values, { resetForm }) =>  {
-      values.type = "Payment"
-      values.customer = props.customer._id
-      values.user = activeUser.userName
       setDisabled(true)
 
-      const res = await axios.post(`http://127.0.0.1:80/api/v1/transactions`, values).then(()=> {
+      const res = await axios.post(`http://127.0.0.1:80/api/v1/products`, values).then(()=> {
         props.hideModal()
-        alert("Succesfully Paid")
+        alert("Succesfully Created")
         setDisabled(false)
       }
       ).catch((err)=> {
@@ -80,8 +73,8 @@ const Login = (props) => {
             key={index}
           />
           {formik.touched[a.name] && formik.errors[a.name] ? (
-            <div style={{ color: "red" }}>{formik.errors[a.name]}</div>
-          ) : null}
+              <div style={{ color: "red" }}>{formik.errors[a.name]}</div>
+            ) : null}
         </div>
       ))}
 
@@ -101,13 +94,11 @@ const Login = (props) => {
         type="submit"
       >
         {" "}
-        Pay
+        Add Product
       </button>
-      { usernameOrPasswordError != '' ? <div style={errorStyle}> 
-      Username or password is incorrect</div> : null}
     </form>
     </MyModal>
   );
 };
 
-export default Login;
+export default AddProducts;
