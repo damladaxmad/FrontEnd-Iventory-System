@@ -6,6 +6,7 @@ import ResetPopUp from "./ResetPopUp";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
+import { constants } from "../../../Helpers/constantsFile";
 
 const UsersTable = (props) => {
 
@@ -65,7 +66,7 @@ const UsersTable = (props) => {
 
     }).then((response) => {
       if (response) {
-        axios.delete(`http://127.0.0.1:80/api/v1/users/${user._id}`).then(()=> {
+        axios.delete(`${constants.baseUrl}/users/${user._id}`).then(()=> {
           swal({text: `You have successfully deleted ${user.name}`,
           icon:"success", timer: "2000"})    
           props.change()

@@ -54,9 +54,6 @@ const AppBarFile = (props) => {
   const logoutHandler = () => {
     dispatch(setIsLogin(false))
     props.setNavigation()
-    // const win = remote.getCurrentWindow();
-    // win.setSize(700, 500);
-    // win.center();
   }
 
   const editHandler = () => {

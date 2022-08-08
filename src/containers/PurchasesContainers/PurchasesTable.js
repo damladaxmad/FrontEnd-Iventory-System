@@ -10,6 +10,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import CloseIcon from "@material-ui/icons/Close";
 import TableRows from "./TableRows";
 import { setPurchaseList } from "../../redux/actions/purchaseListActions";
+import { constants } from "../../Helpers/constantsFile";
 // import { CodeSharp } from "@material-ui/icons";
 
 
@@ -66,7 +67,7 @@ const PurchasesTable = (props) => {
   }
 
   const postSales = async (data) => {
-    const res = await axios.post(`http://127.0.0.1:80/api/v1/purchases`, data).then(()=>{
+    const res = await axios.post(`${constants.baseUrl}/purchases`, data).then(()=>{
       alert("Successfully Completed Purchase")
       console.log(data)
       setDisabled(false)

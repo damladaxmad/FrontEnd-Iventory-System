@@ -6,6 +6,7 @@ import axios from "axios";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select, TextField, Button} from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
+import { constants } from "../../Helpers/constantsFile";
 
 const RegisterCustomers = (props) => {
 
@@ -34,7 +35,7 @@ const RegisterCustomers = (props) => {
     validate,
     onSubmit: (values, { resetForm }) => {
         if (props.update){
-          axios.patch(`http://127.0.0.1:80/api/v1/customers/${props.customer._id}`, values).then((res) => {
+          axios.patch(`${constants.baseUrl}/customers/${props.customer._id}`, values).then((res) => {
             alert("successfully update")
             props.reset()
             props.hideModal()
@@ -45,7 +46,7 @@ const RegisterCustomers = (props) => {
           });
           
         } else {
-          axios.post(`http://127.0.0.1:80/api/v1/customers`, values).then((res) => {
+          axios.post(`${constants.baseUrl}/customers`, values).then((res) => {
             alert("Successfully Created Customer")
             props.reset()
             props.hideModal()

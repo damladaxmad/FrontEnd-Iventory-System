@@ -5,6 +5,7 @@ import axios from "axios";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select, TextField, Button} from "@mui/material"
 import { useDispatch, useSelector } from "react-redux";
+import { constants } from "../../Helpers/constantsFile";
 
 const RegisterVendors = (props) => {
   const arr = [
@@ -48,7 +49,7 @@ const RegisterVendors = (props) => {
       values.sex = sex
       values.status = status
         if (props.update){
-          axios.patch(`http://127.0.0.1:80/api/v1/vendors/${props.vendor._id}`, values).then((res) => {
+          axios.patch(`${constants.baseUrl}/vendors/${props.vendor._id}`, values).then((res) => {
             alert("successfully updated")
             props.reset()
           }).catch((err) => {
@@ -56,7 +57,7 @@ const RegisterVendors = (props) => {
           });
          
         } else {
-          axios.post(`http://127.0.0.1:80/api/v1/vendors`, values).then((res) => {
+          axios.post(`${constants.baseUrl}/vendors`, values).then((res) => {
             alert("Successfully Created Vendor")
             props.reset()
           }).catch((err) => {

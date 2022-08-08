@@ -6,6 +6,7 @@ import { Select, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
+import { constants } from "../../../Helpers/constantsFile";
 
 const InfoPopUp = (props) => {
 
@@ -72,13 +73,13 @@ const InfoPopUp = (props) => {
         formData.append('phone', values.phone)
         formData.append('imageName', values.imageName)
         if (!props.update) {
-          axios.post(`http://127.0.0.1:80/api/v1/companyInfo`, formData).then((res) => {
+          axios.post(`${constants.baseUrl}/companyInfo`, formData).then((res) => {
             alert("Successfully  Created, please re-run the app.")
        }).catch(err => alert(err.response.data.message));
        props.hide()
        resetForm();
         } if (props.update) {
-          axios.patch(`http://127.0.0.1:80/api/v1/companyInfo`, formData).then((res) => {
+          axios.patch(`${constants.baseUrl}/companyInfo`, formData).then((res) => {
             alert("Successfully  Updated, please re-run the app.")
        }).catch(err => alert(err.response.data.message));
        props.hide()

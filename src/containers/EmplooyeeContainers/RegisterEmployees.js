@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { TextField, Button } from "@mui/material";
 import Modal from "../../Modal/Modal";
+import { constants } from "../../Helpers/constantsFile";
 
 const RegisterEmployees = (props) => {
 
@@ -40,7 +41,7 @@ const RegisterEmployees = (props) => {
     validate,
     onSubmit: (values, { resetForm }) => {
       if (props.update){
-        axios.patch(`http://127.0.0.1:80/api/v1/employees/${props.empoloyee._id}`, values).then((res) => {
+        axios.patch(`${constants.baseUrl}/employees/${props.empoloyee._id}`, values).then((res) => {
           alert("Successfully Updated")
           props.change()
           props.hideModal()
@@ -49,7 +50,7 @@ const RegisterEmployees = (props) => {
         });
         props.reset()
       } else {
-        axios.post(`http://127.0.0.1:80/api/v1/employees`, values).then((res) => {
+        axios.post(`${constants.baseUrl}/employees`, values).then((res) => {
           alert("Successfully Created")
           props.change()
           props.hideModal()

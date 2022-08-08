@@ -5,6 +5,7 @@ import { Select } from "@mui/material";
 import UsersTable from "./UsersTable";
 import axios from "axios";
 import { setUsers } from "../../../redux/actions/usersActions";
+import useFetch from "../../../funcrions/DataFetchers";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -37,20 +38,10 @@ const Users = () => {
     setStatus(e.target.value)
   }
 
-  
-  const fetchUsers = async () => {
-    const response = await axios
-      .get("http://127.0.0.1:80/api/v1/users")
-      .catch((err) => {
-        alert(err.response?.data.message);
-      });
-    dispatch(setUsers(response.data?.data?.users));
-    if (response.data.data.users?.length < 1)
-    setState("No users to display!")
-  };
+  dispatch(setUsers(useFetch("users", force, "users")))
 
   const handler = (data) => { 
-    if (data.length > 0) {
+    if (data?.length > 0) {
       return data.filter(
         (std) =>
         std.username.toLowerCase().includes(query) ||
@@ -63,7 +54,6 @@ const Users = () => {
 
   useEffect(()=> {
     setState('Loading...')
-    fetchUsers()
   }, [force])
 
    

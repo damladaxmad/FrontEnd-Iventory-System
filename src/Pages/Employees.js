@@ -88,20 +88,7 @@ const Emplooyees = () => {
     }  
   };
 
-  const fetchEmpoloyees = async (status) => {
-
-      const response = await axios
-      .get(`${constants.baseUrl}/employees`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-
-    dispatch(setEmployees(response.data.data.employees)); 
-    if (response.data.data.employees?.length < 1)
-    setState("No employees to display!")
-
-  };
-
+ 
   let employeesIds = '';
   const selectHandler = (data) => {
     data.map((d)=> {
@@ -130,11 +117,9 @@ const Emplooyees = () => {
 
   useEffect(()=> {
     setState("Loading...")
-    // fetchEmpoloyees()
   }, [force])
 
   useEffect(()=> {
-      // fetchEmpoloyees()
   }, [del])
 
     useEffect(()=> {

@@ -8,26 +8,27 @@ import moment from "moment";
 import ReactToPrint from "react-to-print"
 import React, { useRef } from 'react';
 import {AiFillPrinter} from "react-icons/ai"
+import { setPurchases } from "../../redux/actions/purchasesActions";
+import useFetch from "../../funcrions/DataFetchers";
+import { useDispatch, useSelector } from "react-redux";
 
 const PurchasesReport = (props) => {
   const componentRef = useRef();
-  const [purchases, setPurchases] = useState();
-  let totalPurchases = 0
+  let totalPurchases = 0;
+  const dispatch = useDispatch();
+  const purchases = useSelector((state) => state.purchases.purchases);
 
-  const fetchPurchases = async () => {
-    const response = await axios
-      .get(`http://127.0.0.1:80/api/v1/purchases/bydate/${props.startDate}/${props.endDate}`).then((response)=> {
-        setPurchases(response.data.data.purchases);
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    
-  };
+  dispatch(
+    setPurchases(
+      useFetch(
+        `purchases/bydate/${props.startDate}/${props.endDate}`,
+        props.view,
+        "purchases"
+      )
+    )
+  );
 
-  useEffect(() => {
-    fetchPurchases();
-  }, [props.view]);
+  useEffect(() => {}, [props.view]);
 
 
   return (

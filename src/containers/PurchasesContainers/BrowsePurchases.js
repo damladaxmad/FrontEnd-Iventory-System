@@ -6,6 +6,7 @@ import axios from "axios";
 import { setProducts } from "../../redux/actions/productsActions";
 import { setOrderList } from "../../redux/actions/orderListActions";
 import React, {useState, useEffect} from "react";
+import { constants } from "../../Helpers/constantsFile";
 
 
 const BrowsePurchases = (props) => {
@@ -19,7 +20,7 @@ const BrowsePurchases = (props) => {
 
   const fetchProducts = async (status) => {
     const response = await axios
-    .get("http://127.0.0.1:80/api/v1/products")
+    .get(`${constants.baseUrl}/v1/products`)
     .catch((err) => {
       alert(err.response.data.message);
     });

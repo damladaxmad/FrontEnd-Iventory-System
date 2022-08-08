@@ -7,6 +7,7 @@ import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { constants } from "../../Helpers/constantsFile";
 
 const VendorsTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -64,7 +65,7 @@ const VendorsTable = (props) => {
   };
 
   const deleteVendor = (id) => {
-    axios.delete(`http://127.0.0.1:80/api/v1/vendors/${vendor._id}`).then(()=>{
+    axios.delete(`${constants.baseUrl}/vendors/${vendor._id}`).then(()=>{
       alert("Succefully Deleted").catch((err)=> {
         alert(err.response.data.message);
       })

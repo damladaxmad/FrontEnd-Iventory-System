@@ -6,13 +6,13 @@ import { FormControl, MenuItem } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
+import { constants } from "../../Helpers/constantsFile";
 
 const EditProfile = (props) => {
 
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
     { label: "Enter username", type: "text", name: "username" },
-    // { label: "Previos Password", type: "password", name: "previous" },
     { label: "New Password", type: "password", name: "password" },
   ];
   
@@ -27,12 +27,6 @@ const EditProfile = (props) => {
     if (!values.username) {
       errors.username = "Field is Required";
     }
-    // if (!values.previous) {
-    //     errors.previous = "Field is Required";
-    // }
-    // if (!isPreviousValid(values.previous)) {
-    //     errors.previous = "passwords do not match";
-    // }
 
     if (!values.password) {
       errors.password = "Field is Required";
@@ -50,7 +44,7 @@ const EditProfile = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.patch(`http://127.0.0.1:80/api/v1/users/${props.user._id}`, values).then((res) => {
+        axios.patch(`${constants.baseUrl}/users/${props.user._id}`, values).then((res) => {
              alert("Successfully Updated")
         }).catch((err)=> {
           alert(err.response.data.message);

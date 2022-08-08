@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import MyModal from "../../Modal/Modal"
 import { useSelector } from "react-redux";
+import { constants } from "../../Helpers/constantsFile";
 
 const AddProducts = (props) => {
 
@@ -28,7 +29,7 @@ const AddProducts = (props) => {
     onSubmit: async (values, { resetForm }) =>  {
       setDisabled(true)
 
-      const res = await axios.post(`http://127.0.0.1:80/api/v1/products`, values).then(()=> {
+      const res = await axios.post(`${constants.baseUrl}/products`, values).then(()=> {
         props.hideModal()
         alert("Succesfully Created")
         setDisabled(false)

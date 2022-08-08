@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import { setUsers } from "../../../redux/actions/usersActions";
+import { constants } from "../../../Helpers/constantsFile";
 
 const parentDivStyle = {
   display: "flex",
@@ -99,7 +100,7 @@ const Access = () => {
 
   const fetchUsers = async () => {
     const response = await axios
-      .get("http://127.0.0.1:80/api/v1/users")
+      .get(`${constants.baseUrl}/users`)
       .catch((err) => {
         alert(err.response.data.message);
       });
@@ -172,7 +173,7 @@ const Access = () => {
 
   const UpdateUserPrivillages = async (data) => {
     const response = await axios
-      .patch(`http://127.0.0.1:80/api/v1/users/${user}`, {
+      .patch(`${constants.baseUrl}/users/${user}`, {
         privillages: [...currentUserPrivillages, ...userAccess],
       })
       .then(() => {

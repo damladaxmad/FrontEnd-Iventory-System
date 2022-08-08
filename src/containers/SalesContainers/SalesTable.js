@@ -12,6 +12,7 @@ import TableRows from "./TableRows";
 // import { CodeSharp } from "@material-ui/icons";
 import { setOrderList } from "../../redux/actions/orderListActions";
 import Invoice from "./Invoice";
+import { constants } from "../../Helpers/constantsFile";
 
 
 const SalesTable = (props) => {
@@ -58,7 +59,7 @@ const SalesTable = (props) => {
 
   const postSales = async (data) => {
     setInvoiceData(data)
-    const res = await axios.post(`http://127.0.0.1:80/api/v1/sales`, data).then(()=>{
+    const res = await axios.post(`${constants.baseUrl}/sales`, data).then(()=>{
       alert("Successfully Completed Order")
       setShowInvoice(true)
       setDisabled(false)

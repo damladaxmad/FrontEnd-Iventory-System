@@ -38,15 +38,7 @@ function Sales() {
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
 
-  const fetchCustomers = async () => {
-    const response = await axios
-      .get(`${constants.baseUrl}/customers`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setCustomers(response.data.data.customers));
-  };
-
+  
   const customers = useSelector((state) => state.customers.customers);
   dispatch(setCustomers(useFetch("customers", force, "customers")));
   const orderList = useSelector((state) => state.orderList.orderList);
@@ -115,9 +107,6 @@ function Sales() {
     // fetchCustomers();
   }, [force]);
 
-  useEffect(()=> {
-    // fetchCustomers()
-  }, [])
 
   return (
     <div

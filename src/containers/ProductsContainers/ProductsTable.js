@@ -6,6 +6,7 @@ import axios from "axios";
 import profile from "../../assets/images/tablePic.png";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
+import { constants } from "../../Helpers/constantsFile";
 
 const ProductsTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -59,7 +60,7 @@ const ProductsTable = (props) => {
     }).then((response) => {
       if (response) {
         axios
-          .delete(`http://127.0.0.1:80/api/v1/products/${product._id}`)
+          .delete(`${constants.baseUrl}/products/${product._id}`)
           .then(() => {
             swal({
               text: `You have successfully deleted ${product.name}`,

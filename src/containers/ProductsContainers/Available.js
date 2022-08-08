@@ -1,85 +1,82 @@
-import MaterialTable from "material-table"
+import MaterialTable from "material-table";
 import { useState, useEffect } from "react";
 import { setAvailableProducts } from "../../redux/actions/productsActions";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "@mui/material";
 import useFetch from "../../funcrions/DataFetchers";
+import { constants } from "../../Helpers/constantsFile";
 const Available = (props) => {
-    const [state, setState] = useState()
-    const dispatch = useDispatch()
-    const availableProducts = useSelector((state) => state.products.availableProducts);
-    dispatch(setAvailableProducts(useFetch("products/available", "sth", "products")));
+  const [state, setState] = useState();
+  const dispatch = useDispatch();
+  const availableProducts = useSelector(
+    (state) => state.products.availableProducts
+  );
+  dispatch(
+    setAvailableProducts(useFetch("products/available", state, "products"))
+  );
 
-    const fetchProducts = async () => {
-        const response = await axios
-        .get("http://127.0.0.1:80/api/v1/products/available")
-        .catch((err) => {
-          alert(err.response.data.message);
-        });
-        if (response.data.data.products.length < 1)
-      setState("No products to display!") 
-      dispatch(setAvailableProducts(response.data.data.products));
-    };
+  const dataHandler = (data) => {
+    if (data?.length > 1) return data  
+  }
 
-    useEffect(()=> {
-        setState("Loading...")
-        // fetchProducts()
-      }, [])
+  useEffect(() => {
+    setState("Loading...");
+  }, []);
 
-      let total = 0
+  let total = 0;
 
-      availableProducts?.map(p => {
-        total += p.total
-      })
-    
+  availableProducts?.map((p) => {
+    total += p.total;
+  });
 
-    const columns = [ 
-      "Product Name",
-      "Quantity",
-       "Unit Price",
-        "Total",     
-      ];
-    return (
-        <div style={{width: "93%", margin: "30px auto", background: "white",
-        pading: "20px", gap: "10px", display: "flex", flexDirection: "column",
+  const columns = ["Product Name", "Quantity", "Unit Price", "Total"];
+  return (
+    <div
+      style={{
+        width: "93%",
+        margin: "30px auto",
+        background: "white",
+        pading: "20px",
+        gap: "10px",
+        display: "flex",
+        flexDirection: "column",
         borderRadius: "10px",
-        alignItems: "center"
-        }}>
-            <h2 style = {{marginTop: "20px"}}> Available Products</h2>
-            <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  borderBottom: "0.5px solid #E0E0E0",
-                  borderTop: "0.5px solid #E0E0E0",
-                  padding: "8px 18px",
-                  background: "#EFF0F6",
-                  color: "black",
-                  fontWeight: "700",
-                  fontSize: "15px",
-                }}
-              >
-                {columns.map(c => (
-                  <p style={{ margin: "0px", flex: 1,
-                textAlign: c == "Total" && "end"}}> {c}</p>
-                ))}
-              </div>
+        alignItems: "center",
+      }}
+    >
+      <h2 style={{ marginTop: "20px" }}> Available Products</h2>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: "0.5px solid #E0E0E0",
+          borderTop: "0.5px solid #E0E0E0",
+          padding: "8px 18px",
+          background: "#EFF0F6",
+          color: "black",
+          fontWeight: "700",
+          fontSize: "15px",
+        }}
+      >
+        {columns.map((c) => (
+          <p
+            style={{ margin: "0px", flex: 1, textAlign: c == "Total" && "end" }}
+          >
+            {c}
+          </p>
+        ))}
+      </div>
 
-            
-
-
-             <MaterialTable
-        data={availableProducts}
+      <MaterialTable
+        data={dataHandler(availableProducts)}
         localization={{
           body: {
-              emptyDataSourceMessage: (
-                  state
-              ),
+            emptyDataSourceMessage: state,
           },
-      }}
+        }}
         options={{
           rowStyle: {},
           showTitle: true,
@@ -93,9 +90,8 @@ const Available = (props) => {
           pageSize: 8,
           draggable: false,
           actionsColumnIndex: -1,
-          headerStyle: { background: "#EFF0F6", fontSize: "13px", },
+          headerStyle: { background: "#EFF0F6", fontSize: "13px" },
         }}
-
         components={{
           Row: (props) => {
             return (
@@ -112,19 +108,21 @@ const Available = (props) => {
               >
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.name}</p>
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
-                <p style={{ margin: "0px", flex: 1 }}> R{props.data.unitPrice}</p>
-                <p style={{ margin: "0px", flex: 1, textAlign: "end" }}> R{props.data.total}</p>
-             
+                <p style={{ margin: "0px", flex: 1 }}>
+                  {" "}
+                  R{props.data.unitPrice}
+                </p>
+                <p style={{ margin: "0px", flex: 1, textAlign: "end" }}>
+                  {" "}
+                  R{props.data.total}
+                </p>
               </div>
             );
           },
         }}
-   
-        style={{ borderRadius: "10px", boxShadow: "none",
-    width: "100%" }}
+        style={{ borderRadius: "10px", boxShadow: "none", width: "100%" }}
       />
- 
-       
+
       <div
         style={{
           margin: "0px auto",
@@ -149,8 +147,8 @@ const Available = (props) => {
         </p>
         <p style={{ padding: "5px 0px" }}> R{total}</p>
       </div>
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-export default Available
+export default Available;

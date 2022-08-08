@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import MyModal from "../../Modal/Modal"
 import { useSelector } from "react-redux";
+import { constants } from "../../Helpers/constantsFile";
 
 const Login = (props) => {
 
@@ -35,7 +36,7 @@ const Login = (props) => {
       values.user = activeUser.userName
       setDisabled(true)
 
-      const res = await axios.post(`http://127.0.0.1:80/api/v1/transactions`, values).then(()=> {
+      const res = await axios.post(`${constants.baseUrl}/transactions`, values).then(()=> {
         props.hideModal()
         alert("Succesfully Paid")
         setDisabled(false)

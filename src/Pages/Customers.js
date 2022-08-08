@@ -13,6 +13,7 @@ import { setCustomers } from "../redux/actions/customersActions";
 import CustomerSales from "../containers/CustomerContainers/CustomerSales";
 import CustomerDetails from "../containers/CustomerContainers/CustomerDetails";
 import { constants } from "../Helpers/constantsFile";
+import useFetch from "../funcrions/DataFetchers";
 const Customers = (props) => {
   const [newCustomers, setNewCustomers] = useState(false)
   const [buttonName, setButtonName] = useState('Add New Customers')
@@ -75,7 +76,7 @@ const Customers = (props) => {
   }
 
   const handler = (data) => { 
-    if (data.length > 0) {
+    if (data?.length > 0) {
       if (query == ""){
         return data.filter(
           (std) =>
@@ -93,29 +94,8 @@ const Customers = (props) => {
     }
   };
 
-  const fetchCustomers = async (status) => {
-    if (status !== "All"){
-      const response = await axios
-      .get(`${constants.baseUrl}/customers?status=${status}`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setCustomers(response.data.data.customers));
-    if (response.data.data.products.length < 1)
-    setState("No customers to display!")
-    } else {
-      const response = await axios
-      .get(`${constants.baseUrl}/customers`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setCustomers(response.data.data.customers));
-    if (response.data.data.customers?.length < 1)
-    setState("No customers to display!")
-  }
   
-
-  };
+    dispatch(setCustomers(useFetch("customers", force, "customers")))
 
   let customersIds = '';
   const selectHandler = (data) => {
@@ -147,7 +127,7 @@ const Customers = (props) => {
 
   useEffect(()=> {
     setState("Loading...")
-    fetchCustomers(status)
+    // fetchCustomers(status)
   }, [force, ignored])
 
   useEffect(()=> {

@@ -17,7 +17,7 @@ import PurchasesReport from "../containers/PurchasesContainers/PurchasesReport";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { setPurchaseList } from "../redux/actions/purchaseListActions";
 import moment from "moment";
-import {constants} from "../Helpers/constantsFile"
+import useFetch from "../funcrions/DataFetchers";
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -36,14 +36,7 @@ function Purchases() {
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
 
-  const fetchVendors = async () => {
-    const response = await axios
-      .get(`${constants.baseUrl}/vendors`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setVendors(response.data.data.vendors));
-  };
+  dispatch(setVendors(useFetch("vendors", force, "vendors" )))
 
   const vendors = useSelector((state) => state.vendors.vendors);
   const purchaseList = useSelector((state) => state.purchaseList.purchaseList);
@@ -102,7 +95,7 @@ function Purchases() {
 
   useEffect(() => {
     if (force == 1) return
-    fetchVendors();
+    // fetchVendors();
   }, [force]);
 
   const completeHandler = () => {
@@ -115,9 +108,7 @@ function Purchases() {
     setData([])
   }, [complete])
 
-  useEffect(()=> {
-    fetchVendors()
-  }, [])
+
 
   return (
     <div
@@ -295,7 +286,7 @@ function Purchases() {
                 label="Select Vendor"
                 onChange={vendorHandler}
               >
-                {vendors.map((vendor, index) => (
+                {vendors?.map((vendor, index) => (
                   <MenuItem value={vendor._id} key={index}>
                     {vendor.name}
                   </MenuItem>
@@ -324,7 +315,7 @@ function Purchases() {
                     fontSize: "25px",
                     fontWeight: "bolder",
                   }}
-                  onClick={()=> status == "invoice" && addHandler()}
+                  onClick={addHandler}
                 />
               </div>
           </div>

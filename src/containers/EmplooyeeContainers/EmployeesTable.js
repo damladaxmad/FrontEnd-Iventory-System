@@ -7,6 +7,7 @@ import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
+import { constants } from "../../Helpers/constantsFile";
 
 const EmployeesTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -40,7 +41,7 @@ const EmployeesTable = (props) => {
 
     }).then((response) => {
       if (response) {
-        axios.delete(`http://127.0.0.1:80/api/v1/employees/${employee._id}`).then(()=> {
+        axios.delete(`${constants.baseUrl}/employees/${employee._id}`).then(()=> {
           swal({text: `You have successfully deleted ${employee.name}`,
           icon:"success", timer: "2000"})
           props.change()

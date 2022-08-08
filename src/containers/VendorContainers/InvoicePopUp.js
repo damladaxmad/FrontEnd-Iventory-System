@@ -1,10 +1,5 @@
 import MyModal from "../../Modal/Modal"
 import MaterialTable from "material-table"
-// import { Divider } from "@material-ui/core"
-// import { useDispatch, useSelector } from "react-redux";
-// import axios from "axios";
-// import { setProducts } from "../../redux/actions/productsActions";
-// import { setOrderList } from "../../redux/actions/orderListActions";
 import React, {useState, useEffect} from "react";
 
 

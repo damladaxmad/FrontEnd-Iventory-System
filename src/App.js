@@ -23,6 +23,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { setIsConnected } from "./redux/actions/isLoginActions";
 import { setDashboard } from "./redux/actions/dashboardActions";
 import PrintFile from "./Pages/PrintFile";
+import useFetch from "./funcrions/DataFetchers";
+import { constants } from "./Helpers/constantsFile";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -53,33 +55,12 @@ function App() {
   const dispatch = useDispatch();
   const companyInfo = useSelector(state => state.companyInfo.companyInfo)
 
-  const fetchCustomers = async () => {
-    const response = await axios
-      .get("http://127.0.0.1:80/api/v1/customers")
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setCustomers(response.data.data.customers));
-  };
-
-  const fetchDashboard = async () => {
-    const response = await axios
-      .get("http://127.0.0.1:80/api/v1/dashboard").then(res=> {
-        dispatch(setDashboard(res.data.data))
-      })
-      .catch((err) => {
-        console.log("Couldn't fetch dashboard data")
-      });
-  };
-
+  dispatch(setDashboard(useFetch("dashboard", isLogin, "dashboard")))
 
   const showHandler = () => {
     setShowLayout(true)
   }
 
-  useEffect(()=> {
-    fetchDashboard()
-  }, [])
 
   useEffect(()=> {
     setShowLayout(isLogin)

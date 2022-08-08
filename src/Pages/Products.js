@@ -99,17 +99,6 @@ const Products = () => {
     }  
   };
 
-  const fetchProducts = async () => {
-      const response = await axios
-      .get(`${constants.baseUrl}/products`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-      if (response.data.data.products.length < 1)
-    setState("No products to display!") 
-    dispatch(setProducts(response.data.data.products));
-  };
-
   let productsIds = '';
   const selectHandler = (data) => {
     data.map((d)=> {
@@ -139,7 +128,6 @@ const Products = () => {
 
   useEffect(()=> {
     setState("Loading...")
-    // fetchProducts()
   }, [force])
 
   useEffect(()=> {

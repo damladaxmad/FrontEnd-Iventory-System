@@ -6,6 +6,7 @@ import {Select} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
+import { constants } from "../../Helpers/constantsFile";
 
 const AssignPopUp = (props) => {
 
@@ -38,7 +39,7 @@ const AssignPopUp = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.post(`http://127.0.0.1:80/api/v1/users`, values).then((res) => {
+        axios.post(`${constants.baseUrl}/users`, values).then((res) => {
         alert(`${props.employee.name} is made a user`)
         }).catch((err)=> {
           alert(err.response.data.message);

@@ -5,129 +5,152 @@ import axios from "axios";
 import { Divider } from "@material-ui/core";
 import JsPDF from "jspdf";
 import moment from "moment";
-import ReactToPrint from "react-to-print"
-import React, { useRef } from 'react';
-import {AiFillPrinter} from "react-icons/ai"
+import ReactToPrint from "react-to-print";
+import React, { useRef } from "react";
+import { AiFillPrinter } from "react-icons/ai";
 import "./printDesign.css";
+import useFetch from "../../funcrions/DataFetchers";
+import { setSales } from "../../redux/actions/salesActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const SalesReport = (props) => {
   const componentRef = useRef();
-  const [sales, setSales] = useState();
-  let totalSales = 0
+  let totalSales = 0;
+  const dispatch = useDispatch();
+  const sales = useSelector((state) => state.sales.sales);
+  
+  dispatch(
+    setSales(
+      useFetch(
+        `sales/bydate/${props.startDate}/${props.endDate}`,
+        props.view,
+        "sales"
+      )
+    )
+  );
 
-  const fetchSales = async () => {
-    const response = await axios
-      .get(`http://127.0.0.1:80/api/v1/sales/bydate/${props.startDate}/${props.endDate}`).then((response)=> {
-        setSales(response.data.data.sales);
-      })
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    
-  };
-
-  useEffect(() => {
-    fetchSales();
-  }, [props.view]);
-
+  useEffect(() => {}, [props.view]);
 
   return (
     <>
-    <div
-    id="saleReport"
-      style={{
-        alignSelf: "center",
-        marginTop: "10px",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        width: "85%",
-        marginBottom: "30px",
-        background: "white",
-        padding: "30px 65px",
-        gap: "10px",
-      }}
-      class= "waryaa"
-      ref={componentRef}
-    >
-      
-     <div style={{display: "flex", flexDirection: "row",
-     width: "100%",
-     justifyContent: "end"}}>
-       <ReactToPrint
-        trigger={() => 
-          <Button
-          variant="contained"
+      <div
+        id="saleReport"
+        style={{
+          alignSelf: "center",
+          marginTop: "10px",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          width: "85%",
+          marginBottom: "30px",
+          background: "white",
+          padding: "30px 65px",
+          gap: "10px",
+        }}
+        class="waryaa"
+        ref={componentRef}
+      >
+        <div
           style={{
-            backgroundColor: "#2F49D1",
-            color: "white",
-            width: "100px",
-            alignSelf: "flex-end",
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "end",
           }}
-          startIcon={
-            <AiFillPrinter
+        >
+          <ReactToPrint
+            trigger={() => (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#2F49D1",
+                  color: "white",
+                  width: "100px",
+                  alignSelf: "flex-end",
+                }}
+                startIcon={
+                  <AiFillPrinter
+                    style={{
+                      color: "white",
+                    }}
+                  />
+                }
+              >
+                Print
+              </Button>
+            )}
+            content={() => componentRef.current}
+            pageStyle="print"
+          />
+        </div>
+
+        <h2> Sales Report</h2>
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5%",
+            marginBottom: "20px",
+            width: "100%",
+            justifyContent: "center",
+          }}
+        >
+          <p style={{ margin: "0px" }}>
+            {" "}
+            {moment(props.startDate).format("MM/DD/YYYY")}
+          </p>
+
+          <Divider
+            orientation="vertical"
             style={{
-              color: "white",
+              width: "1.5px",
             }}
           />
+
+          <p style={{ margin: "0px" }}>
+            {" "}
+            {moment(props.endDate).format("MM/DD/YYYY")}
+          </p>
+        </div>
+
+        {sales?.map((sale) => {
+          if (sale.paymentType != props.type && props.type != "all") return;
+          else {
+            totalSales += sale.total;
+            return (
+              <>
+                <div className="page-break"> </div>
+                <SaleComp sale={sale} />
+              </>
+            );
           }
-        >
-          Print
-        </Button>}
-        content={() => componentRef.current}
-        pageStyle = "print"
-      />
-     </div>
-
-      <h2> Sales Report</h2>
-      <div style={{ display: "flex", gap: "1.5%", marginBottom: "20px",
-    width: "100%", justifyContent: "center" }}>
-        <p style={{ margin: "0px" }}> {moment(props.startDate).format("MM/DD/YYYY")}</p>
-      
-        <Divider orientation="vertical"  style={{
-          width:"1.5px",
-        }} />
-        
-        <p style={{ margin: "0px" }}> {moment(props.endDate).format("MM/DD/YYYY")}</p>
-      </div>
-
-      {sales?.map((sale) => {
-        if (sale.paymentType != props.type && props.type != "all")  return
-        else {
-          totalSales += sale.total
-          return <>
-          <div className="page-break"> </div>
-          <SaleComp sale={sale} />
-          </>
-        }
-      })}
-      <Divider orientation="horizantal" color="white" />
-      {!sales && <p> Loading...</p>}
-      <div
-        style={{
-          margin: "0px auto",
-          background: "white",
-          borderRadius: "0px 0px 10px 10px",
-          display: "flex",
-          fontSize: "15px",
-          justifyContent: "flex-end",
-          gap: "15px",
-          padding: "2px 18px",
-          width: "100%",
-        }}
-      >
-        <p
+        })}
+        <Divider orientation="horizantal" color="white" />
+        {!sales && <p> Loading...</p>}
+        <div
           style={{
-            margin: "0px",
-            fontWeight: "700",
-            padding: "5px 0px",
+            margin: "0px auto",
+            background: "white",
+            borderRadius: "0px 0px 10px 10px",
+            display: "flex",
+            fontSize: "15px",
+            justifyContent: "flex-end",
+            gap: "15px",
+            padding: "2px 18px",
+            width: "100%",
           }}
         >
-          Total:
-        </p>
-        <p style={{ padding: "5px 0px" }}> R{totalSales}</p>
+          <p
+            style={{
+              margin: "0px",
+              fontWeight: "700",
+              padding: "5px 0px",
+            }}
+          >
+            Total:
+          </p>
+          <p style={{ padding: "5px 0px" }}> R{totalSales}</p>
+        </div>
       </div>
-    </div>
     </>
   );
 };
@@ -212,14 +235,22 @@ const SaleComp = (props) => {
                   fontSize: 13,
                 }}
               >
-                <p style={{ margin: "0px", width: "35%"}}> {props.data.item}</p>
-                <p style={{ margin: "0px", width: "20%"}}> {props.data.quantity}</p>
-                <p style={{ margin: "0px", width: "20%"}}> R{props.data.price}</p>
-                <p style={{ margin: "0px", width: "25%", textAlign: "end"}}>
+                <p style={{ margin: "0px", width: "35%" }}>
+                  {" "}
+                  {props.data.item}
+                </p>
+                <p style={{ margin: "0px", width: "20%" }}>
+                  {" "}
+                  {props.data.quantity}
+                </p>
+                <p style={{ margin: "0px", width: "20%" }}>
+                  {" "}
+                  R{props.data.price}
+                </p>
+                <p style={{ margin: "0px", width: "25%", textAlign: "end" }}>
                   {" "}
                   R{props.data.subtotal}
                 </p>
-                
               </div>
             );
           },

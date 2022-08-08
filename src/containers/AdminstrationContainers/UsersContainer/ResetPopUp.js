@@ -6,6 +6,7 @@ import {TextField, Select} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
+import { constants } from "../../../Helpers/constantsFile";
 
 const ResetPopUp = (props) => {
 
@@ -38,7 +39,7 @@ const ResetPopUp = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.patch(`http://127.0.0.1:80/api/v1/users/${props.user._id}`, values).then((res) => {
+        axios.patch(`${constants.baseUrl}/users/${props.user._id}`, values).then((res) => {
              alert("Successfully Updated")
         }).catch((err) => {
           alert(err.response.data.message);

@@ -6,6 +6,7 @@ import {Select} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
+import { constants } from "../../Helpers/constantsFile";
 
 const CreateCustomer = (props) => {
 
@@ -33,7 +34,7 @@ const CreateCustomer = (props) => {
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.post(`http://127.0.0.1:80/api/v1/vendors`, values).then((res) => {
+        axios.post(`${constants.baseUrl}/vendors`, values).then((res) => {
         alert("Successfully created Vendor")
         props.hideModal();  
         }).catch(err => {
