@@ -6,6 +6,7 @@ import ReactToPrint from "react-to-print"
 import React, { useRef } from 'react';
 import styles from "./invoice.module.css"
 import {AiFillPrinter} from "react-icons/ai"
+import { constants } from "../../Helpers/constantsFile";
 const Invoice = (props) => {
   const componentRef = useRef();
     const companyInfo = useSelector(state => state.companyInfo.companyInfo)
@@ -57,15 +58,7 @@ const Invoice = (props) => {
                     <p style = {{margin: "0px"}}> Janurary 29, 2022</p>
                 </div>
                 <MaterialTable
-        // columns={columns}
         data={props.sale.products}
-        //     localization={{
-        //       body: {
-        //           emptyDataSourceMessage: (
-        //               state
-        //           ),
-        //       },
-        //   }}
         options={{
           rowStyle: { height: "2px" },
           showTitle: false,
@@ -92,7 +85,6 @@ const Invoice = (props) => {
                 style={{
                   display: "flex",
                   width: "100%",
-                  // justifyContent: "space-around",
                   margin: "15px 0px",
                   borderBottom: "0.5px solid grey",
                   padding: "2px 0px",
@@ -101,7 +93,7 @@ const Invoice = (props) => {
               >
                 <p style={{ margin: "0px", width: "45%"}}> {props.data.item}</p>
                 <p style={{ margin: "0px", width: "35%"}}> {props.data.quantity}</p>
-                <p style={{ margin: "0px", width: "30%", textAlign: "end"}}> R{props.data.price}</p>
+                <p style={{ margin: "0px", width: "30%", textAlign: "end"}}> {constants.moneySign}{props.data.price}</p>
                 
               </div>
             );
@@ -111,7 +103,7 @@ const Invoice = (props) => {
       />
       <p style={{alignSelf: "end", fontWeight: "bold",
     fontSize: "15px"}}> Total: 
-      <span style={{fontWeight: "normal"}}> R30.0</span></p>
+      <span style={{fontWeight: "normal"}}> {constants.moneySign}30.0</span></p>
       </div>
       <div style={{display: "flex", flexDirection: "column",
       alignItems: "center"}}>

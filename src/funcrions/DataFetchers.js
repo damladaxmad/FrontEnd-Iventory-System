@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { constants } from "../Helpers/constantsFile";
 import axios from "axios";
-const useFetch = (url, change, name) => {
+const useFetch = (url, change = "hi", name) => {
       const [data, setData] = useState(null);
       useEffect(() => {
         const fetchData = async() => {

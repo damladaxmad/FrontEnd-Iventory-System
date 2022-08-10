@@ -69,7 +69,6 @@ const PurchasesTable = (props) => {
   const postSales = async (data) => {
     const res = await axios.post(`${constants.baseUrl}/purchases`, data).then(()=>{
       alert("Successfully Completed Purchase")
-      console.log(data)
       setDisabled(false)
       setP([])
       dispatch(setPurchaseList([]))

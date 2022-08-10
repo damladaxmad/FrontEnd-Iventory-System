@@ -18,6 +18,7 @@ import { setVendors } from "../redux/actions/vendorsActions";
 import { setPurchaseList } from "../redux/actions/purchaseListActions";
 import moment from "moment";
 import useFetch from "../funcrions/DataFetchers";
+import { constants } from "../Helpers/constantsFile";
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -337,7 +338,7 @@ function Purchases() {
            alignItems: "center",
               border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",
               fontSize:"16px", width: "15%", marginLeft: "5px" }}>
-              <p> R{total}</p>
+              <p> {constants.moneySign}{total}</p>
           </div>
 
         </div>

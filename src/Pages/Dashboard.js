@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import QuickActions from "../containers/DashboardContainers/QuickActions";
 import StatCard from "../containers/DashboardContainers/StatCard";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";

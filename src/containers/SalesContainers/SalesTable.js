@@ -14,7 +14,6 @@ import { setOrderList } from "../../redux/actions/orderListActions";
 import Invoice from "./Invoice";
 import { constants } from "../../Helpers/constantsFile";
 
-
 const SalesTable = (props) => {
   const dispatch = useDispatch()
   const activeUser = useSelector(state => state.activeUser.activeUser)

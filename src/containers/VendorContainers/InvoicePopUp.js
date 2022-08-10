@@ -1,6 +1,7 @@
 import MyModal from "../../Modal/Modal"
 import MaterialTable from "material-table"
 import React, {useState, useEffect} from "react";
+import { constants } from "../../Helpers/constantsFile";
 
 
 const InvoicePopUp = (props) => {
@@ -29,10 +30,10 @@ const InvoicePopUp = (props) => {
         cellStyle: { border: "none"} },
         { title: "Product Price", field: "price", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> R{data.price}</p>},
+        <p> {constants.moneySign}{data.price}</p>},
         { title: "Subtotal", field: "subtotal", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> R{data.subtotal}</p>},
+        <p> {constants.moneySign}{data.subtotal}</p>},
       ]
 
       // const data = products

@@ -3,6 +3,7 @@ import { Avatar, Typography, makeStyles } from "@material-ui/core";
 import { IoMdStats } from "react-icons/io";
 import { useSelect } from "@mui/base";
 import { useSelector } from "react-redux";
+import { constants } from "../../Helpers/constantsFile";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -46,7 +47,7 @@ const StatCard = (props) => {
           }}
         >
           { props.value.isMoney ? 
-          props.value.value < 0 ? `-R${props.value.value*-1}` : `R${props.value.value}`
+          props.value.value < 0 ? `-${constants.moneySign}${props.value.value*-1}` : `${constants.moneySign}${props.value.value}`
         : props.value.value}
         </p>
         <Typography

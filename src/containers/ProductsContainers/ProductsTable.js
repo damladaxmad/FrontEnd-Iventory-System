@@ -7,6 +7,7 @@ import profile from "../../assets/images/tablePic.png";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
 import { constants } from "../../Helpers/constantsFile";
+import { deleteFunction } from "../../funcrions/deleteStuff";
 
 const ProductsTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,7 +24,7 @@ const ProductsTable = (props) => {
     {
       title: "Sale Price",
       field: "salePrice",
-      render: (data) => <p>R{data.salePrice}</p>,
+      render: (data) => <p>{constants.moneySign}{data.salePrice}</p>,
     },
   ];
 
@@ -45,44 +46,46 @@ const ProductsTable = (props) => {
     setAnchorEl(null);
   };
 
-  const showSweetAlert = () => {
-    setAnchorEl(null);
-    swal({
-      title: "Delete Product",
-      text: `Are you sure to delete ${product.name}?`,
-      icon: "warning",
-      html: true,
-      customClass: "swal-wide",
-      buttons: {
-        cancel: "No",
-        confirm: { text: "Yes", className: "sweet-warning" },
-      },
-    }).then((response) => {
-      if (response) {
-        axios
-          .delete(`${constants.baseUrl}/products/${product._id}`)
-          .then(() => {
-            swal({
-              text: `You have successfully deleted ${product.name}`,
-              icon: "success",
-              timer: "2000",
-            });
-            props.change();
-          })
-          .catch((err) => {
-            swal({
-              text: err.response.data.message,
-              icon: "error",
-              timer: "2000",
-            });
-          });
-      }
-    });
-  };
+  // const showSweetAlert = () => {
+  //   setAnchorEl(null);
+  //   swal({
+  //     title: "Delete Product",
+  //     text: `Are you sure to delete ${product.name}?`,
+  //     icon: "warning",
+  //     html: true,
+  //     customClass: "swal-wide",
+  //     buttons: {
+  //       cancel: "No",
+  //       confirm: { text: "Yes", className: "sweet-warning" },
+  //     },
+  //   }).then((response) => {
+  //     if (response) {
+  //       axios
+  //         .delete(`${constants.baseUrl}/products/${product._id}`)
+  //         .then(() => {
+  //           swal({
+  //             text: `You have successfully deleted ${product.name}`,
+  //             icon: "success",
+  //             timer: "2000",
+  //           });
+  //           props.change();
+  //         })
+  //         .catch((err) => {
+  //           swal({
+  //             text: err.response.data.message,
+  //             icon: "error",
+  //             timer: "2000",
+  //           });
+  //         });
+  //     }
+  //   });
+  // };
 
   const deleteProduct = async () => {
-    showSweetAlert();
-    handleClose();
+    deleteFunction("Delete Product", product.name, 
+    `${constants.baseUrl}/products/${product._id}`, props.change)
+    setAnchorEl(null);
+    handleClose()
   };
 
   const updateProduct = () => {
@@ -153,9 +156,6 @@ const ProductsTable = (props) => {
             pageSizeOptions: [2, 5, 8, 10, 20, 25, 50, 100],
             pageSize: props.data.length < 100 ? props.data.length < 8 ? 8 : props.data.length : 100,
             draggable: false,
-            // rowStyle: {
-            //   overflowWrap: 'break-word'
-            // },
             actionsColumnIndex: -1,
             headerStyle: { background: "#EFF0F6", fontSize: "13px" },
           }}

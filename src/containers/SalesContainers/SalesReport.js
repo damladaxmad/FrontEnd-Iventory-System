@@ -12,6 +12,7 @@ import "./printDesign.css";
 import useFetch from "../../funcrions/DataFetchers";
 import { setSales } from "../../redux/actions/salesActions";
 import { useDispatch, useSelector } from "react-redux";
+import { constants } from "../../Helpers/constantsFile";
 
 const SalesReport = (props) => {
   const componentRef = useRef();
@@ -148,7 +149,7 @@ const SalesReport = (props) => {
           >
             Total:
           </p>
-          <p style={{ padding: "5px 0px" }}> R{totalSales}</p>
+          <p style={{ padding: "5px 0px" }}> {constants.moneySign}{totalSales}</p>
         </div>
       </div>
     </>
@@ -168,7 +169,7 @@ const SaleComp = (props) => {
     {
       title: "Subtotal",
       field: "subtotal",
-      render: (data) => <p>R{data.subtotal}</p>,
+      render: (data) => <p>{constants.moneySign}{data.subtotal}</p>,
     },
   ];
 
@@ -190,18 +191,11 @@ const SaleComp = (props) => {
         <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
         <Typography> {moment(props.sale.date).format("MM/DD/YYYY")}</Typography>
         <Typography> Type: {props.sale.paymentType}</Typography>
-        <Typography> Total: R{props.sale.total}</Typography>
+        <Typography> Total: {constants.moneySign}{props.sale.total}</Typography>
       </div>
       <MaterialTable
         columns={columns}
         data={props.sale.products}
-        //     localization={{
-        //       body: {
-        //           emptyDataSourceMessage: (
-        //               state
-        //           ),
-        //       },
-        //   }}
         options={{
           rowStyle: { height: "2px" },
           showTitle: false,
@@ -245,11 +239,11 @@ const SaleComp = (props) => {
                 </p>
                 <p style={{ margin: "0px", width: "20%" }}>
                   {" "}
-                  R{props.data.price}
+                  {constants.moneySign}{props.data.price}
                 </p>
                 <p style={{ margin: "0px", width: "25%", textAlign: "end" }}>
                   {" "}
-                  R{props.data.subtotal}
+                  {constants.moneySign}{props.data.subtotal}
                 </p>
               </div>
             );
@@ -279,7 +273,7 @@ const SaleComp = (props) => {
         >
           Total:
         </p>
-        <p style={{ padding: "5px 0px" }}> R{props.sale.total}</p>
+        <p style={{ padding: "5px 0px" }}> {constants.moneySign}{props.sale.total}</p>
       </div>
     </div>
   );

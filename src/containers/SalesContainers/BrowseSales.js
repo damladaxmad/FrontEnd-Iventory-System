@@ -7,25 +7,25 @@ import { setProducts } from "../../redux/actions/productsActions";
 import { setOrderList } from "../../redux/actions/orderListActions";
 import React, {useState, useEffect} from "react";
 import { constants } from "../../Helpers/constantsFile";
+import useFetch from "../../funcrions/DataFetchers";
 
 
 const BrowseSales = (props) => {
 
   const dispatch = useDispatch()
 
-  const products = useSelector(state => state.products.products)
+  let products = useSelector(state => state.products.products)
   const orderList = useSelector(state => state.orderList.orderList)
   const [query, setQuery] = useState("");
   const [state, setState] = useState()
+  const [my, setMy] = useState()
 
-  const fetchProducts = async (status) => {
-    const response = await axios
-    .get(`${constants.baseUrl}/products`)
-    .catch((err) => {
-      alert(err.response.data.message);
-    });
-  dispatch(setProducts(response.data.data.products));   
-};
+  const fetchProducts = async() => {
+    axios.get(`${constants.baseUrl}/products`).then(res => {
+      dispatch(setProducts(res.data.data.products))
+    })
+  }
+
 
   const rowClickHandler = (data) => {
     if (data.quantity < 1) return alert(`${data.name} is not available`)
@@ -53,17 +53,17 @@ const BrowseSales = (props) => {
 
   const handler = (data) => { 
     if (query !== ""){
-      if (data.length > 0) {
+      if (data?.length > 0) {
         return data.filter(
           (std) =>
           std.name.toLowerCase().includes(query)
         );
       } else {
-        return
+        return 
       } 
     }
     else return data
-     
+    
   };
 
     const materialOptions = {
@@ -90,10 +90,8 @@ const BrowseSales = (props) => {
         cellStyle: { border: "none"} },
         { title: "Product Price", field: "unitPrice", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> R{data.unitPrice}</p>}
+        <p> {constants.moneySign}{data.unitPrice}</p>}
       ]
-
-      // const data = products
 
     return (
         <MyModal onClose = {props.hideModal}>
@@ -127,7 +125,9 @@ const BrowseSales = (props) => {
           }}
         style={{ borderRadius: "10px", boxShadow: "none",
         width: "100%", marginTop: "10px", background: "#F7F7F7",
-        height: '300px',   overflowY: products.length < 5 ? "none" : "scroll" }}
+        height: '300px',   
+        overflowY: products?.length < 5 ? "none" : "scroll"
+      }}
       />
         </div>
         </MyModal>

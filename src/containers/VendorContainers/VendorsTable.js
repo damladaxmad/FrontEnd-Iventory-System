@@ -35,7 +35,7 @@ const VendorsTable = (props) => {
     },
     // { title: "Deadline", field: "deadline" },   
     { title: "Balance", field: "balance", render: (data) =>
-    <p>{data.balance < 0 ? `-R${data.balance*-1}` : `R${data.balance}`}</p>},
+    <p>{data.balance < 0 ? `-${constants.moneySign}${data.balance*-1}` : `${constants.moneySign}${data.balance}`}</p>},
     
     { title: "Stutus", field: "status", render: (row)=> <span
     style={{color: row.status == "Late" ? "#FFAC32" 

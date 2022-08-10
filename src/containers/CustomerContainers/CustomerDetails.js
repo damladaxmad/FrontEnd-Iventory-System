@@ -2,6 +2,7 @@ import { TextField } from "@mui/material"
 import React from "react"
 import { Typography } from "@mui/material"
 import MaterialTable from "material-table"
+import { constants } from "../../Helpers/constantsFile"
 
 const CustomerDetails = (props) => {
 
@@ -74,10 +75,10 @@ const SaleComp = (props) => {
   cellStyle: {padding: "0px 30px"}},
       { title: "Quantity", field: "quantity"},
       { title: "Price", field: "price", render: (data)=> <p>
-        R{data.price}
+        ${constants.moneySign}{data.price}
       </p>},
       { title: "Subtotal", field: "subtotal", render: (data)=> <p>
-      R{data.subtotal}
+      ${constants.moneySign}{data.subtotal}
     </p>},
       
     ];
@@ -97,18 +98,11 @@ const SaleComp = (props) => {
           <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
           <Typography> Date: 2022/7/3</Typography>
           <Typography> Type: {props.sale.paymentType}</Typography>
-          <Typography> Total: R{props.sale.total}</Typography>
+          <Typography> Total: ${constants.moneySign}{props.sale.total}</Typography>
       </div>
       <MaterialTable
       columns={columns}
       data={props.sale.products}
-  //     localization={{
-  //       body: {
-  //           emptyDataSourceMessage: (
-  //               state
-  //           ),
-  //       },
-  //   }}
       options={{
         rowStyle: {height: "2px"},
         showTitle: false,
@@ -144,10 +138,10 @@ const SaleComp = (props) => {
             >
               <p style={{ margin: "0px", width: "35%"}}> {props.data.item}</p>
               <p style={{ margin: "0px", width: "20%"}}> {props.data.quantity}</p>
-              <p style={{ margin: "0px", width: "20%"}}> R{props.data.price}</p>
+              <p style={{ margin: "0px", width: "20%"}}> {constants.moneySign}{props.data.price}</p>
               <p style={{ margin: "0px", width: "25%", textAlign: "end"}}>
                 {" "}
-                R{props.data.subtotal}
+                {constants.moneySign}{props.data.subtotal}
               </p>
               
             </div>
@@ -180,7 +174,7 @@ const SaleComp = (props) => {
         >
           Total:
         </p>
-        <p style={{ padding: "5px 0px" }}> R{props.sale.total}</p>
+        <p style={{ padding: "5px 0px" }}> {constants.moneySign}{props.sale.total}</p>
       </div>
   </div>
 }

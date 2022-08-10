@@ -335,7 +335,7 @@ function Sales() {
            alignItems: "center",
               border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",
               fontSize:"16px", width: "15%", marginLeft: "5px" }}>
-              <p> R{total}</p>
+              <p> {constants.moneySign}{total}</p>
           </div>
         </div>
       )}

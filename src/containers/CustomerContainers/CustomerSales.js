@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import InvoicePopUp from "./InvoicePopUp";
 import {AiFillPrinter} from "react-icons/ai"
 import { Button } from "@mui/material";
+import { constants } from "../../Helpers/constantsFile";
 
 const CustomerSales = (props) => {
   const companyInfo = useSelector((state) => state.companyInfo.companyInfo);
@@ -91,7 +92,7 @@ const CustomerSales = (props) => {
       field: "balance",
       render: (data) => (
         <p style={{texAlign: 'end'}}>
-          {data.balance < 0 ? `-R${data.balance * -1}` : `R${data.balance}`}
+          {data.balance < 0 ? `-${constants.moneySign}${data.balance * -1}` : `${constants.moneySign}${data.balance}`}
         </p>
       ),
       cellStyle: { border: "none" },
@@ -220,8 +221,8 @@ const CustomerSales = (props) => {
         </p>
         <p >
           {props.customer.balance < 0
-            ? `-R${props.customer.balance * -1}`
-            : `R${props.customer.balance}`}
+            ? `-${constants.moneySign}${props.customer.balance * -1}`
+            : `${constants.moneySign}${props.customer.balance}`}
         </p>
       </div>
       </div>

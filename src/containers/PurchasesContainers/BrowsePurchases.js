@@ -7,6 +7,7 @@ import { setProducts } from "../../redux/actions/productsActions";
 import { setOrderList } from "../../redux/actions/orderListActions";
 import React, {useState, useEffect} from "react";
 import { constants } from "../../Helpers/constantsFile";
+import useFetch from "../../funcrions/DataFetchers";
 
 
 const BrowsePurchases = (props) => {
@@ -18,14 +19,11 @@ const BrowsePurchases = (props) => {
   const [query, setQuery] = useState("");
   const [state, setState] = useState()
 
-  const fetchProducts = async (status) => {
-    const response = await axios
-    .get(`${constants.baseUrl}/v1/products`)
-    .catch((err) => {
-      alert(err.response.data.message);
-    });
-  dispatch(setProducts(response.data.data.products));   
-};
+  const fetchProducts = async() => {
+    axios.get(`${constants.baseUrl}/products`).then(res => {
+      dispatch(setProducts(res.data.data.products))
+    })
+  }
 
   const rowClickHandler = (data) => {
     setQuery('')
@@ -87,7 +85,7 @@ const BrowsePurchases = (props) => {
         cellStyle: { border: "none"} },
         { title: "Product Price", field: "unitPrice", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> ${data.unitPrice}</p>}
+        <p> {constants.moneySign}{data.unitPrice}</p>}
       ]
 
       // const data = products

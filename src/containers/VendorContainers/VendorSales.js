@@ -9,6 +9,7 @@ import InvoicePopUp from "./InvoicePopUp";
 import {AiFillPrinter} from "react-icons/ai"
 import { Button } from "@mui/material";
 import ReactToPrint from "react-to-print"
+import { constants } from "../../Helpers/constantsFile";
 
 const VendorSales = (props) => {
   const componentRef = useRef();
@@ -77,7 +78,7 @@ const VendorSales = (props) => {
     { title: "Debit", field: "debit", cellStyle: { border: "none" } },
     { title: "Credit", field: "credit", cellStyle: { border: "none" } },
     { title: "Balance", field: "balance", render: (data) =>
-    <p>{data.balance < 0 ? `-R${data.balance*-1}` : `R${data.balance}`}</p>
+    <p>{data.balance < 0 ? `-${constants.moneySign}${data.balance*-1}` : `${constants.moneySign}${data.balance}`}</p>
   },
   ];
 
@@ -154,16 +155,7 @@ const VendorSales = (props) => {
         <Divider
           style={{ height: "1px", margin: "20px 0px", background: "grey" }}
         />
-{/* 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: "20px",
-            fontSize: "20px",
-          }}
-        > */}
+
               <div style={{ display: "flex", flexDirection: "row",
             justifyContent: "space-between", padding: "10px",
             fontSize: "20px",}}>
@@ -210,7 +202,7 @@ const VendorSales = (props) => {
         >
           Total:
         </p>
-        <p > {props.vendor.balance < 0 ? `-R${props.vendor.balance*-1}` : `R${props.vendor.balance}`}</p>
+        <p > {props.vendor.balance < 0 ? `-${constants.moneySign}${props.vendor.balance*-1}` : `${constants.moneySign}${props.vendor.balance}`}</p>
 
       </div>
       </div>

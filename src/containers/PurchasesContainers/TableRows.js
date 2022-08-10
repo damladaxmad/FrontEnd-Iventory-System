@@ -3,6 +3,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrderList } from "../../redux/actions/orderListActions";
 import { setPurchaseList } from "../../redux/actions/purchaseListActions";
+import { constants } from "../../Helpers/constantsFile";
 
 const TableRows = (props) => {
 
@@ -128,7 +129,7 @@ const TableRows = (props) => {
               <div style={{background: "#F0F2FA",
               border: "1px solid #C7C7C7", padding: "8px", fontWeight:"bold", borderRadius:"4px",
               fontSize:"16px", width: "15%", marginLeft: "5px" }}>
-              <p> {!Number.isNaN(unitPrice*quantity) ? `R${unitPrice*quantity}` : 0}  </p></div>
+              <p> {!Number.isNaN(unitPrice*quantity) ? `${constants.moneySign}${unitPrice*quantity}` : 0}  </p></div>
               <CloseIcon style = {{fontSize: "24px", marginLeft: "40px",
                 cursor: "pointer"}} 
                 onClick = {iconHandler}/>

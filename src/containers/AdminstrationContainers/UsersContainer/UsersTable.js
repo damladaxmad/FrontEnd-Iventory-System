@@ -7,6 +7,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
 import { constants } from "../../../Helpers/constantsFile";
+import { deleteFunction } from "../../../funcrions/deleteStuff";
 
 const UsersTable = (props) => {
 
@@ -53,35 +54,12 @@ const UsersTable = (props) => {
     setAnchorEl(null);
   };
 
-  const showSweetAlert = () => {
-    setAnchorEl(null);
-    swal({
-      title: "Delete User!",
-      text: `Are you sure to delete ${user.name}?`,
-      icon: "warning",
-      buttons: {
-        cancel : 'No',
-        confirm : {text:'Yes',className:'sweet-warning'},
-    }
 
-    }).then((response) => {
-      if (response) {
-        axios.delete(`${constants.baseUrl}/users/${user._id}`).then(()=> {
-          swal({text: `You have successfully deleted ${user.name}`,
-          icon:"success", timer: "2000"})    
-          props.change()
-        }).catch((err) => {
-          swal({text: err.response.data.message,
-      icon:"error", timer: "2000"})
-        })
-        handleClose()
-      }
-    })
-  }
   const deleteUser = () => {
-    showSweetAlert()
+    deleteFunction("Delete User", user.name, 
+    `${constants.baseUrl}/users/${user._id}`, props.change)
+    setAnchorEl(null);
     handleClose()
-    // props.change()
   };
 
   let state = props.state

@@ -17,21 +17,11 @@ import { setCompanyInfo } from "./redux/actions/companyInfoActions";
 import NewLayout from "./containers/NewLayout";
 import Vendors from "./Pages/Vendors"
 import Purchases from "./Pages/Purchases";
-import { makeStyles } from '@material-ui/core/styles';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { setIsConnected } from "./redux/actions/isLoginActions";
 import { setDashboard } from "./redux/actions/dashboardActions";
 import PrintFile from "./Pages/PrintFile";
 import useFetch from "./funcrions/DataFetchers";
 import { constants } from "./Helpers/constantsFile";
-
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
-}));
 
 const pages = [
      <Route path= "/dashboard" element = {<Dashboard/>} />,
@@ -46,7 +36,7 @@ const pages = [
 ]
 
 function App() {
-  const classes=useStyles();
+  
   const isLogin = useSelector(state => state.isLogin.isLogin)
   const isReports = useSelector(state => state.isLogin.isReports)
   const isConnected = useSelector(state => state.isLogin.isConnected)
@@ -61,7 +51,6 @@ function App() {
     setShowLayout(true)
   }
 
-
   useEffect(()=> {
     setShowLayout(isLogin)
     setShowReports(isReports)
@@ -72,9 +61,7 @@ function App() {
 
    <div className="App" style={{backgroundColor: "#F0F2FA", display: "flex",
    justifyContent: "center",}}>
-     {/* {!companyInfo && <Backdrop className={classes.backdrop} open>
-        <CircularProgress color="inherit" />
-      </Backdrop>} */}
+
       <Router>
     {!showLayout && 
     <Route path= "/signup" element = {<SignupAndLogin

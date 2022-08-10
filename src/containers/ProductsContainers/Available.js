@@ -110,11 +110,11 @@ const Available = (props) => {
                 <p style={{ margin: "0px", flex: 1 }}> {props.data.quantity}</p>
                 <p style={{ margin: "0px", flex: 1 }}>
                   {" "}
-                  R{props.data.unitPrice}
+                  {constants.moneySign}{props.data.unitPrice}
                 </p>
                 <p style={{ margin: "0px", flex: 1, textAlign: "end" }}>
                   {" "}
-                  R{props.data.total}
+                  {constants.moneySign}{props.data.total}
                 </p>
               </div>
             );
@@ -145,7 +145,7 @@ const Available = (props) => {
         >
           Total:
         </p>
-        <p style={{ padding: "5px 0px" }}> R{total}</p>
+        <p style={{ padding: "5px 0px" }}> {constants.moneySign}{total}</p>
       </div>
     </div>
   );

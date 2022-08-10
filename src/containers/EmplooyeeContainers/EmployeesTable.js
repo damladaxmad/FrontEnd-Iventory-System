@@ -4,10 +4,11 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
 import PopupForm from "./AssignPopUp";
 import axios from "axios";
+import swal from "sweetalert";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
-import swal from "sweetalert";
 import { constants } from "../../Helpers/constantsFile";
+import { deleteFunction } from "../../funcrions/deleteStuff";
 
 const EmployeesTable = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,41 +20,9 @@ const EmployeesTable = (props) => {
   const columns = [
     { title: "ID", field: "employeeId",},
     { title: "Full Name", field: "name", width: "4%"},
-    // { title: "Sex", field: "sex" },
     { title: "Email Address", field: "email" },
     { title: "Employee Role", field: "role" },
-    // { title: "Salary", field: "salary", render: (row)=> <p>
-    //   R{row.salary}
-    // </p> }
-    
   ];
-
-  const showSweetAlert = () => {
-    setAnchorEl(null);
-    swal({
-      title: "Delete Employee",
-      text: `Are you sure to delete ${employee.name}?`,
-      icon: "warning",
-      buttons: {
-        cancel : 'No',
-        confirm : {text:'Yes',className:'sweet-warning'},
-    }
-
-    }).then((response) => {
-      if (response) {
-        axios.delete(`${constants.baseUrl}/employees/${employee._id}`).then(()=> {
-          swal({text: `You have successfully deleted ${employee.name}`,
-          icon:"success", timer: "2000"})
-          props.change()
-        }).catch((err) => {
-          swal({text: err.response.data.message,
-      icon:"error", timer: "2000"})
-        })
-        props.change()
-        handleClose()
-      }
-    })
-  }
 
   const showModal = () =>{
     setShow(true)
@@ -73,22 +42,16 @@ const EmployeesTable = (props) => {
     setAnchorEl(null);
   };
 
-  const deleteEmployee = () => {
-    showSweetAlert()
+  const deleteEmployee =  () => {
+    deleteFunction("Delete Employee", employee.name, 
+    `${constants.baseUrl}/employees/${employee._id}`, props.change)
+    setAnchorEl(null);
     handleClose()
   };
 
   const updateEmployee = () => {
     props.update(employee)
     handleClose()
-  }
-
-  const selectionHandler = (data) => {
-    props.selectTeachers(data)
-  }
-
-  const showProfile = () => {
-    props.showProfile()
   }
 
   let state = props.state
@@ -150,7 +113,7 @@ const EmployeesTable = (props) => {
           actionsColumnIndex: -1,
           headerStyle: { background: "#EFF0F6", fontSize: "13px", },
         }}
-        onSelectionChange={(rows) => selectionHandler(rows)}
+        
         actions={[
           {
             icon: () => <BiDotsHorizontalRounded 
