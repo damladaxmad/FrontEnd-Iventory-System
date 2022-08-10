@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
-import PopupForm from "./AssignPopUp";
+import PopupForm from "./CustomerAndVendorPayment";
 import axios from "axios";
 import profile from "../../assets/images/tablePic.png"
 import { useSelector } from "react-redux";
@@ -30,22 +30,16 @@ const CustomersTable = (props) => {
         const formatted = moment(data.deadline).format("DD/MM/YYYY");
         if (formatted == "Invalid date") return <em> no deadline</em>
         return <p>{formatted}</p>;
-      },
-      
+      },  
     },
-
     { title: "Balance", field: "balance", render: (data) =>
     <p>{data.balance < 0 ? `-${constants.moneySign}${data.balance*-1}` : `${constants.moneySign}${data.balance}`}</p>
   },
-
-
     { title: "Stutus", field: "status", render: (row)=> <span
     style={{color: row.status == "Late" ? "#FFAC32" 
     : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
       {row.status}
-    </span>},
-
-    
+    </span>}, 
   ];
 
   const showModal = () =>{

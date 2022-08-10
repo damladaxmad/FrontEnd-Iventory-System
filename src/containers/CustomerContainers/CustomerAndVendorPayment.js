@@ -5,14 +5,12 @@ import MyModal from "../../Modal/Modal"
 import { useSelector } from "react-redux";
 import { constants } from "../../Helpers/constantsFile";
 
-const Login = (props) => {
+const CustomerAndVendorPayment = (props) => {
 
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const [disabled, setDisabled] = useState(false)
   const [usernameOrPasswordError, setUsernameOrPasswordError] = useState('')
-  const loginArr = [
-    { label: "Enter Amount", type: "number", name: "credit" },
-  ];
+  const arr = props.arr;
 
   const errorStyle = { color: "red", marginLeft: "27px", fontSize: "16px"}
 
@@ -32,7 +30,7 @@ const Login = (props) => {
     validate,
     onSubmit: async (values, { resetForm }) =>  {
       values.type = "Payment"
-      values.customer = props.customer._id
+      values[props.name] = props.instance._id
       values.user = activeUser.userName
       setDisabled(true)
 
@@ -60,7 +58,7 @@ const Login = (props) => {
       alignItems: "center"
      }}
     >
-      {loginArr.map((a, index) => (
+      {arr.map((a, index) => (
         <div>
           <input
             placeholder={a.label}
@@ -111,4 +109,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default CustomerAndVendorPayment;

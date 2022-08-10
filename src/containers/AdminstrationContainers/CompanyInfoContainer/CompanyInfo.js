@@ -12,7 +12,7 @@ const parentDivStyle = {
     alignItems: "center",
     gap: "0px",
     background: "white",
-    width: "98%",
+    width: "92%",
     margin: "auto",
     marginTop: "20px",
     borderRadius: "8px",

@@ -19,7 +19,6 @@ import Vendors from "./Pages/Vendors"
 import Purchases from "./Pages/Purchases";
 import { setIsConnected } from "./redux/actions/isLoginActions";
 import { setDashboard } from "./redux/actions/dashboardActions";
-import PrintFile from "./Pages/PrintFile";
 import useFetch from "./funcrions/DataFetchers";
 import { constants } from "./Helpers/constantsFile";
 
@@ -31,8 +30,7 @@ const pages = [
      <Route path= "/emplooyees" element = {<Employees/>} />,
      <Route path= "/adminstration" element = {<Adminstration/>} />,    
      <Route path= "/vendors" element = {<Vendors/>} />,    
-     <Route path= "/purchases" element = {<Purchases/>} />,    
-     <Route path= "/print" element = {<PrintFile/>} />,    
+     <Route path= "/purchases" element = {<Purchases/>} />,  
 ]
 
 function App() {

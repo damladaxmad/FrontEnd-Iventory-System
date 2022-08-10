@@ -12,6 +12,8 @@ import EmployeesTable from "../containers/EmplooyeeContainers/EmployeesTable";
 import RegisterEmployees from "../containers/EmplooyeeContainers/RegisterEmployees";
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
+import Table from "../utils/Table";
+
 const Emplooyees = () => {
   const [newEmployees, setNewEmployees] = useState(false)
   const [buttonName, setButtonName] = useState('Add New Employees')
@@ -26,7 +28,12 @@ const Emplooyees = () => {
   const [emplyeeIds, setEmployeesIds] = useState('')
   const [state, setState] = useState("")
   const activeUser = useSelector(state => state.activeUser.activeUser)
-  
+  const columns = [
+    { title: "ID", field: "employeeId",},
+    { title: "Full Name", field: "name", width: "4%"},
+    { title: "Email Address", field: "email" },
+    { title: "Employee Role", field: "role" },
+  ]
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
     setAnchorEl(event.currentTarget);
@@ -223,10 +230,11 @@ const Emplooyees = () => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!showProfile && <EmployeesTable data={handler(employees)} 
+      {!showProfile && <Table data={handler(employees)} 
       change = {changeHandler} selectEmpoloyees = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
-      state = {state}/>}
+      state = {state} columns = {columns} url = "employees"
+      name = "Employee"/>}
       {newEmployees && <RegisterEmployees update = {update}
       empoloyee = {updatedEmployee} reset = {resetFomr}  hideModal = {()=> {
         setUpdate(false)

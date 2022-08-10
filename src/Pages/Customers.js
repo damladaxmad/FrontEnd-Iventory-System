@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
-import { Button } from "@material-ui/core";
+import { Button, Tab } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select} from "@mui/material"
@@ -14,6 +14,9 @@ import CustomerSales from "../containers/CustomerContainers/CustomerSales";
 import CustomerDetails from "../containers/CustomerContainers/CustomerDetails";
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
+import moment from "moment";
+import Table from "../utils/Table";
+
 const Customers = (props) => {
   const [newCustomers, setNewCustomers] = useState(false)
   const [buttonName, setButtonName] = useState('Add New Customers')
@@ -30,6 +33,32 @@ const Customers = (props) => {
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const [sale, setSale] = useState(false)
+
+  const columns = [
+   
+    { title: "Customer Name", field: "name" , width: "8%",},
+    { title: "Phone", field: "phone", render: (data) => {
+      if (data.phone) return <p> {data.phone}</p>
+    else return <em>no phone</em>}
+   },
+    {
+      title: "Deadline",
+      field: "date",
+      render: (data) => {
+        const formatted = moment(data.deadline).format("DD/MM/YYYY");
+        if (formatted == "Invalid date") return <em> no deadline</em>
+        return <p>{formatted}</p>;
+      },  
+    },
+    { title: "Balance", field: "balance", render: (data) =>
+    <p>{data.balance < 0 ? `-${constants.moneySign}${data.balance*-1}` : `${constants.moneySign}${data.balance}`}</p>
+  },
+    { title: "Stutus", field: "status", render: (row)=> <span
+    style={{color: row.status == "Late" ? "#FFAC32" 
+    : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
+      {row.status}
+    </span>}, 
+  ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
     setAnchorEl(event.currentTarget);
@@ -136,7 +165,7 @@ const Customers = (props) => {
     }
   }, [query, status])
 
-  const showProfileHandler = (data, type) => {
+  const showTransactions = (data, type) => {
     if (type == "Sale") {
       setSale(true)
       setShowProfile(false)
@@ -264,10 +293,12 @@ const Customers = (props) => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!showProfile && !sale && <CustomersTable data={handler(customers)} 
+      {!showProfile && !sale && <Table data={handler(customers)} 
       change = {changeHandler} selectCustomers = {selectHandler}
-      update = {updateHandler} showProfile = {showProfileHandler}
-      state = {state} />}
+      update = {updateHandler} showTransactions = {showTransactions}
+      state = {state} url = "customers" name = "Customer"
+      columns = {columns}
+      />}
       {newCustomers && <RegisterCustomers update = {update}
       hideModal = {hideModal}
       customer = {updatedCustomer} reset = {resetFomr}/>}

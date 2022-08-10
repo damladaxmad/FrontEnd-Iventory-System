@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
-import PopupForm from "./AssignPopUp";
+import PopupForm from "./GiveUser";
 import axios from "axios";
 import swal from "sweetalert";
 import profile from "../../assets/images/tablePic.png"

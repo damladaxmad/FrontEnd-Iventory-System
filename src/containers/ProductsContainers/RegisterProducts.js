@@ -30,6 +30,7 @@ const RegisterProducts = (props) => {
     initialValues: {
       name: props.update ? props.product.name : "",
       salePrice: props.update ? props.product.salePrice : "",
+      unitPrice: props.update ? props.product.unitPrice : "",
       quantity: props.update ? props.product.quantity : "",
     },
     validate,

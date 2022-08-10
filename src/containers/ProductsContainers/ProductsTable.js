@@ -46,41 +46,6 @@ const ProductsTable = (props) => {
     setAnchorEl(null);
   };
 
-  // const showSweetAlert = () => {
-  //   setAnchorEl(null);
-  //   swal({
-  //     title: "Delete Product",
-  //     text: `Are you sure to delete ${product.name}?`,
-  //     icon: "warning",
-  //     html: true,
-  //     customClass: "swal-wide",
-  //     buttons: {
-  //       cancel: "No",
-  //       confirm: { text: "Yes", className: "sweet-warning" },
-  //     },
-  //   }).then((response) => {
-  //     if (response) {
-  //       axios
-  //         .delete(`${constants.baseUrl}/products/${product._id}`)
-  //         .then(() => {
-  //           swal({
-  //             text: `You have successfully deleted ${product.name}`,
-  //             icon: "success",
-  //             timer: "2000",
-  //           });
-  //           props.change();
-  //         })
-  //         .catch((err) => {
-  //           swal({
-  //             text: err.response.data.message,
-  //             icon: "error",
-  //             timer: "2000",
-  //           });
-  //         });
-  //     }
-  //   });
-  // };
-
   const deleteProduct = async () => {
     deleteFunction("Delete Product", product.name, 
     `${constants.baseUrl}/products/${product._id}`, props.change)
@@ -118,7 +83,6 @@ const ProductsTable = (props) => {
           }}
           style={{}}
         >
-          {/* <MenuItem onClick={showModal}>Assign to class</MenuItem> */}
           <MenuItem
             onClick={() => {
               if (activeUser.privillages.includes("Delete Product"))

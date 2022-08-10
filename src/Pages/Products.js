@@ -15,6 +15,7 @@ import Available from "../containers/ProductsContainers/Available";
 import AddProducts from "../containers/ProductsContainers/AddProducts";
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
+import Table from "../utils/Table";
 const Products = () => {
   const [newProducts, setNewProducts] = useState(false)
   
@@ -32,6 +33,17 @@ const Products = () => {
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const [value, setValue] = React.useState("Products");
+
+  const columns = [
+    { title: "Product Name", field: "name", width: "8%" },
+    { title: "Unit Price", field: "unitPrice" },
+    { title: "quantity", field: "quantity" },
+    {
+      title: "Sale Price",
+      field: "salePrice",
+      render: (data) => <p>{constants.moneySign}{data.salePrice}</p>,
+    },
+  ];
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -194,8 +206,7 @@ const Products = () => {
           </Tabs>
         </Box>
        
-        {/* <h2> {newProducts ? "Create New Products" : "Products"}</h2> */}
-        <Button
+         <Button
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
@@ -255,10 +266,12 @@ const Products = () => {
         </div>
       </div>}
       {value == "Available" && <Available/>}
-      { !showProfile && value == "Products" && <ProductsTable data={handler(products)} 
+      { !showProfile && value == "Products" && <Table data={handler(products)} 
       change = {changeHandler} selectProducts = {selectHandler}
       update = {updateHandler} showProfile = {showProfileHandler}
-      state = {state}/>}
+      state = {state} columns = {columns} url = "products"
+      name = "Product"
+      />}
       {newProducts && <AddProducts hideModal = {hideModal}/>}
       {update &&
        <RegisterProducts update = {update}

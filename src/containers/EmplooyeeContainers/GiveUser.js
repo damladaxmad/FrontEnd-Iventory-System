@@ -1,14 +1,14 @@
-import Modal from "../../../Modal/Modal";
-import { Button, Divider } from "@material-ui/core";
+import Modal from "../../Modal/Modal";
+import { Button, Divider, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { FormControl, MenuItem } from "@material-ui/core";
-import {TextField, Select} from "@mui/material"
+import {Select} from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import axios from "axios";
-import { constants } from "../../../Helpers/constantsFile";
+import { constants } from "../../Helpers/constantsFile";
 
-const ResetPopUp = (props) => {
+const GiveUser = (props) => {
 
   const arr = [
     { label: "Enter Name", type: "text", name: "name" },
@@ -33,27 +33,26 @@ const ResetPopUp = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      username: props.user.username,
+      username: "",
       password: "",
-      name: `${props.user.name} `
+      name: props.employee.name
     },
     validate,
     onSubmit: (values, { resetForm }) => {
-        axios.patch(`${constants.baseUrl}/users/${props.user._id}`, values).then((res) => {
-             alert("Successfully Updated")
-        }).catch((err) => {
+        axios.post(`${constants.baseUrl}/users`, values).then((res) => {
+        alert(`${props.employee.name} is made a user`)
+        }).catch((err)=> {
           alert(err.response.data.message);
         });
         resetForm();
-        props.hideModal();
-        props.change()
+        props.hideModal();  
     
     },
   });
 
  
   return (
-    <Modal onClose = {props.hideModal}>
+    <Modal onClose = {props.hideModal} pwidth = "450px">
       <div
         style={{
           display: "flex",
@@ -63,7 +62,7 @@ const ResetPopUp = (props) => {
           gap: "15px"
         }}
       >
-        <h2>Reset User </h2>
+        <h2>User Creation </h2>
      
 
         <form
@@ -103,7 +102,7 @@ const ResetPopUp = (props) => {
           type="submit"
           variant="contained"
         >
-          Reset User
+          Make User
         </Button>
       </form>
 
@@ -112,4 +111,4 @@ const ResetPopUp = (props) => {
   );
 };
 
-export default ResetPopUp;
+export default GiveUser;

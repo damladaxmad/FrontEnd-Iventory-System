@@ -6,14 +6,21 @@ import UsersTable from "./UsersTable";
 import axios from "axios";
 import { setUsers } from "../../../redux/actions/usersActions";
 import useFetch from "../../../funcrions/DataFetchers";
+import Table from "../../../utils/Table";
 
 const Users = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState('')
 
+  const columns = [
+    { title: "Employee Name", field: "name", width: "4%" },
+    { title: "Username", field: "username" },
+    { title: "User Password", field: "Password" },
+  ]
+
   const parentDivStyle = { display: "flex", alignItems: "center",
     justifyContent: "space-between",  gap: "0px", padding: "20px",
-    background: "white", width: "98%", margin: "auto",
+    background: "white", width: "95%", margin: "auto",
     marginTop: "20px", borderRadius: "8px 8px 0px 0px",
   }
 
@@ -71,8 +78,10 @@ const Users = () => {
    
 
   </div>
-      <UsersTable data = {handler(users)}
-      change = {change} state =  {state}/>
+  
+      <Table data = {handler(users)} 
+      change = {change} state =  {state} columns = {columns}
+      url = "users" name = "User"/>
       </>
   )
 }

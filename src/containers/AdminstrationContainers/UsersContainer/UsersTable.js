@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {Typography, Button, MenuItem, Menu, Avatar} from "@material-ui/core"
-import ResetPopUp from "./ResetPopUp";
+import ResetPopUp from "./ResetUser";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import swal from "sweetalert";
@@ -37,7 +37,7 @@ const UsersTable = (props) => {
     { title: "User Password", field: "Password" },
   ];
 
-  const showModal = () =>{
+  const showUserModal = () =>{
     setShow(true)
     handleClose()
   }
@@ -86,7 +86,7 @@ const UsersTable = (props) => {
       >
         <MenuItem onClick={() => {
           if (activeUser.privillages.includes('Reset User'))
-          showModal()
+          showUserModal()
           else alert("You have no access")
           }}>Reset User</MenuItem>
         <MenuItem onClick={() => {

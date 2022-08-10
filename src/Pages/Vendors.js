@@ -13,6 +13,8 @@ import VendorSales from "../containers/VendorContainers/VendorSales";
 import VendorDetails from "../containers/VendorContainers/VendorDetails";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { constants } from "../Helpers/constantsFile";
+import Table from "../utils/Table";
+import moment from "moment";
 
 const Vendors = (props) => {
   const [newVendors, setNewVendors] = useState(false)
@@ -30,6 +32,36 @@ const Vendors = (props) => {
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const [sale, setSale] = useState(false)
+
+  const columns = [
+   
+    { title: "Vendor Name", field: "name" , width: "8%",},
+    { title: "Phone", field: "phone", render: (data) => {
+      if (data.phone) return <p> {data.phone}</p>
+    else return <em>no phone</em>}
+   },
+    {
+      title: "Deadline",
+      field: "date",
+      render: (data) => {
+        const formatted = moment(data.deadline).format("DD/MM/YYYY");
+        if (formatted == "Invalid date") return <em> no deadline</em>
+        return <p>{formatted}</p>;
+      },
+      
+    },
+    // { title: "Deadline", field: "deadline" },   
+    { title: "Balance", field: "balance", render: (data) =>
+    <p>{data.balance < 0 ? `-${constants.moneySign}${data.balance*-1}` : `${constants.moneySign}${data.balance}`}</p>},
+    
+    { title: "Stutus", field: "status", render: (row)=> <span
+    style={{color: row.status == "Late" ? "#FFAC32" 
+    : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
+      {row.status}
+    </span>},
+
+    
+  ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, vendor) => {
     setAnchorEl(event.currentTarget);
@@ -157,7 +189,7 @@ const Vendors = (props) => {
     }
   }, [query])
 
-  const showProfileHandler = (data, type) => {
+  const showTransactions = (data, type) => {
     if (type == "Sale") {
       setSale(true)
       setShowProfile(false)
@@ -196,8 +228,7 @@ const Vendors = (props) => {
           margin: "auto",
         }}
       >
-        {/* {assignMany && <AssignManyToClass hideModal = {hideModal}
-        studentsIds = {studentIds}/>} */}
+      
         <h2> {newVendors ? "Create New Vendors" : 
         showProfile ? "Vendor Transactions" : "Vendors"}</h2>
         <Button
@@ -265,10 +296,12 @@ const Vendors = (props) => {
           }} onClick = {handleClick} />}
         </div>
       </div>}
-      {!newVendors && !showProfile && !sale && <VendorsTable data={handler(vendors)} 
+      
+      {!newVendors && !showProfile && !sale && <Table data={handler(vendors)} 
       change = {changeHandler} selectVendors = {selectHandler}
-      update = {updateHandler} showProfile = {showProfileHandler}
-      state = {state} />}
+      update = {updateHandler} showTransactions = {showTransactions}
+      state = {state} url = "vendors" name = "Vendor"
+      columns = {columns}/>}
       {newVendors && <RegisterVendors update = {update}
       vendor = {updatedVendor} reset = {resetFomr}/>}
       {showProfile && <VendorSales vendor = {vendorTransactions}/>}
