@@ -15,6 +15,7 @@ import { setVendors } from "../redux/actions/vendorsActions";
 import { constants } from "../Helpers/constantsFile";
 import Table from "../utils/Table";
 import moment from "moment";
+import Register from "../utils/Register";
 
 const Vendors = (props) => {
   const [newVendors, setNewVendors] = useState(false)
@@ -59,8 +60,13 @@ const Vendors = (props) => {
     : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
       {row.status}
     </span>},
-
     
+  ];
+
+  const fields = [
+    { label: "Enter Name", type: "text", name: "name" },
+    { label: "Enter phone", type: "text", name: "phone" },
+    { label: "", type: "date", name: "deadline" },
   ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, vendor) => {
@@ -259,7 +265,7 @@ const Vendors = (props) => {
           {buttonName}
         </Button>
       </div>}
-      {!newVendors && !showProfile && !sale &&
+      { !showProfile && !sale &&
       <div
         style={{
           display: "flex",
@@ -297,13 +303,20 @@ const Vendors = (props) => {
         </div>
       </div>}
       
-      {!newVendors && !showProfile && !sale && <Table data={handler(vendors)} 
+      { !showProfile && !sale && <Table data={handler(vendors)} 
       change = {changeHandler} selectVendors = {selectHandler}
       update = {updateHandler} showTransactions = {showTransactions}
       state = {state} url = "vendors" name = "Vendor"
       columns = {columns}/>}
-      {newVendors && <RegisterVendors update = {update}
-      vendor = {updatedVendor} reset = {resetFomr}/>}
+      {newVendors && <Register update = {update}
+      instance = {updatedVendor} reset = {resetFomr}
+      hideModal = {()=> {
+        setUpdate(false)
+        setNewVendors(false)
+        setButtonName("Add New Vendors")
+      }}
+      name = "Vendor" url = "vendors" fields = {fields}
+      />}
       {showProfile && <VendorSales vendor = {vendorTransactions}/>}
       {sale && <VendorDetails vendor = {vendorTransactions}/>}
 

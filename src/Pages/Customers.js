@@ -16,6 +16,7 @@ import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
 import moment from "moment";
 import Table from "../utils/Table";
+import Register from "../utils/Register";
 
 const Customers = (props) => {
   const [newCustomers, setNewCustomers] = useState(false)
@@ -58,6 +59,12 @@ const Customers = (props) => {
     : row.status == "Clear" ? "#65a765" : "#5887FF"}}>
       {row.status}
     </span>}, 
+  ];
+
+  const fields = [
+    { label: "Enter Name", type: "text", name: "name" },
+    { label: "Enter phone", type: "text", name: "phone" },
+    { label: "", type: "date", name: "deadline" },
   ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
@@ -208,8 +215,7 @@ const Customers = (props) => {
           margin: "auto",
         }}
       >
-        {/* {assignMany && <AssignManyToClass hideModal = {hideModal}
-        studentsIds = {studentIds}/>} */}
+
         <h2> {newCustomers ? "Create New Customers" : 
         showProfile ? "Customer Transactions" : "Customers"}</h2>
         <Button
@@ -299,9 +305,11 @@ const Customers = (props) => {
       state = {state} url = "customers" name = "Customer"
       columns = {columns}
       />}
-      {newCustomers && <RegisterCustomers update = {update}
+      {newCustomers && <Register update = {update}
       hideModal = {hideModal}
-      customer = {updatedCustomer} reset = {resetFomr}/>}
+      instance = {updatedCustomer} reset = {resetFomr}
+      name = "Customer" fields = {fields} url = "customers"
+      />}
       {showProfile && <CustomerSales customer = {customerTransactions}/>}
       {sale && <CustomerDetails customer = {customerTransactions}/>}
 

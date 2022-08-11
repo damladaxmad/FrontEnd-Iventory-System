@@ -13,8 +13,10 @@ import RegisterEmployees from "../containers/EmplooyeeContainers/RegisterEmploye
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
 import Table from "../utils/Table";
+import Register from "../utils/Register";
 
 const Emplooyees = () => {
+
   const [newEmployees, setNewEmployees] = useState(false)
   const [buttonName, setButtonName] = useState('Add New Employees')
   const [update, setUpdate] = useState(false)
@@ -34,6 +36,11 @@ const Emplooyees = () => {
     { title: "Email Address", field: "email" },
     { title: "Employee Role", field: "role" },
   ]
+  const fields = [
+    { label: "Enter Name", type: "text", name: "name" },
+    { label: "Enter Email", type: "gmail", name: "email" },
+    { label: "Enter Role", type: "text", name: "role" },
+  ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
     setAnchorEl(event.currentTarget);
@@ -235,12 +242,14 @@ const Emplooyees = () => {
       update = {updateHandler} showProfile = {showProfileHandler}
       state = {state} columns = {columns} url = "employees"
       name = "Employee"/>}
-      {newEmployees && <RegisterEmployees update = {update}
-      empoloyee = {updatedEmployee} reset = {resetFomr}  hideModal = {()=> {
+      {newEmployees && <Register update = {update}
+      instance = {updatedEmployee} reset = {resetFomr}  hideModal = {()=> {
         setUpdate(false)
         setNewEmployees(false)
         setButtonName("Add New Employees")
       }}
+      fields = {fields}  url = "employees"
+      name = "Employee"
       change = {changeHandler} />}
 
       <Menu
