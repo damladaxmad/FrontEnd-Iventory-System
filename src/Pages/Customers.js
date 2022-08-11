@@ -10,13 +10,15 @@ import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import RegisterCustomers from "../containers/CustomerContainers/RegisterCustomers";
 import { setCustomers } from "../redux/actions/customersActions";
+import CustomerTransactions from "../containers/CustomerContainers/CustomerTransactions";
 import CustomerSales from "../containers/CustomerContainers/CustomerSales";
-import CustomerDetails from "../containers/CustomerContainers/CustomerDetails";
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
 import moment from "moment";
 import Table from "../utils/Table";
 import Register from "../utils/Register";
+import Transactions from "../utils/Transactions";
+import CustomerVendorSales from "../utils/CustomerVendorSales";
 
 const Customers = (props) => {
   const [newCustomers, setNewCustomers] = useState(false)
@@ -310,8 +312,10 @@ const Customers = (props) => {
       instance = {updatedCustomer} reset = {resetFomr}
       name = "Customer" fields = {fields} url = "customers"
       />}
-      {showProfile && <CustomerSales customer = {customerTransactions}/>}
-      {sale && <CustomerDetails customer = {customerTransactions}/>}
+      {showProfile && <Transactions instance = {customerTransactions}
+      name = "Customer" />}
+      {sale && <CustomerVendorSales instance = {customerTransactions}
+      name = "Customer" type = "sale"/>}
 
       <Menu
         id="basic-menu"

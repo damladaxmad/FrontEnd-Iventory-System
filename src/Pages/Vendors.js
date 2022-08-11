@@ -9,13 +9,15 @@ import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import RegisterVendors from "../containers/VendorContainers/RegisterVendors";
+import VendorTransactions from "../containers/VendorContainers/VendorTransactions";
 import VendorSales from "../containers/VendorContainers/VendorSales";
-import VendorDetails from "../containers/VendorContainers/VendorDetails";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { constants } from "../Helpers/constantsFile";
 import Table from "../utils/Table";
 import moment from "moment";
 import Register from "../utils/Register";
+import Transactions from "../utils/Transactions";
+import CustomerVendorSales from "../utils/CustomerVendorSales";
 
 const Vendors = (props) => {
   const [newVendors, setNewVendors] = useState(false)
@@ -317,8 +319,10 @@ const Vendors = (props) => {
       }}
       name = "Vendor" url = "vendors" fields = {fields}
       />}
-      {showProfile && <VendorSales vendor = {vendorTransactions}/>}
-      {sale && <VendorDetails vendor = {vendorTransactions}/>}
+      {showProfile && <Transactions instance = {vendorTransactions}
+      name = "Vendor"/>}
+      {sale && <CustomerVendorSales instance = {vendorTransactions}
+      name = "Vendor" type = "purchase"/>}
 
       <Menu
         id="basic-menu"

@@ -187,7 +187,8 @@ const Table = (props) => {
           if (activeUser.privillages.includes("View Sales"))
           showTransactions("Sale")
           else alert("You have no access!")
-          }}>View Sales</MenuItem>}
+          }}>{props.name == "Customer" ? "View Sales" : 
+          "View Purchases"}</MenuItem>}
 
       </Menu>
 

@@ -2,9 +2,9 @@ import { TextField } from "@mui/material"
 import React from "react"
 import { Typography } from "@mui/material"
 import MaterialTable from "material-table"
-import { constants } from "../../Helpers/constantsFile"
-
-const CustomerDetails = (props) => {
+import { constants } from "../Helpers/constantsFile"
+import moment from "moment"
+const CustomerVendorSales = (props) => {
 
     return (
     <div>
@@ -50,16 +50,22 @@ const CustomerDetails = (props) => {
     display: "flex", alignItems: "center", flexDirection:"column",
     width: "85%", marginBottom: "30px", background: "white",
     padding: "30px 65px", gap: "10px"}}>
-        <h2 > Sales Report</h2>
+        <h2 > {props.name == "Customer" ? "Sales Report" : "Purchase Report"}</h2>
             <div style = {{display:"flex", gap:"150px",
         marginBottom: "20px"}}>
             <p style={{margin: "0px"}}> From July 3, 2022</p>
             <p style={{margin: "0px"}}> To July 7, 2022</p>
             </div>
 
-            {props.customer.transactions?.map(transaction => {
-              if (!transaction.sale) return
-              else return <SaleComp sale = {transaction.sale} />
+            {props.instance.transactions?.map(transaction => {
+            if (props.name == "Customer"){
+                if (!transaction.sale) return
+                else return <Comp sale = {transaction.sale} />
+            } else {
+                if (!transaction.purchase) return
+                else return <Comp sale = {transaction.purchase} />
+            }
+             
             })}
     </div>
       
@@ -67,7 +73,7 @@ const CustomerDetails = (props) => {
     )
 }
 
-const SaleComp = (props) => {
+const Comp = (props) => {
 
   const columns = [
  
@@ -95,8 +101,9 @@ const SaleComp = (props) => {
           justifyContent: "space-around",
         }}
       >
-          <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
-          <Typography> Date: 2022/7/3</Typography>
+          {props.name == "Customer" ? <Typography> SaleNumber: {props.sale.saleNumber}</Typography>
+          : <Typography> PurchaseNumber: {props.sale.purchaseNumber}</Typography>}
+          <Typography> Date: {moment(props.sale.date).format("DD/MM/YYYY")}</Typography>
           <Typography> Type: {props.sale.paymentType}</Typography>
           <Typography> Total: ${constants.moneySign}{props.sale.total}</Typography>
       </div>
@@ -179,6 +186,4 @@ const SaleComp = (props) => {
   </div>
 }
 
-
-
-export default CustomerDetails
+export default CustomerVendorSales
