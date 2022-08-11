@@ -55,16 +55,16 @@ const Register = (props) => {
         axios.post(`${constants.baseUrl}/${props.url}`, values).then((res) => {
           alert("Successfully Created")
           resetForm();
-          props.reset()
+          (props.name == "Customer" || props.name == "Vendor")&&props.reset()
           props.hideModal()
           props.name == "Employee" && props.change()
         }).catch((err) => {
           alert(err.response?.data?.message);
-          props.reset()
+          // props.reset()
         });
-        props.change()
+        // props.change()
           props.hideModal()
-          props.reset()
+          // props.reset()
       }    
     
     },

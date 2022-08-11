@@ -11,14 +11,14 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import CloseIcon from "@material-ui/icons/Close";
 import PurchasesTable from "../containers/PurchasesContainers/PurchasesTable";
-import BrowsePurchases from "../containers/PurchasesContainers/BrowsePurchases";
-import CreateVendor from "../containers/PurchasesContainers/CreateVendor";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { setPurchaseList } from "../redux/actions/purchaseListActions";
 import moment from "moment";
 import useFetch from "../funcrions/DataFetchers";
 import { constants } from "../Helpers/constantsFile";
 import Reports from "../utils/Reports";
+import Register from "../utils/Register";
+import BrowseProducts from "../utils/BrowseProducts";
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -36,6 +36,11 @@ function Purchases() {
   const [view, setView] = useState(1)
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
+  const fields = [
+    { label: "Enter Name", type: "text", name: "name" },
+    { label: "Enter phone", type: "text", name: "phone" },
+    { label: "", type: "date", name: "deadline" },
+  ];
 
   dispatch(setVendors(useFetch("vendors", force, "vendors" )))
 
@@ -154,8 +159,11 @@ function Purchases() {
         </Tabs>
       </Box>
 
-      {show && <BrowsePurchases hideModal={hideModal} data={dataHandler} />}
-      {createVendor && <CreateVendor hideModal={hideModal} />}
+      {show && <BrowseProducts hideModal={hideModal} data={dataHandler} />}
+      {createVendor && <Register hideModal={hideModal} 
+      update = {false} 
+      name = "Purchase" fields = {fields} url = "vendors"
+      />}
       {value == "Purchases" && (
          <div
          style={{

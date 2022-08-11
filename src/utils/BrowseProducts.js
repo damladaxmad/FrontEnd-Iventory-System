@@ -1,23 +1,24 @@
-import MyModal from "../../Modal/Modal"
+import MyModal from "../Modal/Modal"
 import MaterialTable from "material-table"
 import { Divider } from "@material-ui/core"
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setProducts } from "../../redux/actions/productsActions";
-import { setOrderList } from "../../redux/actions/orderListActions";
+import { setProducts } from "../redux/actions/productsActions";
+import { setOrderList } from "../redux/actions/orderListActions";
 import React, {useState, useEffect} from "react";
-import { constants } from "../../Helpers/constantsFile";
-import useFetch from "../../funcrions/DataFetchers";
+import { constants } from "../Helpers/constantsFile";
+import useFetch from "../funcrions/DataFetchers";
 
 
-const BrowsePurchases = (props) => {
+const BrowseProducts = (props) => {
 
   const dispatch = useDispatch()
 
-  const products = useSelector(state => state.products.products)
-  const purchaseList = useSelector(state => state.purchaseList.purchaseList)
+  let products = useSelector(state => state.products.products)
+  const orderList = useSelector(state => state.orderList.orderList)
   const [query, setQuery] = useState("");
   const [state, setState] = useState()
+  const [my, setMy] = useState()
 
   const fetchProducts = async() => {
     axios.get(`${constants.baseUrl}/products`).then(res => {
@@ -25,42 +26,44 @@ const BrowsePurchases = (props) => {
     })
   }
 
+
   const rowClickHandler = (data) => {
+    if (data.quantity < 1) return alert(`${data.name} is not available`)
     setQuery('')
     props.hideModal()
-    if (!purchaseList.includes(JSON.stringify(data))){
+    if (!orderList.includes(JSON.stringify(data))){
       props.data(JSON.stringify(data))
     }   
   }
 
   useEffect(()=> {
 
-  }, [purchaseList])
+  }, [orderList])
 
- useEffect(()=> {
-  setState("Loading...")
-  fetchProducts()
- }, [])
-
- useEffect(()=> {
-  if (query != '') {
-    setState("No matching products!")
-  }
-}, [query])
+  useEffect(()=> {
+    setState("Loading...")
+    fetchProducts()
+   }, [])
+  
+   useEffect(()=> {
+    if (query != '') {
+      setState("No matching products!")
+    }
+  }, [query])
 
   const handler = (data) => { 
     if (query !== ""){
-      if (data.length > 0) {
+      if (data?.length > 0) {
         return data.filter(
           (std) =>
           std.name.toLowerCase().includes(query)
         );
       } else {
-        return
+        return 
       } 
     }
     else return data
-     
+    
   };
 
     const materialOptions = {
@@ -83,12 +86,12 @@ const BrowsePurchases = (props) => {
    
         { title: "Product Name", field: "name", width: "4%",
         cellStyle: { border: "none"} },
+        { title: "Available", field: "quantity",
+        cellStyle: { border: "none"} },
         { title: "Product Price", field: "unitPrice", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
         <p> {constants.moneySign}{data.unitPrice}</p>}
       ]
-
-      // const data = products
 
     return (
         <MyModal onClose = {props.hideModal}>
@@ -122,11 +125,13 @@ const BrowsePurchases = (props) => {
           }}
         style={{ borderRadius: "10px", boxShadow: "none",
         width: "100%", marginTop: "10px", background: "#F7F7F7",
-        height: '300px',   overflowY: products.length < 5 ? "none" : "scroll" }}
+        height: '300px',   
+        overflowY: products?.length < 5 ? "none" : "scroll"
+      }}
       />
         </div>
         </MyModal>
     )
 }
 
-export default BrowsePurchases
+export default BrowseProducts

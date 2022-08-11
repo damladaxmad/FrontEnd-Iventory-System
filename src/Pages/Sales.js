@@ -11,14 +11,14 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import CloseIcon from "@material-ui/icons/Close";
 import SalesTable from "../containers/SalesContainers/SalesTable";
-import BrowseSales from "../containers/SalesContainers/BrowseSales";
 import { setCustomers } from "../redux/actions/customersActions";
 import { setOrderList } from "../redux/actions/orderListActions";
-import CreateCustomer from "../containers/SalesContainers/CreateCustomer";
 import moment from 'moment';
 import {constants} from "../Helpers/constantsFile"
 import useFetch from "../funcrions/DataFetchers";
 import Reports from "../utils/Reports";
+import Register from "../utils/Register";
+import BrowseProducts from "../utils/BrowseProducts";
 
 function Sales() {
   const dispatch = useDispatch();
@@ -37,6 +37,12 @@ function Sales() {
   const [view, setView] = useState(1)
 
   const selectStyle = { color: "#B9B9B9", width: "100%" };
+
+  const fields = [
+    { label: "Enter Name", type: "text", name: "name" },
+    { label: "Enter phone", type: "text", name: "phone" },
+    { label: "", type: "date", name: "deadline" },
+  ];
 
   
   const customers = useSelector((state) => state.customers.customers);
@@ -151,8 +157,12 @@ function Sales() {
         </Tabs>
       </Box>
 
-      {show && <BrowseSales hideModal={hideModal} data={dataHandler} />}
-      {createCustomer && <CreateCustomer hideModal={hideModal} />}
+      {show && <BrowseProducts hideModal={hideModal} data={dataHandler} />}
+
+      {createCustomer && <Register hideModal={hideModal} 
+      update = {false} 
+      name = "Sale" fields = {fields} url = "customers"
+      />}
       {value == "Sales" && (
         <div
           style={{
