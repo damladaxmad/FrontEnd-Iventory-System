@@ -7,7 +7,7 @@ import swal from "sweetalert";
 import { useSelector } from "react-redux";
 import { constants } from "../Helpers/constantsFile";
 import { deleteFunction } from "../funcrions/deleteStuff";
-import CustomerAndVendorPayment from "../containers/CustomerContainers/CustomerAndVendorPayment";
+import CustomerAndVendorPayment from "./CustomerAndVendorPayment";
 import ResetUser from "../containers/AdminstrationContainers/UsersContainer/ResetUser";
 import GiveUser from "../containers/EmplooyeeContainers/GiveUser";
 

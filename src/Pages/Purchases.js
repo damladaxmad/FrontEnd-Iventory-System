@@ -19,6 +19,7 @@ import { setPurchaseList } from "../redux/actions/purchaseListActions";
 import moment from "moment";
 import useFetch from "../funcrions/DataFetchers";
 import { constants } from "../Helpers/constantsFile";
+import Reports from "../utils/Reports";
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -221,8 +222,9 @@ function Purchases() {
          </Button>
        </div>
       )}
-      {value == "Purchases" && <PurchasesReport type = {type}
-      startDate = {startDate} endDate = {endDate} view = {view}/>}
+      {value == "Purchases" && <Reports type = {type}
+      startDate = {startDate} endDate = {endDate} view = {view}
+      name = "Purchases"/>}
 
       {value == "New Purchase" && (
         <div

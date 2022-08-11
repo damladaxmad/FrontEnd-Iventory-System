@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
-import MyModal from "../../Modal/Modal"
+import MyModal from "../Modal/Modal"
 import { useSelector } from "react-redux";
-import { constants } from "../../Helpers/constantsFile";
+import { constants } from "../Helpers/constantsFile";
 
 const CustomerAndVendorPayment = (props) => {
 

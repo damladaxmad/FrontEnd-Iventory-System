@@ -19,6 +19,7 @@ import SalesReport from "../containers/SalesContainers/SalesReport";
 import moment from 'moment';
 import {constants} from "../Helpers/constantsFile"
 import useFetch from "../funcrions/DataFetchers";
+import Reports from "../utils/Reports";
 
 function Sales() {
   const dispatch = useDispatch();
@@ -218,8 +219,9 @@ function Sales() {
           </Button>
         </div>
       )}
-      {value == "Sales" && <SalesReport type = {type}
-      startDate = {startDate} endDate = {endDate} view = {view}/>}
+      {value == "Sales" && <Reports type = {type}
+      startDate = {startDate} endDate = {endDate} view = {view}
+      name = "Sales"/>}
 
       {value == "New Order" && (
         <div
