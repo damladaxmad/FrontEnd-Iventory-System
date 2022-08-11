@@ -3,14 +3,10 @@ import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select} from "@mui/material"
-import VendorsTable from "../containers/VendorContainers/VendorsTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import RegisterVendors from "../containers/VendorContainers/RegisterVendors";
-import VendorTransactions from "../containers/VendorContainers/VendorTransactions";
-import VendorSales from "../containers/VendorContainers/VendorSales";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { constants } from "../Helpers/constantsFile";
 import Table from "../utils/Table";

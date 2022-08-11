@@ -13,7 +13,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import PurchasesTable from "../containers/PurchasesContainers/PurchasesTable";
 import BrowsePurchases from "../containers/PurchasesContainers/BrowsePurchases";
 import CreateVendor from "../containers/PurchasesContainers/CreateVendor";
-import PurchasesReport from "../containers/PurchasesContainers/PurchasesReport";
 import { setVendors } from "../redux/actions/vendorsActions";
 import { setPurchaseList } from "../redux/actions/purchaseListActions";
 import moment from "moment";

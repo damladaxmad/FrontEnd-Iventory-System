@@ -15,7 +15,6 @@ import BrowseSales from "../containers/SalesContainers/BrowseSales";
 import { setCustomers } from "../redux/actions/customersActions";
 import { setOrderList } from "../redux/actions/orderListActions";
 import CreateCustomer from "../containers/SalesContainers/CreateCustomer";
-import SalesReport from "../containers/SalesContainers/SalesReport";
 import moment from 'moment';
 import {constants} from "../Helpers/constantsFile"
 import useFetch from "../funcrions/DataFetchers";

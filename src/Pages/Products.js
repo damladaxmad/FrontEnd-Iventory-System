@@ -3,7 +3,6 @@ import { Button } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select} from "@mui/material"
-import ProductsTable from "../containers/ProductsContainers/ProductsTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";

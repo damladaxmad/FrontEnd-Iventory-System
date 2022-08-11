@@ -3,15 +3,11 @@ import { Button, Tab } from "@material-ui/core";
 import { MdAdd } from "react-icons/md";
 import { FormControl, MenuItem, Menu } from "@material-ui/core";
 import {Select} from "@mui/material"
-import CustomersTable from "../containers/CustomerContainers/CustomersTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import RegisterCustomers from "../containers/CustomerContainers/RegisterCustomers";
 import { setCustomers } from "../redux/actions/customersActions";
-import CustomerTransactions from "../containers/CustomerContainers/CustomerTransactions";
-import CustomerSales from "../containers/CustomerContainers/CustomerSales";
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
 import moment from "moment";

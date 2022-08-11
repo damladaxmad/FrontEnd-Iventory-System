@@ -8,8 +8,6 @@ import axios from "axios";
 import { BiArrowBack } from "react-icons/bi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { setEmployees } from "../redux/actions/employeesActions";
-import EmployeesTable from "../containers/EmplooyeeContainers/EmployeesTable";
-import RegisterEmployees from "../containers/EmplooyeeContainers/RegisterEmployees";
 import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
 import Table from "../utils/Table";

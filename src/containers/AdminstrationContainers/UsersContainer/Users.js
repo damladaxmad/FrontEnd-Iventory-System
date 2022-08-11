@@ -2,7 +2,6 @@ import React, { useState, useEffect, useReducer } from "react"
 import { FormControl, MenuItem, Menu} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "@mui/material";
-import UsersTable from "./UsersTable";
 import axios from "axios";
 import { setUsers } from "../../../redux/actions/usersActions";
 import useFetch from "../../../funcrions/DataFetchers";
