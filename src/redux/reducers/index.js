@@ -9,6 +9,7 @@ import { usersReducer } from "./usersReducer";
 import { companyInfoReducer } from "./companyInfoReducer";
 import { activeUserReducer } from "./activeUserReducer";
 import { employeesReducer } from "./employeesReducer"; 
+import { expensesReducer } from "./expensesReducer"; 
 import { isLoginReducer } from "./isLoginReducer";
 import { orderListReducer } from "./orderListReducer";
 import { purchaseListReducer } from "./purchaseListReducer";
@@ -26,6 +27,7 @@ const reducers = combineReducers({
   companyInfo: companyInfoReducer,
   activeUser: activeUserReducer,
   employees: employeesReducer,
+  expenses: expensesReducer,
   isLogin: isLoginReducer,
 
 });

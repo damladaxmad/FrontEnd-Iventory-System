@@ -50,7 +50,7 @@ const SalesTable = (props) => {
   const unitPriceFun = (number, unitPrice, item) => {
     for (let i = 0; i<= props.data.length; i++){
       if(number == i){
-        setP({...p, [number]: { ...p[number], price: parseInt(unitPrice) ,
+        setP({...p, [number]: { ...p[number], unitPrice: parseInt(unitPrice) ,
         item: item}})
       }
     }
@@ -76,7 +76,7 @@ const SalesTable = (props) => {
     let products = []
     for (let i = 0; i< props.data.length; i++){
       if (!p[i].quantity) p[i].quantity = 1
-      if (!p[i].price) p[i].price = 0
+      if (!p[i].unitPrice) p[i].unitPrice = 0
       products.push(p[i])
     }
     const apiData = {products: products,

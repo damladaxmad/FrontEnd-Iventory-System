@@ -65,7 +65,7 @@ const Table = (props) => {
   const deleteInstance = () => {
     deleteFunction(
       `Delete ${props.name}`,
-      instance.name,
+      props.name == "Expense" ? instance.description : instance.name,
       `${constants.baseUrl}/${props.url}/${instance._id}`,
       props.change
     );
@@ -78,6 +78,14 @@ const Table = (props) => {
     handleClose();
   };
 
+  const cancel = () => {
+    axios.patch(`${constants.baseUrl}/${props.url}/${instance._id}`, {status: "cancelled"}).then(()=> {
+      props.change()
+    }).catch((err)=> {
+      alert("something went wrong")
+    })
+    handleClose()
+  }
   let state = props.state;
 
   return (
@@ -109,7 +117,7 @@ const Table = (props) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        style={{}}
+        style={{marginTop: "35px"}}
       >
         {(props.name == "Customer" || props.name == "Vendor") && (
           <MenuItem
@@ -135,6 +143,18 @@ const Table = (props) => {
           </MenuItem>
         )}
 
+      {(props.name == "Sale" || props.name == "Purchase") && (
+          <MenuItem
+            onClick={() => {
+              if (activeUser.privillages.includes("Cancel"))
+                cancel();
+              else alert("You have no access");
+            }}
+          >
+           Cancel Sale
+          </MenuItem>
+        )}
+
         {props.name == "Employee" && (
           <MenuItem
             onClick={() => {
@@ -148,7 +168,8 @@ const Table = (props) => {
 
         {(props.name == "Employee" ||
           props.name == "Product" ||
-          props.name == "User") && (
+          props.name == "User" ||
+          props.name == "Expense") && (
           <MenuItem
             onClick={() => {
               if (activeUser.privillages.includes(`Delete ${props.name}`))
@@ -162,8 +183,8 @@ const Table = (props) => {
 
         {(props.name == "Employee" ||
           props.name == "Product" ||
-          props.name == "Vendor" ||
-          props.name == "Customer") && (
+          props.name == "Vendor" ||   props.name == "Sale" ||
+          props.name == "Customer" || props.name == "Expense") && (
           <MenuItem
             onClick={() => {
               if (activeUser.privillages.includes(`Update ${props.name}`))

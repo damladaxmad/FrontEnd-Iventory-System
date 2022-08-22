@@ -21,6 +21,9 @@ import { setIsConnected } from "./redux/actions/isLoginActions";
 import { setDashboard } from "./redux/actions/dashboardActions";
 import useFetch from "./funcrions/DataFetchers";
 import { constants } from "./Helpers/constantsFile";
+import Reports from "./Pages/Report";
+import Transactions from "./Pages/Transactions";
+import Expenses from "./Pages/Expenses";
 
 const pages = [
      <Route path= "/dashboard" element = {<Dashboard/>} />,
@@ -31,6 +34,9 @@ const pages = [
      <Route path= "/adminstration" element = {<Adminstration/>} />,    
      <Route path= "/vendors" element = {<Vendors/>} />,    
      <Route path= "/purchases" element = {<Purchases/>} />,  
+     <Route path= "/reports" element = {<Reports/>} />, 
+     <Route path= "/transactions" element = {<Transactions/>} /> ,
+     <Route path= "/expenses" element = {<Expenses/>} /> 
 ]
 
 function App() {

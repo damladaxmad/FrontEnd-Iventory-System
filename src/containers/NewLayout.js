@@ -22,8 +22,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useNavigate, useLocation } from "react-router-dom";
 import { MdMenuOpen } from "react-icons/md"; 
+import { IoWalletOutline } from "react-icons/io5"; 
 import { FiMenu } from "react-icons/fi"; 
+import { HiOutlineDocumentReport } from "react-icons/hi"; 
 import { BiPurchaseTagAlt } from "react-icons/bi"; 
+import { AiOutlineTransaction } from "react-icons/ai"; 
 import AppBarFile from './AppBarContainers/AppBar';
 import femaleProfile from "../assets/images/sampleProfile.png";
 import { useSelector } from 'react-redux';
@@ -168,6 +171,21 @@ const menuItems = [
       text: "Adminstration",
       icon: <MdAdminPanelSettings style={{fontSize: "20px", color: "white" }} />,
       path: "/adminstration",
+    },
+    {
+      text: "Expenses",
+      icon: <IoWalletOutline style={{fontSize: "20px", color: "white" }} />,
+      path: "/expenses",
+    },
+    {
+      text: "Transactions",
+      icon: <AiOutlineTransaction style={{fontSize: "20px", color: "white" }} />,
+      path: "/transactions",
+    },
+    {
+      text: "Reports",
+      icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
+      path: "/reports",
     },
          
   ];

@@ -20,10 +20,29 @@ const Register = (props) => {
             errors.role = "Field is Required";
           }
     }
-   
-    if (!values.name) {
-      errors.name = "Field is Required";
+   if (props.name !== "Expense") {
+     if (!values.name) {
+       errors.name = "Field is Required";
+     }
+   }
+
+   if (props.name == "Expense") {
+    if (!values.expenseType) {
+      errors.expenseType = "Field is Required";
     }
+    if (!values.description) {
+      errors.description = "Field is Required";
+    }
+    if (!values.date) {
+      errors.date = "Field is Required";
+    }
+    if (!values.amount) {
+      errors.amount = "Field is Required";
+    }
+    if (!values.to) {
+      errors.to = "Field is Required";
+    }
+  }
 
     return errors;
   };
@@ -33,7 +52,15 @@ const Register = (props) => {
       email: props.update ? props.instance.email : "",
       name: props.update ? props.instance.name : "",
       role: props.update ? props.instance.role : "",
-    } : {
+    } : props.name == "Expense" ?  {
+      description: props.update ? props.instance.description : "",
+      expenseType: props.update ? props.instance.expenseType : "",
+      date: props.update ? props.instance.date : "",
+      amount: props.update ? props.instance.amount : "",
+      user: props.update ? props.instance.user : "",
+      to: props.update ? props.instance.to : "",
+    }
+    : {
         name: props.update ? props.instance.name : "",
         phone: props.update ? props.instance.phone : "",
         deadline: props.update ? props.instance.deadline : ""
@@ -72,7 +99,8 @@ const Register = (props) => {
 
  
   return (
-    <Modal onClose = {props.hideModal} pwidth = "450px">
+    <Modal onClose = {props.hideModal} pwidth = {props.name == "Expense" ?"630px" : "450px"}
+    left = {props.name == "Expense" ? "32%" : "35%"}>
       <div
         style={{
           display: "flex",
@@ -88,7 +116,8 @@ const Register = (props) => {
         <form
         onSubmit={formik.handleSubmit}
         style={{ display: "flex", gap: "16px",
-      flexDirection: "column", alignItems: "center" }}
+      flexDirection: props.name == "Expense" ? "row" : "column", alignItems: "center",
+    flexWrap: props.name == "Expense" ? "wrap" : "nowrap" }}
       >
         {props.fields?.map((a, index) => (
           <div>
@@ -117,6 +146,7 @@ const Register = (props) => {
             fontSize: "16px",
             backgroundColor: "#2F49D1",
             color: "white",
+            marginLeft: props.name == "Expense" && "200px"
           }}
           type="submit"
           variant="contained"

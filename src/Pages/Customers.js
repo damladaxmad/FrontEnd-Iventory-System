@@ -129,7 +129,7 @@ const Customers = (props) => {
   };
 
   
-    dispatch(setCustomers(useFetch("customers", force, "customers")))
+    dispatch(setCustomers(useFetch("customers/customers-with-transactions", force, "customers")))
 
   let customersIds = '';
   const selectHandler = (data) => {

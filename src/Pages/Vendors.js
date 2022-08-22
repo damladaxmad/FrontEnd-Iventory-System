@@ -14,6 +14,7 @@ import moment from "moment";
 import Register from "../utils/Register";
 import Transactions from "../utils/Transactions";
 import CustomerVendorSales from "../utils/CustomerVendorSales";
+import useFetch from "../funcrions/DataFetchers";
 
 const Vendors = (props) => {
   const [newVendors, setNewVendors] = useState(false)
@@ -130,29 +131,31 @@ const Vendors = (props) => {
     }
   };
 
-  const fetchVendors = async (status) => {
-    if (status !== "All"){
-      const response = await axios
-      .get(`${constants.baseUrl}/vendors?status=${status}`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setVendors(response.data.data.vendors));
-    if (response.data.data.products.length < 1)
-    setState("No vendors to display!")
-    } else {
-      const response = await axios
-      .get(`${constants.baseUrl}/vendors`)
-      .catch((err) => {
-        alert(err.response.data.message);
-      });
-    dispatch(setVendors(response.data.data.vendors));
-    if (response.data.data.customers?.length < 1)
-    setState("No vendors to display!")
-  }
+  dispatch(setVendors(useFetch("vendors/vendors-with-transactions", force, "vendors")))
+
+  // const fetchVendors = async (status) => {
+  //   if (status !== "All"){
+  //     const response = await axios
+  //     .get(`${constants.baseUrl}/vendors?status=${status}`)
+  //     .catch((err) => {
+  //       alert(err.response.data.message);
+  //     });
+  //   dispatch(setVendors(response.data.data.vendors));
+  //   if (response.data.data.products.length < 1)
+  //   setState("No vendors to display!")
+  //   } else {
+  //     const response = await axios
+  //     .get(`${constants.baseUrl}/vendors`)
+  //     .catch((err) => {
+  //       alert(err.response.data.message);
+  //     });
+  //   dispatch(setVendors(response.data.data.vendors));
+  //   if (response.data.data.customers?.length < 1)
+  //   setState("No vendors to display!")
+  // }
   
 
-  };
+  // };
 
   let vendorsIds = '';
   const selectHandler = (data) => {
@@ -184,7 +187,7 @@ const Vendors = (props) => {
 
   useEffect(()=> {
     setState("Loading...")
-    fetchVendors(status)
+    // fetchVendors(status)
   }, [force, ignored])
 
   useEffect(()=> {

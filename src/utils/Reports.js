@@ -25,7 +25,7 @@ const Reports = (props) => {
   dispatch(
     setSales(
       useFetch(
-        `sales/bydate/${props.startDate}/${props.endDate}`,
+        `reports/sales-report-by-date/${props.startDate}/${props.endDate}`,
         props.view,
         "sales"
       )
@@ -35,7 +35,7 @@ const Reports = (props) => {
   dispatch(
     setPurchases(
       useFetch(
-        `purchases/bydate/${props.startDate}/${props.endDate}`,
+        `reports/purchases-report-by-date/${props.startDate}/${props.endDate}`,
         props.view,
         "purchases"
       )

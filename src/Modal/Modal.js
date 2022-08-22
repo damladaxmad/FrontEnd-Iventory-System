@@ -10,7 +10,7 @@ const Backdrop = (props) => {
 const ModalOverlay = (props) => {
   return (
     <div className={classes.modal} style = {{width: props.pwidth,
-    pading: props.ppading}}>
+    pading: props.ppading, left: props.left}}>
       <div className={classes.content}>{props.children}</div>
     </div>
   );
@@ -23,7 +23,7 @@ const MyModal = (props) => {
     <Fragment>
       {ReactDOM.createPortal(<Backdrop onClose={props.onClose} />, portalElement)}
       {ReactDOM.createPortal(
-        <ModalOverlay pwidth = {props.pwidth} 
+        <ModalOverlay pwidth = {props.pwidth} left = {props.left}
         ppading = {props.ppading}>{props.children}</ModalOverlay>,
         portalElement
       )}

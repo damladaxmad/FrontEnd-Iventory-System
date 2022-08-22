@@ -32,6 +32,7 @@ module.exports = {
     "Purchases",
     "New Purchase",
     "Purchase Report",
+    "Reports",
     "Vendors",
     "Add New Vendors",
     "View Transactions",
@@ -39,7 +40,13 @@ module.exports = {
     "View Purchases",
     "Payment",
     "Available",
-    "Print"
+    "Print",
+    "Transactions",
+    "Cancel",
+    "Expenses",
+    "Add New Expenses",
+    "Update Expense",
+    "Delete Expense"
   ],
 };
 
