@@ -79,7 +79,7 @@ const Table = (props) => {
   };
 
   const cancel = () => {
-    axios.patch(`${constants.baseUrl}/${props.url}/${instance._id}`, {status: "cancelled"}).then(()=> {
+    axios.patch(`${constants.baseUrl}/${props.url}/${instance._id}`, {status: "canceled"}).then(()=> {
       props.change()
     }).catch((err)=> {
       alert("something went wrong")

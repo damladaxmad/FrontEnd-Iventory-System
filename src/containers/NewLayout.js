@@ -28,7 +28,7 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import { BiPurchaseTagAlt } from "react-icons/bi"; 
 import { AiOutlineTransaction } from "react-icons/ai"; 
 import AppBarFile from './AppBarContainers/AppBar';
-import femaleProfile from "../assets/images/sampleProfile.png";
+import femaleProfile from "../assets/images/fitCasriLogo1.jpg";
 import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 // import InboxIcon from '@mui/icons-material/MoveToInbox';
@@ -271,7 +271,7 @@ export default function NewLayout({children}) {
           <Avatar style={{ backgroundColor: "white", color: "orange",
         alignSelf: "self-start"}}>
             <img
-              src={companyInfo ? companyInfo?.imageURl : femaleProfile}
+              src={femaleProfile}
               style={{
                 width: "100%",
                 height: "100%",

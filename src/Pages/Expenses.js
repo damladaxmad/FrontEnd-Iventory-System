@@ -14,6 +14,7 @@ import Table from "../utils/Table";
 import Register from "../utils/Register";
 import { setExpenses } from "../redux/actions/expensesActions";
 import moment from "moment";
+import { setExpenseType } from "../redux/actions/expenseTypeActions";
 
 const Expenses = () => {
 
@@ -43,7 +44,7 @@ const Expenses = () => {
   ]
   const fields = [
     { label: "Enter description", type: "text", name: "description" },
-    { label: "Enter Expense Type", type: "text", name: "expenseType" },
+    // { label: "Enter Expense Type", type: "text", name: "expenseType" },
     { label: "Enter Date", type: "text", name: "date" },
     { label: "Enter Amount", type: "number", name: "amount" },
     { label: "Enter User", type: "text", name: "user" },
@@ -66,6 +67,7 @@ const Expenses = () => {
   const dispatch = useDispatch()
   const expenses = useSelector((state) => state.expenses.expenses);
   dispatch(setExpenses(useFetch("expenses", del, "expenses")))
+  dispatch(setExpenseType(useFetch("expenseType", del, "expenseTypes")))
   
   const statusArr = ["All", "Active", "Inactive"]
   const [status, setStatus] = useState(statusArr[0]);

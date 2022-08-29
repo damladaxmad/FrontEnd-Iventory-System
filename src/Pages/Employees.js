@@ -12,6 +12,7 @@ import { constants } from "../Helpers/constantsFile";
 import useFetch from "../funcrions/DataFetchers";
 import Table from "../utils/Table";
 import Register from "../utils/Register";
+import { setEmployeeTitle } from "../redux/actions/employeeTtileActions";
 
 const Emplooyees = () => {
 
@@ -36,8 +37,7 @@ const Emplooyees = () => {
   ]
   const fields = [
     { label: "Enter Name", type: "text", name: "name" },
-    { label: "Enter Email", type: "gmail", name: "email" },
-    { label: "Enter Role", type: "text", name: "role" },
+    { label: "Enter Email", type: "gmail", name: "email" }
   ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, student) => {
@@ -60,6 +60,7 @@ const Emplooyees = () => {
   const dispatch = useDispatch()
   const employees = useSelector((state) => state.employees.employees);
   dispatch(setEmployees(useFetch("employees", del, "employees")))
+  dispatch(setEmployeeTitle(useFetch("employeeTitle", del, "employeeTitles")))
   
   const statusArr = ["All", "Active", "Inactive"]
   const [status, setStatus] = useState(statusArr[0]);
