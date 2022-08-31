@@ -46,7 +46,8 @@ module.exports = {
     "Expenses",
     "Add New Expenses",
     "Update Expense",
-    "Delete Expense"
+    "Delete Expense",
+    "MyCv"
   ],
 };
 

@@ -61,8 +61,8 @@ const TranTable = (props) => {
     setStatus(e.target.value)
     }
 
-  dispatch(setSales(useFetch("sales", force, "sales")))
-  dispatch(setPurchases(useFetch("purchases", force, "purchases")))
+  dispatch(setSales(useFetch(`sales/bydate/${startDate}/${endDate}`, force, "sales")))
+  dispatch(setPurchases(useFetch(`purchases/bydate/${startDate}/${endDate}`, force, "purchases")))
 
   const handler = (data) => { 
     if (data?.length > 0) {
@@ -84,6 +84,12 @@ const TranTable = (props) => {
   useEffect(()=> {
 
   }, [props.type])
+
+  useEffect(()=> {
+    if (query != '') {
+      setState("No matching transactions!")
+    }
+  }, [query])
 
    
   return (

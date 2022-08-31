@@ -17,6 +17,8 @@
 } */
 
 @media print {
+  body {-webkit-print-color-adjust: exact;}
+
   @page {
     /* margin: auto; */
   margin: 4rem;

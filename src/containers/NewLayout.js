@@ -187,6 +187,11 @@ const menuItems = [
       icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
       path: "/reports",
     },
+    {
+      text: "MyCv",
+      icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
+      path: "/cv",
+    },
          
   ];
 

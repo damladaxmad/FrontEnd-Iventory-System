@@ -24,6 +24,7 @@ import { constants } from "./Helpers/constantsFile";
 import Reports from "./Pages/Report";
 import Transactions from "./Pages/Transactions";
 import Expenses from "./Pages/Expenses";
+import CV from "./Pages/CV";
 
 const pages = [
      <Route path= "/dashboard" element = {<Dashboard/>} />,
@@ -36,7 +37,8 @@ const pages = [
      <Route path= "/purchases" element = {<Purchases/>} />,  
      <Route path= "/reports" element = {<Reports/>} />, 
      <Route path= "/transactions" element = {<Transactions/>} /> ,
-     <Route path= "/expenses" element = {<Expenses/>} /> 
+     <Route path= "/expenses" element = {<Expenses/>} />,
+     <Route path= "/cv" element = {<CV/>} /> 
 ]
 
 function App() {
