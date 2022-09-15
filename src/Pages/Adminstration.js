@@ -4,6 +4,7 @@ import Users from "../containers/AdminstrationContainers/UsersContainer/Users"
 import Access from "../containers/AdminstrationContainers/AccessContainers/Access";
 import { useSelector } from "react-redux";
 import CompanyInfo from "../containers/AdminstrationContainers/CompanyInfoContainer/CompanyInfo";
+import ImportProducts from "../containers/AdminstrationContainers/ImportContainers/ImportProducts";
 
 const Adminstration = () => {
 
@@ -55,11 +56,18 @@ const Adminstration = () => {
             disableRipple = {true}
             value="companyInfo" label="Company Info"
             style={{ fontSize: "16px", fontWeight: "700" }} />}
+
+          {activeUser.privillages?.includes("Import Products") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value="importProducts" label="Import Products"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
           </Tabs>
         </Box>
     {value == "users" && <Users/>}
     {value == "access" && <Access/>}
     {value == "companyInfo" && <CompanyInfo/>}
+    {value == "importProducts" && <ImportProducts/>}
     </div>
   );
 };

@@ -187,11 +187,11 @@ const menuItems = [
       icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
       path: "/reports",
     },
-    {
-      text: "MyCv",
-      icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
-      path: "/cv",
-    },
+    // {
+    //   text: "MyCv",
+    //   icon: <HiOutlineDocumentReport style={{fontSize: "20px", color: "white" }} />,
+    //   path: "/cv",
+    // },
          
   ];
 
@@ -273,7 +273,7 @@ export default function NewLayout({children}) {
             gap: "12px"
           }}
         >
-          <Avatar style={{ backgroundColor: "white", color: "orange",
+          {/* <Avatar style={{ backgroundColor: "white", color: "orange",
         alignSelf: "self-start"}}>
             <img
               src={femaleProfile}
@@ -282,16 +282,16 @@ export default function NewLayout({children}) {
                 height: "100%",
               }}
             />
-          </Avatar>
+          </Avatar> */}
           <Typography variant="h5" style = {{fontSize:"17px",
-        color: "white", fontWeight: "700"}}>
+        color: "white", fontWeight: "700", marginLeft: "12px"}}>
             {companyInfo ? companyInfo?.name?.substring(0, 13) : "Company Name"}{companyInfo ? companyInfo?.name?.length <= 12 ? null : "..." : null}
           </Typography>
          
        
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} >
             {theme.direction === 'rtl' ? <MdMenuOpen 
-            style={{color: "#80B0FB"}}/> : <MdMenuOpen 
+            style={{color: "#80B0FB", fontSize: "15px"}}/> : <MdMenuOpen 
             style={{color: "#80B0FB"}}/>}
           </IconButton>
           </div>

@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import useNetworkHook from "./networkHook"
 import { setCompanyInfo } from "../redux/actions/companyInfoActions";
+import { constants } from "../Helpers/constantsFile";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -36,7 +37,7 @@ const Login = (props) => {
 
   const fetchCompanyInfo = async () => {
     const res = await axios
-    .get('http://127.0.0.1:80/api/v1/companyInfo').then((res)=> {
+    .get(`${constants.baseUrl}/companyInfo`).then((res)=> {
       // setTimeout(()=> {
         dispatch(setIsConnected("connected"))
         dispatch(setCompanyInfo(res.data.data))
@@ -76,7 +77,7 @@ const Login = (props) => {
       return
     }
     const response = await axios
-    .get(`http://127.0.0.1:80/api/v1/users/authenticate?username=${values.userName}&password=${values.password}`)
+    .get(`${constants.baseUrl}/users/authenticate?username=${values.userName}&password=${values.password}`)
     .catch((err) => {
       setShowSpinner(false)
       setUsernameOrPasswordError(err.response.data.message)

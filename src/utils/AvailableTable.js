@@ -19,17 +19,21 @@ const AvailableTable = (props) => {
   );
 
   const dataHandler = (data) => {
-    if (data?.length > 1) return data  
+    if (data?.length > 0) return data  
   }
 
   useEffect(() => {
+    if (!availableProducts)
     setState("Loading...");
-  }, []);
+    if (availableProducts?.length < 1)
+    setState("No data to show!");
+  }, [availableProducts]);
+
 
   let total = 0;
 
   availableProducts?.map((p) => {
-    total += p.total;
+    total += p.totalPrice;
   });
 
   const columns = ["Name", "Total Quantity", "Avg UnitPrice" , "Total Price"];

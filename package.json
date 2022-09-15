@@ -26,7 +26,8 @@
     "react-scripts": "4.0.2",
     "react-to-print": "^2.14.7",
     "redux": "^4.0.5",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "xlsx": "^0.18.5"
   },
   "main": "public/main.js",
   "homepage": "./",
@@ -59,12 +60,6 @@
       "node_modules/**/*",
       "package.json"
     ],
-    "extraResources": [
-      {
-        "from": "Inventory-Management-System",
-        "to": "Inventory-Management-System"
-      }
-    ],
     "directories": {
       "buildResources": "assets"
     }
@@ -94,6 +89,5 @@
     "electron-builder": "^22.9.1",
     "prettier": "^2.2.1",
     "wait-on": "^5.2.1"
-  },
-  "proxy": "http://127.0.0.1:80"
+  }
 }

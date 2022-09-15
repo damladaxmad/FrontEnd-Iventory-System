@@ -133,6 +133,11 @@ const Emplooyees = () => {
   }, [force])
 
   useEffect(()=> {
+    if (employees?.length < 1)
+    setState("No employees found!")
+  }, [employees])
+
+  useEffect(()=> {
   }, [del])
 
     useEffect(()=> {

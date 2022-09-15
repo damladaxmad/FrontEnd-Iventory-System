@@ -14,7 +14,7 @@ const Report = () => {
   const typeArr = ["all", "cash", "invoice"];
   const [type, setType] = useState(typeArr[0]);
   const activeUser = useSelector((state) => state.activeUser.activeUser);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState("purchases bydate");
   const [saleEl, setSaleEl] = useState(null);
   const saleOpen = Boolean(saleEl);
   const [purchaseEl, setPurchaseEl] = useState(null);
@@ -137,7 +137,8 @@ const Report = () => {
           </MenuItem>
 
       </Menu>
-        <Box sx={{ width: "80%" }}>
+        <Box sx={{ width: "85%", marginLeft: "72px", marginBottom: "15px",
+       background: "white", display: "flex", justifyContent: "center" }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -146,23 +147,42 @@ const Report = () => {
             aria-label="secondary tabs example"
             disableFocusRipple={true}
           >
-            {activeUser.privillages.includes("New Purchase") && (
+            {activeUser.privillages.includes("Purchases By Date") && (
               <Tab
                 disableFocusRipple={true}
                 disableRipple={true}
-                value="Purchases"
-                label="Purchases"
-                style={{ fontSize: "16px", fontWeight: "700" }}
+                value="purchases bydate"
+                label="Purchases By Date"
+                style={{ fontSize: "15px", fontWeight: "700" }}
               />
             )}
   
-            {activeUser.privillages?.includes("Purchase Report") && (
+            {activeUser.privillages?.includes("Sales By Date") && (
               <Tab
                 disableFocusRipple={true}
                 disableRipple={true}
-                value="Sales"
-                label="Sales"
-                style={{ fontSize: "16px", fontWeight: "700" }}
+                value="sales bydate"
+                label="Sales By Date"
+                style={{ fontSize: "15px", fontWeight: "700" }}
+              />
+            )}
+            {activeUser.privillages.includes("Purchases Summary") && (
+              <Tab
+                disableFocusRipple={true}
+                disableRipple={true}
+                value="purchases summary"
+                label="Purchases Summary"
+                style={{ fontSize: "15px", fontWeight: "700" }}
+              />
+            )}
+  
+            {activeUser.privillages?.includes("Sales Summary") && (
+              <Tab
+                disableFocusRipple={true}
+                disableRipple={true}
+                value="sales summary"
+                label="Sales Summary"
+                style={{ fontSize: "15px", fontWeight: "700" }}
               />
             )}
           </Tabs>
@@ -231,12 +251,19 @@ const Report = () => {
             View
           </Button>
         </div>
-      {report &&  <Reports type = {type}
+      {value == "sales bydate" &&  <Reports type = {type}
       startDate = {startDate} endDate = {endDate} view = {view}
-      name = {value}/>}
-      {summary && <AvailableTable name = {value}
-      url = {`reports/item-${value.toLocaleLowerCase()}-report-by-date/08-1-2022/08-21-2022`}
-      returnData = {value.toLocaleLowerCase()}/>}
+      name = {"Sales"}/>}
+      {value == "purchases bydate" &&  <Reports type = {type}
+      startDate = {startDate} endDate = {endDate} view = {view}
+      name = {"Purchasaes"}/>}
+
+      {value == "sales summary" && <AvailableTable name = "Sales"
+      url = {`reports/item-sales-report-by-date/${startDate}/${endDate}`}
+      returnData = "sales"/>}
+     {value == "purchases summary" && <AvailableTable name = "Purchases"
+      url = {`reports/item-purchases-report-by-date/${startDate}/${endDate}`}
+      returnData = "purchases"/>}
   
         </div>
     )

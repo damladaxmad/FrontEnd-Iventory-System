@@ -92,7 +92,7 @@ const CV = () => {
         <div
           class="contact"
           style={{
-            width: "80%",
+            width: "72%",
             height: "500px",
             display: "flex",
             flexDirection: "column",

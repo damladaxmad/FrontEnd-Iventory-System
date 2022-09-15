@@ -28,7 +28,7 @@ const BrowseProducts = (props) => {
 
 
   const rowClickHandler = (data) => {
-    if (data.quantity < 1) return alert(`${data.name} is not available`)
+    // if (data.quantity < 1) return alert(`${data.name} is not available`)
     setQuery('')
     props.hideModal()
     if (!orderList.includes(JSON.stringify(data))){

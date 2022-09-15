@@ -8,6 +8,7 @@ import useFetch from "../../../funcrions/DataFetchers";
 import Table from "../../../utils/Table";
 
 const Users = () => {
+
   const dispatch = useDispatch();
   const [state, setState] = useState('')
 
@@ -61,6 +62,11 @@ const Users = () => {
   useEffect(()=> {
     setState('Loading...')
   }, [force])
+
+  useEffect(()=> {
+    if (users?.length < 1)
+    setState("No users found!")
+  }, [users])
 
    
   return (

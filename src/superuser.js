@@ -47,7 +47,12 @@ module.exports = {
     "Add New Expenses",
     "Update Expense",
     "Delete Expense",
-    "MyCv"
+    "MyCv",
+    "Sales Summary",
+    "Purchases Summary",
+    "Purchases By Date",
+    "Sales By Date",
+    "Import Products"
   ],
 };
 

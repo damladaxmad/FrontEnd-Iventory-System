@@ -20,7 +20,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
-      preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
+      // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
     },
     devTools: false
   })
@@ -31,7 +31,7 @@ function createWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`
   )
   win.maximize()
-  win.removeMenu(true)
+  // win.removeMenu(true)
 
 }
 
@@ -48,7 +48,7 @@ app.on('ready', () => {
         nodeIntegration: true,
         enableRemoteModule: true,
         devTools: false,
-        preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
+        // preload: path.join(__dirname, "../Inventory-Management-System/server.js"),
  
       }
   });
