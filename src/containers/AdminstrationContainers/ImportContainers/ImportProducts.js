@@ -73,7 +73,7 @@ const ImportProducts = () => {
 
         <div style={parentDivStyle}>
 
-      <form className='form-group' autoComplete="off"
+      <form autoComplete="off"
         onSubmit={handleSubmit}>
           <label><h5>Upload Excel file</h5></label>
           <br></br>

@@ -77,8 +77,17 @@ const TranTable = (props) => {
   };
 
   useEffect(()=> {
-    if (!sales && !purchases)
     setState('Loading...')
+  }, [force])
+
+  useEffect(()=> {
+    if (sales?.length < 1 || purchases?.length < 1)
+    setState('No transactions.')
+  }, [force])
+
+  useEffect(()=> {
+    if (!handler(sales) || !handler(purchases))
+    setState('No transactions.')
   }, [force])
 
   useEffect(()=> {
