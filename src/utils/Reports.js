@@ -263,7 +263,7 @@ const Comp = (props) => {
                 </p>
                 <p style={{ margin: "0px", width: "20%" }}>
                   {" "}
-                  {constants.moneySign}{props.data.price}
+                  {constants.moneySign}{props.data.unitPrice}
                 </p>
                 <p style={{ margin: "0px", width: "25%", textAlign: "end" }}>
                   {" "}

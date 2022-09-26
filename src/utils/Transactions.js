@@ -10,12 +10,15 @@ import InvoiceTransaction from "./InvoiceTransaction";
 import {AiFillPrinter} from "react-icons/ai"
 import { Button } from "@mui/material";
 import { constants } from "../Helpers/constantsFile";
+import "./print.css"
 
 const Transactions = (props) => {
   const companyInfo = useSelector((state) => state.companyInfo.companyInfo);
   const [show, setShow] = useState(false);
   const [data, setData] = useState();
   const componentRef = useRef();
+
+  console.log(props.instance.transactions)
 
   const materialOptions = {
     showTitle: false,
@@ -122,6 +125,7 @@ const Transactions = (props) => {
           <ReactToPrint
         trigger={() => 
           <Button
+          class = "wotton"
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
@@ -205,8 +209,8 @@ const Transactions = (props) => {
           fontSize: "15px",
           justifyContent: "flex-end",
           gap: "15px",
-          padding: "20px 0px",
-          width: "95%",
+          padding: "20px 60px",
+          width: "100%",
         }}
       >
         <p

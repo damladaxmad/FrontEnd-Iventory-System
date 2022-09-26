@@ -1,7 +1,4 @@
 
-
-/* daldjfa */
-
 @media all {
   .page-break {
     display: none;
@@ -31,8 +28,10 @@
   }
   .waryaa {
     width: 100% !important;
-    margin: 0px auto !important;
-    padding: 0px !important;
+    background-color: white !important;
+    /* margin: 0px auto !important;
+    padding: 0px !important; */
+    /* background-color: blue !important; */
   }
   .waryaa button{
     display: none;

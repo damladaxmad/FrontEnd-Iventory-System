@@ -4,9 +4,9 @@ import MaterialTable from "material-table";
 import { Button } from "@mui/material";
 import ReactToPrint from "react-to-print"
 import React, { useRef } from 'react';
-import styles from "./invoice.module.css"
 import {AiFillPrinter} from "react-icons/ai"
 import { constants } from "../../Helpers/constantsFile";
+
 const Invoice = (props) => {
   const componentRef = useRef();
     const companyInfo = useSelector(state => state.companyInfo.companyInfo)

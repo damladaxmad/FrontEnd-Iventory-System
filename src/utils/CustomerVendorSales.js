@@ -51,11 +51,11 @@ const CustomerVendorSales = (props) => {
     width: "85%", marginBottom: "30px", background: "white",
     padding: "30px 65px", gap: "10px"}}>
         <h2 > {props.name == "Customer" ? "Sales Report" : "Purchase Report"}</h2>
-            <div style = {{display:"flex", gap:"150px",
+            {/* <div style = {{display:"flex", gap:"150px",
         marginBottom: "20px"}}>
             <p style={{margin: "0px"}}> From July 3, 2022</p>
             <p style={{margin: "0px"}}> To July 7, 2022</p>
-            </div>
+            </div> */}
 
             {props.instance.transactions?.map(transaction => {
             if (props.name == "Customer"){

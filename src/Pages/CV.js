@@ -3,7 +3,7 @@ import myImage from "../assets/images/damladPic.jpg";
 import { BsTelephone } from "react-icons/bs";
 import { MdOutgoingMail } from "react-icons/md";
 import { BsCheckLg } from "react-icons/bs";
-import "./cv.css";
+// import "./cv.css";
 import { Box } from "@mui/system";
 
 
