@@ -52,7 +52,8 @@ module.exports = {
     "Purchases Summary",
     "Purchases By Date",
     "Sales By Date",
-    "Import Products"
+    "Import Products",
+    "Restore"
   ],
 };
 

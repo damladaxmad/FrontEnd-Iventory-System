@@ -79,8 +79,18 @@ const Table = (props) => {
   };
 
   const cancel = () => {
-    axios.patch(`${constants.baseUrl}/${props.url}/${instance._id}`, {status: "canceled"}).then(()=> {
+    axios.post(`${constants.baseUrl}/${props.url}/cancel/${instance._id}`).then(()=> {
       props.change()
+      alert("Successfully Cancelled")
+    }).catch((err)=> {
+      alert("something went wrong")
+    })
+    handleClose()
+  }
+  const restore = () => {
+    axios.post(`${constants.baseUrl}/${props.url}/restore/${instance._id}`).then((res)=> {
+      props.change()
+      alert("Successfully Restored")
     }).catch((err)=> {
       alert("something went wrong")
     })
@@ -151,7 +161,18 @@ const Table = (props) => {
               else alert("You have no access");
             }}
           >
-           Cancel Sale
+           Cancel Transaction
+          </MenuItem>
+        )}
+      {(props.name == "Cancelled Sales" || props.name == "Cancelled Purchases") && (
+          <MenuItem
+            onClick={() => {
+              if (activeUser.privillages.includes("Restore"))
+                restore();
+              else alert("You have no access");
+            }}
+          >
+           Restore Transaction
           </MenuItem>
         )}
 

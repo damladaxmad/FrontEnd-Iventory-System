@@ -3,6 +3,8 @@ import { dashboardReducer } from "./dashboardReducer";
 import { customersReducer } from "./customersReducer";
 import { vendorsReducer } from "./vendorsReducer";
 import { salesReducer } from "./salesReducer";
+import { cancelledSalesReducer } from "./cancelledSalesReducer";
+import { cancelledPurchasesReducer } from "./cancelledPurchasesReducer";
 import { purchasesReducer } from "./purchasesReducer";
 import { productsReducer } from "./productsReducer";
 import { usersReducer } from "./usersReducer";
@@ -22,6 +24,8 @@ const reducers = combineReducers({
   vendors: vendorsReducer,
   products: productsReducer,
   sales: salesReducer,
+  cancelledSales: cancelledSalesReducer,
+  cancelledPurchases: cancelledPurchasesReducer,
   purchases: purchasesReducer,
   orderList: orderListReducer,
   purchaseList: purchaseListReducer,

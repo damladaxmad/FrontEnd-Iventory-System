@@ -52,11 +52,25 @@ const Transaction = () => {
             value="purchases" label="Purchases"
             style={{ fontSize: "16px", fontWeight: "700" }} />}
 
+          {activeUser.privillages?.includes("Users") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value="cancelledSales" label="Cancelled Sales"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
+
+          {activeUser.privillages.includes("Access") && <Tab 
+            disableFocusRipple = {true}
+            disableRipple = {true}
+            value="cancelledPurchases" label="Cancelled Purchases"
+            style={{ fontSize: "16px", fontWeight: "700" }} />}
+
           
           </Tabs>
         </Box>
     {value == "sales" && <TranTable type = "Sales"/>}
     {value == "purchases" && <TranTable type = "Purchases"/>}
+    {value == "cancelledSales" && <TranTable type = "Cancelled Sales"/>}
+    {value == "cancelledPurchases" && <TranTable type = "Cancelled Purchases"/>}
     </div>
   );
 };

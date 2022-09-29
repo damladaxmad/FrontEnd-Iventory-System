@@ -30,10 +30,10 @@ const InvoiceTransaction = (props) => {
         cellStyle: { border: "none"} },
         { title: "Product Price", field: "price", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> ${constants.moneySign}{data.price}</p>},
+        <p> {constants.moneySign}{data.unitPrice}</p>},
         { title: "Subtotal", field: "subtotal", width: "4%",
         cellStyle: { border: "none"}, render: (data)=>
-        <p> ${constants.moneySign}{data.subtotal}</p>},
+        <p> {constants.moneySign}{data.subtotal}</p>},
       ]
 
       // const data = products

@@ -71,6 +71,7 @@ const PurchasesTable = (props) => {
       alert("Successfully Completed Purchase")
       setDisabled(false)
       setP([])
+      props.showInvoice(data)
       dispatch(setPurchaseList([]))
       props.complete()
     }).catch((err)=> {

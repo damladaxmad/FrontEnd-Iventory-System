@@ -9,6 +9,8 @@ import Table from "../../utils/Table";
 import { setSales } from "../../redux/actions/salesActions";
 import { setPurchases } from "../../redux/actions/purchasesActions";
 import moment from "moment"
+import { setCancelledSales } from "../../redux/actions/cancelledSalesActions";
+import { setCancelledPurchases } from "../../redux/actions/cancelledPurchasesActions";
 
 const TranTable = (props) => {
   const dispatch = useDispatch();
@@ -50,6 +52,8 @@ const TranTable = (props) => {
     const [query, setQuery] = useState("");
     const sales = useSelector((state) => state.sales.sales);
     const purchases = useSelector((state) => state.purchases.purchases);
+    const cancelledSales = useSelector((state) => state.cancelledSales.cancelledSales);
+    const cancelledPurchases = useSelector((state) => state.cancelledPurchases.cancelledPurchases);
     const [force, setForce] = useState(1)
 
     console.log(sales)
@@ -63,6 +67,8 @@ const TranTable = (props) => {
 
   dispatch(setSales(useFetch(`sales/bydate/${startDate}/${endDate}`, force, "sales")))
   dispatch(setPurchases(useFetch(`purchases/bydate/${startDate}/${endDate}`, force, "purchases")))
+  dispatch(setCancelledSales(useFetch(`sales/canceled/${startDate}/${endDate}`, force, "sales")))
+  dispatch(setCancelledPurchases(useFetch(`purchases/canceled/${startDate}/${endDate}`, force, "purchases")))
 
   const handler = (data) => { 
     if (data?.length > 0) {
@@ -76,14 +82,9 @@ const TranTable = (props) => {
     }  
   };
 
-  useEffect(()=> {
-    setState('Loading...')
-  }, [force])
-
-  useEffect(()=> {
-    if (sales?.length < 1 || purchases?.length < 1)
-    setState('No transactions.')
-  }, [force])
+  // useEffect(()=> {
+  //   setState('Loading...')
+  // }, [force])
 
   useEffect(()=> {
     if (!handler(sales) || !handler(purchases))
@@ -137,6 +138,15 @@ const TranTable = (props) => {
       {props.type == "Sales" ? <Table data = {handler(sales)} 
       change = {change} state =  {state} columns = {columns}
       url = "sales" name = "Sale"/> :
+      props.type == "Cancelled Sales" ? <Table data = {handler(cancelledSales)} 
+      change = {change} state =  {state} columns = {columns}
+      url = "sales" name = "Cancelled Sales"/> 
+      :
+      props.type == "Cancelled Purchases" ? <Table data = {handler(cancelledPurchases)} 
+      change = {change} state =  {state} columns = {columns}
+      url = "purchases" name = "Cancelled Purchases"/> 
+      :
+      
       <Table data = {handler(purchases)} 
       change = {change} state =  {state} columns = {columns}
       url = "purchases" name = "Purchase"/> 

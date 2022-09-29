@@ -5,19 +5,10 @@
   }
 }
 
-/* @media print {
-  html,
-  body {
-    height: initial !important;
-    overflow: initial !important;
-  }
-} */
-
 @media print {
   body {-webkit-print-color-adjust: exact;}
 
   @page {
-    /* margin: auto; */
   margin: 4rem;
   width: 200mm;
 }
@@ -29,9 +20,7 @@
   .waryaa {
     width: 100% !important;
     background-color: white !important;
-    /* margin: 0px auto !important;
-    padding: 0px !important; */
-    /* background-color: blue !important; */
+    padding: 0px !important;
   }
   .waryaa button{
     display: none;

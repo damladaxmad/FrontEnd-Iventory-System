@@ -19,6 +19,7 @@ import useFetch from "../funcrions/DataFetchers";
 import Reports from "../utils/Reports";
 import Register from "../utils/Register";
 import BrowseProducts from "../utils/BrowseProducts";
+import SaleAndPurchaseInvoice from "../utils/SalesAndPurchaseInvoice";
 
 function Sales() {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ function Sales() {
   const activeUser = useSelector((state) => state.activeUser.activeUser);
   const [total, setTotal] = useState(0);
   const [value, setValue] = React.useState("New Order");
+  const [showInvoice, setShowInvoice] = useState(false)
+  const [invoiceData, setInvoiceData] = useState()
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -126,7 +129,7 @@ function Sales() {
         flexDirection: "column",
       }}
     >
-      <Box sx={{ width: "80%" }}>
+      {!showInvoice && <Box sx={{ width: "80%" }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -155,9 +158,11 @@ function Sales() {
             />
           )}
         </Tabs>
-      </Box>
+      </Box>}
 
       {show && <BrowseProducts hideModal={hideModal} data={dataHandler} />}
+      {showInvoice && <SaleAndPurchaseInvoice hideInvoice = {()=> 
+        setShowInvoice(false)} data = {invoiceData}/>}
 
       {createCustomer && <Register hideModal={hideModal} 
       update = {false} 
@@ -232,7 +237,7 @@ function Sales() {
       startDate = {startDate} endDate = {endDate} view = {view}
       name = "Sales"/>}
 
-      {value == "New Order" && (
+      {(value == "New Order" && !showInvoice) &&(
         <div
           style={{
             display: "flex",
@@ -351,13 +356,17 @@ function Sales() {
         </div>
       )}
 
-      {value == "New Order" && (
+      {(value == "New Order" && !showInvoice) && (
         <SalesTable
           data={orderList}
           customer={customer}
           paymentType={status}
           total={totalHandler}
           complete = {completeHandler}
+          showInvoice = {(data)=> {
+            setInvoiceData(data)
+            setShowInvoice(true)
+          }}
         />
       )}
     </div>

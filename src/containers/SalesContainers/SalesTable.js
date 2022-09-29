@@ -11,7 +11,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import TableRows from "./TableRows";
 // import { CodeSharp } from "@material-ui/icons";
 import { setOrderList } from "../../redux/actions/orderListActions";
-import Invoice from "./Invoice";
 import { constants } from "../../Helpers/constantsFile";
 
 const SalesTable = (props) => {
@@ -58,9 +57,11 @@ const SalesTable = (props) => {
 
   const postSales = async (data) => {
     setInvoiceData(data)
-    const res = await axios.post(`${constants.baseUrl}/sales`, data).then(()=>{
+    const res = await axios.post(`${constants.baseUrl}/sales`, data).then((res)=>{
       alert("Successfully Completed Order")
       setShowInvoice(true)
+      console.log(res)
+      props.showInvoice(res.data.data.createdSale)
       setDisabled(false)
       setP([])
       dispatch(setOrderList([]))
@@ -118,8 +119,6 @@ const SalesTable = (props) => {
 
     return (
        <div style = {{width: "100%"}}>
-          {showInvoice && <Invoice sale = {invoiceData}
-          hideModal = {()=> setShowInvoice(false)}/>}
 
           <div style={{display: "flex", width: "100%", height: "50px",
             display: "flex", justifyContent: "space-between", padding: "20px",

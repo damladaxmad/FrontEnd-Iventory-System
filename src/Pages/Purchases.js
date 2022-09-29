@@ -19,6 +19,7 @@ import { constants } from "../Helpers/constantsFile";
 import Reports from "../utils/Reports";
 import Register from "../utils/Register";
 import BrowseProducts from "../utils/BrowseProducts";
+import SaleAndPurchaseInvoice from "../utils/SalesAndPurchaseInvoice";
 
 function Purchases() {
   const dispatch = useDispatch();
@@ -51,6 +52,8 @@ function Purchases() {
   const [total, setTotal] = useState(0);
   const [value, setValue] = React.useState("New Purchase");
   const [complete, setComplete] = useState()
+  const [invoiceData, setInvoiceData] = useState()
+  const [showInvoice, setShowInvoice] = useState(false)
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -128,7 +131,10 @@ function Purchases() {
         flexDirection: "column",
       }}
     >
-      <Box sx={{ width: "80%" }}>
+  {showInvoice && <SaleAndPurchaseInvoice hideInvoice = {()=> 
+        setShowInvoice(false)} data = {invoiceData}/>}
+
+     {!showInvoice && <Box sx={{ width: "80%" }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -157,14 +163,14 @@ function Purchases() {
             />
           )}
         </Tabs>
-      </Box>
+      </Box>}
 
       {show && <BrowseProducts hideModal={hideModal} data={dataHandler} />}
       {createVendor && <Register hideModal={hideModal} 
       update = {false} 
       name = "Purchase" fields = {fields} url = "vendors"
       />}
-      {value == "Purchases" && (
+      {(value == "Purchases" && !showInvoice) && (
          <div
          style={{
            display: "flex",
@@ -233,7 +239,7 @@ function Purchases() {
       startDate = {startDate} endDate = {endDate} view = {view}
       name = "Purchases"/>}
 
-      {value == "New Purchase" && (
+      {(value == "New Purchase" && !showInvoice) &&(
         <div
           style={{
             display: "flex",
@@ -353,13 +359,17 @@ function Purchases() {
         </div>
       )}
 
-      {value == "New Purchase" && (
+      {(value == "New Purchase" && !showInvoice) && (
         <PurchasesTable
           data={purchaseList}
           vendor={vendor}
           paymentType={status}
           total={totalHandler}
           complete = {completeHandler}
+          showInvoice = {(data)=> {
+            setInvoiceData(data)
+            setShowInvoice(true)
+          }}
         />
       )}
     </div>

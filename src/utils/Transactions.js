@@ -68,11 +68,11 @@ const Transactions = (props) => {
         <p
           style={{ cursor: "pointer", color: "blue" }}
           onClick={() => {
-            setData(data?.sale?.products);
+            setData(data?.sale ? data.sale.products : data?.purchase?.products);
             setShow(true);
           }}
         >
-          {data?.sale?.invoice}
+          {data?.sale ? data.sale.invoice : data?.purchase?.invoice}
         </p>
       ),
       cellStyle: { border: "none" },
@@ -125,7 +125,7 @@ const Transactions = (props) => {
           <ReactToPrint
         trigger={() => 
           <Button
-          class = "wotton"
+          // class = "wotton"
           variant="contained"
           style={{
             backgroundColor: "#2F49D1",
