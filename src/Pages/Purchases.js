@@ -165,7 +165,8 @@ function Purchases() {
         </Tabs>
       </Box>}
 
-      {show && <BrowseProducts hideModal={hideModal} data={dataHandler} />}
+      {show && <BrowseProducts hideModal={hideModal} data={dataHandler} 
+      type = "purchase" />}
       {createVendor && <Register hideModal={hideModal} 
       update = {false} 
       name = "Purchase" fields = {fields} url = "vendors"

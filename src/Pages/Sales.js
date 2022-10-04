@@ -160,9 +160,10 @@ function Sales() {
         </Tabs>
       </Box>}
 
-      {show && <BrowseProducts hideModal={hideModal} data={dataHandler} />}
+      {show && <BrowseProducts hideModal={hideModal} data={dataHandler} 
+      type = "sale"/>}
       {showInvoice && <SaleAndPurchaseInvoice hideInvoice = {()=> 
-        setShowInvoice(false)} data = {invoiceData}/>}
+        setShowInvoice(false)} data = {invoiceData} />}
 
       {createCustomer && <Register hideModal={hideModal} 
       update = {false} 

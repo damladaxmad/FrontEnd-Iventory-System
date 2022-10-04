@@ -1,10 +1,11 @@
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab, Box, Checkbox, FormControlLabel } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { Select, TextField, Button, MenuItem, Menu } from "@mui/material";
 import Reports from "../utils/Reports";
 import AvailableTable from "../utils/AvailableTable";
+import { FormGroup } from "@material-ui/core";
 
 const Report = () => {
 
@@ -21,7 +22,12 @@ const Report = () => {
   const purchaseOpen = Boolean(purchaseEl);
   const [summary, setSummary] = useState(false)
   const [report, setReport] = useState(false)
+  const [checked, setChecked] = useState(false)
 
+  const checkHanlder = () => {
+    if (!checked) setStartDate(moment("01/01/2022").format("MM-DD-YYYY"))
+    setChecked(!checked)
+  }
 
   const handleClose = () => {
     setSaleEl(null);
@@ -33,6 +39,7 @@ const Report = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    setChecked(false)
     setStartDate(moment(new Date()).format("MM-DD-YYYY"))
     setEndDate(moment(new Date()).format("MM-DD-YYYY"))
     if (newValue == "Sales")
@@ -207,7 +214,7 @@ const Report = () => {
             type="date"
             label = "Start Date"
             value= {moment(new Date(startDate)).format("YYYY-MM-DD")}
-            style={{ width: "25%" }}
+            style={{ width: "20%" }}
             onChange={(e) => setStartDate(e.target.value)}
           />
           <TextField
@@ -216,14 +223,14 @@ const Report = () => {
             label = "End Date"
             value= {moment(new Date(endDate)).format("YYYY-MM-DD")}
             placeholder="Search"
-            style={{ width: "25%" }}
+            style={{ width: "20%" }}
             onChange={(e) => setEndDate(e.target.value)}
           />
        
               <TextField
                 select
                 size="small"
-                style={{width:"25%"}}
+                style={{width:"20%"}}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={type}
@@ -236,13 +243,27 @@ const Report = () => {
                   </MenuItem>
                 ))}
               </TextField>
+
+              <FormGroup>
+      <FormControlLabel
+        control={
+          <Checkbox
+            style={{ padding: "5px 15px" }}
+            color="primary"
+            checked={checked}
+            onChange={() => checkHanlder()}
+          />
+        }
+        label="All"
+      />
+    </FormGroup>
               
               <Button
             variant="contained"
             style={{
               backgroundColor: "#2F49D1",
               color: "white",
-              width: "25%",
+              width: "20%",
               height: "40px",
               fontSize: "18px",
             }}

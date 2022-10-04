@@ -24,7 +24,6 @@ const Customers = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [updatedCustomer, setUpdatedCustomer] = useState(null)
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [CustomerIds, setCustomersIds] = useState('')
@@ -32,6 +31,12 @@ const Customers = (props) => {
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const [sale, setSale] = useState(false)
+  const dispatch = useDispatch()
+  const customers = useSelector((state) => state.customers.customers);
+  const statusArr = ["All", "Pending", "Late", "Clear"]
+  const [status, setStatus] = useState(statusArr[0]);
+  const [query, setQuery] = useState("");
+  const [force, setForce] = useState(1)
 
   const columns = [
    
@@ -77,15 +82,9 @@ const Customers = (props) => {
     setAnchorEl(null);
   }
   const changeHandler = () => {
-    forceUpdate()
+    setForce(state => state + 1)
   }
 
-  const dispatch = useDispatch()
-  const customers = useSelector((state) => state.customers.customers);
-  const statusArr = ["All", "Pending", "Late", "Clear"]
-  const [status, setStatus] = useState(statusArr[0]);
-  const [query, setQuery] = useState("");
-  const [force, setForce] = useState(1)
 
   const statusHandler = (e) => {
     setStatus(e.target.value)
@@ -162,7 +161,7 @@ const Customers = (props) => {
   useEffect(()=> {
     setState("Loading...")
     // fetchCustomers(status)
-  }, [force, ignored])
+  }, [force])
 
   useEffect(()=> {
     if (query != '' || status != "All") {

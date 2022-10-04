@@ -42,7 +42,7 @@ module.exports = {
     "Available",
     "Print",
     "Transactions",
-    "Cancel",
+    "Cancel Transaction",
     "Expenses",
     "Add New Expenses",
     "Update Expense",
@@ -53,7 +53,7 @@ module.exports = {
     "Purchases By Date",
     "Sales By Date",
     "Import Products",
-    "Restore"
+    "Restore Transaction"
   ],
 };
 

@@ -24,7 +24,7 @@ const Vendors = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [updatedVendor, setUpdatedVendor] = useState(null)
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+ 
   const [showProfile, setShowProfile] = useState(false)
   const [assignMany, setAssignMany] = useState(false)
   const [VendorIds, setVendorsIds] = useState('')
@@ -32,6 +32,12 @@ const Vendors = (props) => {
   const [state, setState] = useState('')
   const activeUser = useSelector(state => state.activeUser.activeUser)
   const [sale, setSale] = useState(false)
+  const dispatch = useDispatch()
+  const vendors = useSelector((state) => state.vendors.vendors);
+  const statusArr = ["All", "Pending", "Late", "Clear"]
+  const [status, setStatus] = useState(statusArr[0]);
+  const [query, setQuery] = useState("");
+  const [force, setForce] = useState(1)
 
   const columns = [
    
@@ -80,15 +86,8 @@ const Vendors = (props) => {
     setAnchorEl(null);
   }
   const changeHandler = () => {
-    forceUpdate()
+    setForce(state => state + 1)
   }
-
-  const dispatch = useDispatch()
-  const vendors = useSelector((state) => state.vendors.vendors);
-  const statusArr = ["All", "Pending", "Late", "Clear"]
-  const [status, setStatus] = useState(statusArr[0]);
-  const [query, setQuery] = useState("");
-  const [force, setForce] = useState(1)
 
   const statusHandler = (e) => {
     setStatus(e.target.value)
@@ -188,7 +187,7 @@ const Vendors = (props) => {
   useEffect(()=> {
     setState("Loading...")
     // fetchVendors(status)
-  }, [force, ignored])
+  }, [force])
 
   useEffect(()=> {
     if (query != '') {

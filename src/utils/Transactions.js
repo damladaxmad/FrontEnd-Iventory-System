@@ -66,13 +66,14 @@ const Transactions = (props) => {
       width: "4%",
       render: (data) => (
         <p
-          style={{ cursor: "pointer", color: "blue" }}
+          style={{ cursor: "pointer", color: data?.sale?.invoice || data?.purchase?.invoice ? "blue" : "black"}}
           onClick={() => {
             setData(data?.sale ? data.sale.products : data?.purchase?.products);
             setShow(true);
           }}
         >
-          {data?.sale ? data.sale.invoice : data?.purchase?.invoice}
+          { !data?.sale?.invoice && !data?.purchase?.invoice ? "payment" :
+          data?.sale ? data.sale.invoice : data?.purchase?.invoice}
         </p>
       ),
       cellStyle: { border: "none" },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react"
-import { FormControl, MenuItem, Menu, TextField} from "@material-ui/core";
+import { FormControl, MenuItem, Menu, TextField, Checkbox, FormControlLabel, FormGroup} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "@mui/material";
 import axios from "axios";
@@ -13,6 +13,8 @@ import { setCancelledSales } from "../../redux/actions/cancelledSalesActions";
 import { setCancelledPurchases } from "../../redux/actions/cancelledPurchasesActions";
 
 const TranTable = (props) => {
+
+  const [checked, setChecked] = useState(false)
   const dispatch = useDispatch();
   const [state, setState] = useState('')
   const [startDate, setStartDate] = useState(moment(new Date()).format("MM-DD-YYYY"))
@@ -56,7 +58,11 @@ const TranTable = (props) => {
     const cancelledPurchases = useSelector((state) => state.cancelledPurchases.cancelledPurchases);
     const [force, setForce] = useState(1)
 
-    console.log(sales)
+    const checkHanlder = () => {
+      if (!checked) setStartDate(moment("01/01/2022").format("MM-DD-YYYY"))
+      setChecked(!checked)
+    }
+
     const change = () => {
       setForce(state => state + 1)
     }
@@ -74,7 +80,6 @@ const TranTable = (props) => {
     if (data?.length > 0) {
       return data.filter(
         (std) =>
-        // std.saleNumber.toLowerCase().includes(query) ||
         std.invoice.toString().toLowerCase().includes(query)
       );
     } else {
@@ -119,7 +124,7 @@ const TranTable = (props) => {
             type="date"
             label = "Start Date"
             value= {moment(new Date(startDate)).format("YYYY-MM-DD")}
-            style={{ width: "25%" }}
+            style={{ width: "20%" }}
             onChange={(e) => setStartDate(e.target.value)}
           />
           <TextField
@@ -128,9 +133,23 @@ const TranTable = (props) => {
             label = "End Date"
             value= {moment(new Date(endDate)).format("YYYY-MM-DD")}
             placeholder="Search"
-            style={{ width: "25%" }}
+            style={{ width: "20%" }}
             onChange={(e) => setEndDate(e.target.value)}
           />
+
+<FormGroup>
+      <FormControlLabel
+        control={
+          <Checkbox
+            style={{ padding: "5px 15px" }}
+            color="primary"
+            checked={checked}
+            onChange={() => checkHanlder()}
+          />
+        }
+        label="All"
+      />
+    </FormGroup>
    
 
   </div>

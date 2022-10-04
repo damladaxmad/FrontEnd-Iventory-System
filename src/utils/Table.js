@@ -156,7 +156,7 @@ const Table = (props) => {
       {(props.name == "Sale" || props.name == "Purchase") && (
           <MenuItem
             onClick={() => {
-              if (activeUser.privillages.includes("Cancel"))
+              if (activeUser.privillages.includes("Cancel Transaction"))
                 cancel();
               else alert("You have no access");
             }}
@@ -167,7 +167,7 @@ const Table = (props) => {
       {(props.name == "Cancelled Sales" || props.name == "Cancelled Purchases") && (
           <MenuItem
             onClick={() => {
-              if (activeUser.privillages.includes("Restore"))
+              if (activeUser.privillages.includes("Restore Transaction"))
                 restore();
               else alert("You have no access");
             }}
@@ -250,6 +250,7 @@ const Table = (props) => {
           showTextRowsSelected: false,
           toolbar: false,
           pageSizeOptions: [2, 5, 8, 10, 20, 25, 50, 100],
+          pageSize: 12,
         //   pageSize: props.data.length < 100 ? props.data.length < 8 ? 8 : props.data.length : 100,
           draggable: false,
           actionsColumnIndex: -1,

@@ -81,6 +81,22 @@ const Access = () => {
       access: ["Adminstration", "Users", "Access", "Reset User", 
       "Delete User", "Company Info"],
     },
+     {
+      name: "Transactions",
+      access: ["Transactions", "Cancel Transaction", "Restore Transaction"],
+    },
+     {
+      name: "Reports",
+      access: ["Reports", "Purchases Summary", "Sales Summary", 
+    "Sales By Date", "Purchases By Date"],
+    },
+     {
+      name: "Expenses",
+      access: ["Expenses",
+      "Add New Expenses",
+      "Update Expense",
+      "Delete Expense",],
+    },
    ];
 
   const [currentUserPrivillages, setCurrentUserPrivillages] = useState();
